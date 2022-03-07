@@ -12,12 +12,13 @@ class User(
     var password: String, // 비밀번호
     var phoneNumber: String, // 핸드폰 번호
     var profileImage: String, // 프로필 사진 url
+    var githubUrl: String, // 깃허브 url
+    var blogUrl: String, // 개인 블로그 url
     var deleted: Boolean // 삭제 여부
 ) {
     @Id
     @GeneratedValue
     var id: Long? = null // 식별 아이디
-
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

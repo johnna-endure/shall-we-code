@@ -15,6 +15,8 @@ class UserService(private val userRepository: UserRepository) {
             request.password,
             request.phoneNumber,
             request.profileImage,
+            request.githubUrl,
+            request.blogUrl,
             false
         )
         return userRepository.save(user).id
