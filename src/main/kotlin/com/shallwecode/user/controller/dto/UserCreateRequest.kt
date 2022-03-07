@@ -1,6 +1,7 @@
 package com.shallwecode.user.controller.dto
 
 data class UserCreateRequest(
+    val email: String, //이메일
     val name: String, // 사용자 이름
     val nickname: String, // 닉네임
     val password: String, // 비밀번호

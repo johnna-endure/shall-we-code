@@ -32,6 +32,7 @@ class UserServiceTest {
     fun `사용자 생성 성공`() {
         //given
         val request = UserCreateRequest(
+            email = "test@gmail.com",
             name = "name",
             nickname = "nickname",
             password = "password",
@@ -49,6 +50,7 @@ class UserServiceTest {
         assertThat(userOptional).isNotNull
 
         userOptional?.let {
+            assertThat(it.email).isEqualTo(request.email)
             assertThat(it.name).isEqualTo(request.name)
             assertThat(it.nickname).isEqualTo(request.nickname)
             assertThat(it.password).isEqualTo(request.password)

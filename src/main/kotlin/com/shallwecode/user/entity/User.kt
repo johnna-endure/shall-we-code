@@ -1,12 +1,12 @@
 package com.shallwecode.user.entity
 
-import lombok.Builder
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 
 @Entity
 class User(
+//    var email: String, // 이메일
     var name: String, // 사용자 이름
     var nickname: String, // 닉네임
     var password: String, // 비밀번호

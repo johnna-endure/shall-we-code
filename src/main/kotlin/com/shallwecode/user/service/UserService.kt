@@ -10,6 +10,7 @@ class UserService(private val userRepository: UserRepository) {
 
     fun createUser(request: UserCreateRequest): Long? {
         val user = User(
+            request.email,
             request.name,
             request.nickname,
             request.password,
