@@ -1,12 +1,14 @@
 package com.shallwecode.user.entity
 
+import com.shallwecode.user.entity.embeddable.Email
+import javax.persistence.Embedded
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 
 @Entity
 class User(
-//    var email: String, // 이메일
+    @Embedded var email: Email, // 이메일
     var name: String, // 사용자 이름
     var nickname: String, // 닉네임
     var password: String, // 비밀번호
