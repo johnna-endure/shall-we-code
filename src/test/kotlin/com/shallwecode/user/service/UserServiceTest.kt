@@ -1,6 +1,7 @@
 package com.shallwecode.user.service
 
 import com.shallwecode.user.controller.dto.UserCreateRequest
+import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.repository.UserRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -29,7 +30,7 @@ class UserServiceTest {
     }
 
     @Test
-    fun `사용자 생성 성공`() {
+    fun `사용자 생성 성공 - 요청 데이터가 모두 올바른 경우`() {
         //given
         val request = UserCreateRequest(
             email = "test@gmail.com",
@@ -50,7 +51,7 @@ class UserServiceTest {
         assertThat(userOptional).isNotNull
 
         userOptional?.let {
-            assertThat(it.email).isEqualTo(request.email)
+            assertThat(it.email).isEqualTo(Email(request.email))
             assertThat(it.name).isEqualTo(request.name)
             assertThat(it.nickname).isEqualTo(request.nickname)
             assertThat(it.password).isEqualTo(request.password)

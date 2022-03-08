@@ -10,12 +10,12 @@ import javax.persistence.Id
 class User(
     @Embedded var email: Email, // 이메일
     var name: String, // 사용자 이름
-    var nickname: String, // 닉네임
+    var nickname: String?, // 닉네임
     var password: String, // 비밀번호
     var phoneNumber: String, // 핸드폰 번호
-    var profileImage: String, // 프로필 사진 url
-    var githubUrl: String, // 깃허브 url
-    var blogUrl: String, // 개인 블로그 url
+    var profileImage: String?, // 프로필 사진 url
+    var githubUrl: String?, // 깃허브 url
+    var blogUrl: String?, // 개인 블로그 url
     var deleted: Boolean // 삭제 여부
 ) {
     @Id
