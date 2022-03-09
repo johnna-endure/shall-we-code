@@ -3,6 +3,7 @@ package com.shallwecode.user.service
 import com.shallwecode.user.controller.dto.UserCreateRequest
 import com.shallwecode.user.entity.User
 import com.shallwecode.user.entity.embeddable.Email
+import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.repository.UserRepository
 import org.springframework.stereotype.Service
 
@@ -14,7 +15,7 @@ class UserService(private val userRepository: UserRepository) {
             Email(request.email),
             request.name,
             request.nickname,
-            request.password,
+            Password(request.password),
             request.phoneNumber,
             request.profileImage,
             request.githubUrl,
