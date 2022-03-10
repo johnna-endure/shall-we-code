@@ -1,0 +1,14 @@
+
+
+[[product]]
+== 상품
+
+===  v0
+
+==== `상품 상세 조회`
+
+상품의 아이디를 가져와서 상품의 상세 조회를 합니다.
+
+operation::create-user[snippets="http-request"]
+//operation::get-product[snippets="http-request,request-parameters,response-body,response-fields"]
+//

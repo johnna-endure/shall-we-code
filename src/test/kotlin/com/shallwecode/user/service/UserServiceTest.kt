@@ -1,8 +1,7 @@
 package com.shallwecode.user.service
 
-import com.shallwecode.user.controller.dto.UserCreateRequest
+import com.shallwecode.user.dto.request.UserCreateRequest
 import com.shallwecode.user.entity.embeddable.Email
-import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.repository.UserRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -16,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 @DataJpaTest
 class UserServiceTest {
     @Autowired
-    val userRepository: UserRepository? = null
+    var userRepository: UserRepository? = null
     var userService: UserService? = null
 
     @BeforeEach
@@ -62,4 +61,14 @@ class UserServiceTest {
             assertThat(it.blogUrl).isEqualTo(request.blogUrl)
         } ?: assert(false) { "user is null" }
     }
+
+    @Test
+    fun `사용자 정보 조회 - 해당 아이디의 정보가 존재하는 경우`() {
+        //given
+
+        //when
+
+        //then
+    }
+
 }

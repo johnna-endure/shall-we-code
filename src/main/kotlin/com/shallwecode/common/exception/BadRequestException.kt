@@ -1,4 +1,4 @@
-package com.shallwecode.exception
+package com.shallwecode.common.exception
 
 class BadRequestException : RuntimeException{
     constructor() : super()

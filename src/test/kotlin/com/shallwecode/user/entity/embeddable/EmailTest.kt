@@ -1,6 +1,6 @@
 package com.shallwecode.user.entity.embeddable
 
-import com.shallwecode.exception.BadRequestException
+import com.shallwecode.common.exception.BadRequestException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows

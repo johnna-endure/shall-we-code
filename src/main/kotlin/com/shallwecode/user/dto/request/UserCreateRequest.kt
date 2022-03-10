@@ -1,4 +1,4 @@
-package com.shallwecode.user.controller.dto
+package com.shallwecode.user.dto.request
 
 data class UserCreateRequest(
     val email: String, //이메일

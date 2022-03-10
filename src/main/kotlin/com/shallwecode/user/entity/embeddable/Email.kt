@@ -1,6 +1,6 @@
 package com.shallwecode.user.entity.embeddable
 
-import com.shallwecode.exception.BadRequestException
+import com.shallwecode.common.exception.BadRequestException
 import javax.persistence.Embeddable
 
 @Embeddable
