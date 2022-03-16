@@ -19,15 +19,15 @@ class UserController(private val userService: UserService) {
     @PostMapping("/user")
     fun createUser(@RequestBody request: UserCreateRequest): HttpResponse<Map<String, Long>>  {
         return HttpResponse(
-            status = HttpStatus.CREATED,
+            status = HttpStatus.CREATED.value(),
             message = "created",
             body = mapOf("id" to userService.createUser(request)) )
 
     }
 
-    @GetMapping("/users/{id}")
-    fun getUser(@PathVariable("id") id: Long) {
-
-    }
+//    @GetMapping("/users/{id}")
+//    fun getUser(@PathVariable("id") id: Long) {
+//        userService.getUser(id)
+//    }
 
 }

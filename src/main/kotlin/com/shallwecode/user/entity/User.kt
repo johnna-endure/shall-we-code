@@ -1,27 +1,33 @@
 package com.shallwecode.user.entity
 
+import com.shallwecode.common.exception.entity.NoIdEntityException
 import com.shallwecode.user.entity.embeddable.Email
+import com.shallwecode.user.entity.embeddable.LongId
 import com.shallwecode.user.entity.embeddable.Password
-import javax.persistence.Embedded
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
 class User(
-    @Embedded var email: Email, // 이메일
-    var name: String, // 사용자 이름
-    var nickname: String?, // 닉네임
-    @Embedded var password: Password, // 비밀번호
-    var phoneNumber: String, // 핸드폰 번호
-    var profileImage: String?, // 프로필 사진 url
-    var githubUrl: String?, // 깃허브 url
-    var blogUrl: String?, // 개인 블로그 url
-    var deleted: Boolean // 삭제 여부
+
+    @Embedded var email: Email,
+    var name: String,
+    var nickname: String?,
+    @Embedded var password: Password,
+    var phoneNumber: String,
+    var profileImage: String?,
+    var githubUrl: String?,
+    var blogUrl: String?,
+    var deleted: Boolean
 ) {
     @Id
-    @GeneratedValue
-    var id: Long? = null // 식별 아이디
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    var _id: Long? = null // jpa 용 식별자 할당 필드
+
+    val id: Long
+        get() = this._id ?: throw NoIdEntityException()
+
+
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -35,7 +41,7 @@ class User(
     }
 
     override fun hashCode(): Int {
-        return id?.hashCode() ?: 0
+        return id.hashCode()
     }
 
 

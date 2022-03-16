@@ -1,9 +1,15 @@
 package com.shallwecode.user.service
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jsonMapper
 import com.shallwecode.user.dto.request.UserCreateRequest
+import com.shallwecode.user.entity.User
 import com.shallwecode.user.entity.embeddable.Email
+import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.repository.UserRepository
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.assertj.core.util.Objects
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,13 +26,15 @@ class UserServiceTest {
 
     @BeforeEach
     fun beforeEach() {
-        userService = UserService(userRepository = this.userRepository ?: throw RuntimeException())
+        userService = UserService(
+            userRepository = this.userRepository ?: throw RuntimeException())
     }
 
     @Test
     fun `테스트에 필요한 프로퍼티 바인딩`() {
         assertThat(userRepository).isNotNull
         assertThat(userService).isNotNull
+
     }
 
     @Test
@@ -44,10 +52,10 @@ class UserServiceTest {
         )
 
         //when
-        val id = userService?.createUser(request)
+        val id = userService!!.createUser(request)
 
         //then
-        val userOptional = userRepository?.findByIdOrNull(id)
+        val userOptional = userRepository!!.findByIdOrNull(id)
         assertThat(userOptional).isNotNull
 
         userOptional?.let {
@@ -65,10 +73,45 @@ class UserServiceTest {
     @Test
     fun `사용자 정보 조회 - 해당 아이디의 정보가 존재하는 경우`() {
         //given
+        val userData = User(
+            email = Email("test@gmail.com"),
+            name = "name",
+            nickname = "nickname",
+            password = Password("password"),
+            phoneNumber = "01012341234",
+            profileImage = "imgUrl",
+            blogUrl = "blogUrl",
+            githubUrl = "gitUrl",
+            deleted = false
+        )
+        val existUser =  userRepository!!.save(userData)
 
         //when
+        val id = existUser.id
+        val userModel = userService!!.getUser(id)
 
         //then
+        userModel.let {
+            assertThat(it.id).isEqualTo(existUser.id)
+            assertThat(it.email).isEqualTo(existUser.email)
+            assertThat(it.name).isEqualTo(existUser.name)
+            assertThat(it.nickname).isEqualTo(existUser.nickname)
+            assertThat(it.phoneNumber).isEqualTo(existUser.phoneNumber)
+            assertThat(it.blogUrl).isEqualTo(existUser.blogUrl)
+            assertThat(it.githubUrl).isEqualTo(existUser.githubUrl)
+            assertThat(it.profileImage).isEqualTo(existUser.profileImage)
+        }
+    }
+
+    @Test
+    fun `사용자 정보 조회 - 해당 아이디의 정보가 존재하지 않는 경우`() {
+        //given
+        val id = 100L
+
+        //when,then
+        assertThatThrownBy { userService!!.getUser(id) }
+            .isInstanceOf(NoSuchElementException::class.java)
+            .hasMessage("해당 아이디의 사용자 정보를 찾을 수 없습니다. id : $id")
     }
 
 }

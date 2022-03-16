@@ -9,6 +9,4 @@
 
 상품의 아이디를 가져와서 상품의 상세 조회를 합니다.
 
-operation::create-user[snippets="http-request"]
-//operation::get-product[snippets="http-request,request-parameters,response-body,response-fields"]
-//
+operation::create-user[snippets="http-request,request-fields,http-response,response-fields"]

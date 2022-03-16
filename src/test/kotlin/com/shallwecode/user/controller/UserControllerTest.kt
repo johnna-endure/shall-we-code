@@ -26,12 +26,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.WebApplicationContext
 
-
+@AutoConfigureRestDocs
 @ExtendWith(RestDocumentationExtension::class, SpringExtension::class)
+@AutoConfigureMockMvc
 @Transactional
 @SpringBootTest
-@AutoConfigureRestDocs
-@AutoConfigureMockMvc
 class UserControllerTest {
 
     @Autowired
@@ -42,16 +41,18 @@ class UserControllerTest {
     @BeforeEach
     fun setUp(webApplicationContext: WebApplicationContext?, restDocumentation: RestDocumentationContextProvider?) {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext!!)
-            .apply<DefaultMockMvcBuilder>(documentationConfiguration(restDocumentation)
-                .operationPreprocessors()
-                .withResponseDefaults(prettyPrint())
-                .withRequestDefaults(prettyPrint()))
+            .apply<DefaultMockMvcBuilder>(
+                documentationConfiguration(restDocumentation)
+                    .operationPreprocessors()
+                    .withResponseDefaults(prettyPrint())
+                    .withRequestDefaults(prettyPrint())
+            )
             .build()
     }
 
 
     @Test
-    fun `유저 생성 성공`() {
+    fun `유저 생성 성공 - restdoc`() {
         //given
         val request = UserCreateRequest(
             email = "test@gmail.com", //이메일
@@ -64,27 +65,34 @@ class UserControllerTest {
             blogUrl = null // 개인 블로그 url
         )
 
-
         //when, then
         mockMvc!!.perform(
             post("/user")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                .content(objectMapper.writeValueAsString(request))
+        )
             .andExpect { status().isOk }
-            .andDo(document("create-user",
-                requestFields(
-                    fieldWithPath("email").description("이메일"),
-                    fieldWithPath("name").description("이름"),
-                    fieldWithPath("nickname").optional().description("닉네임"),
-                    fieldWithPath("password").description("비밀번호"),
-                    fieldWithPath("phoneNumber").description("핸드폰 번호"),
-                    fieldWithPath("profileImage").optional().description("프로필 이미지 url"),
-                    fieldWithPath("githubUrl").optional().description("깃허브 url"),
-                    fieldWithPath("blogUrl").optional().description("블로그 url"),
-                ),
-                responseFields()
-            ))
-
+            .andDo(
+                document(
+                    "create-user",
+                    requestFields(
+                        fieldWithPath("email").description("이메일"),
+                        fieldWithPath("name").description("이름"),
+                        fieldWithPath("nickname").optional().description("닉네임"),
+                        fieldWithPath("password").description("비밀번호"),
+                        fieldWithPath("phoneNumber").description("핸드폰 번호"),
+                        fieldWithPath("profileImage").optional().description("프로필 이미지 url"),
+                        fieldWithPath("githubUrl").optional().description("깃허브 url"),
+                        fieldWithPath("blogUrl").optional().description("블로그 url"),
+                    ),
+                    responseFields(
+                        fieldWithPath("status").description("http 상태코드"),
+                        fieldWithPath("message").description("응답 메세지"),
+                        fieldWithPath("body").optional().description("응답 내용"),
+                        fieldWithPath("body.id").description("생성된 사용자 아이디"),
+                    )
+                )
+            )
     }
 
 }
