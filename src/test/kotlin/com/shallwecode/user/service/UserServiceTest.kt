@@ -1,7 +1,5 @@
 package com.shallwecode.user.service
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.jsonMapper
 import com.shallwecode.user.dto.request.UserCreateRequest
 import com.shallwecode.user.entity.User
 import com.shallwecode.user.entity.embeddable.Email
@@ -9,7 +7,6 @@ import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.repository.UserRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
-import org.assertj.core.util.Objects
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
