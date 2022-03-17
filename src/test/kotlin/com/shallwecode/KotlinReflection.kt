@@ -13,17 +13,13 @@ class KotlinReflection {
 
     @Test
     fun properties_test() {
-        val person = Person("cws", 34)
-        person.gender = "MAN"
-
-        val modelMapper = ModelMapper()
-        val model = modelMapper.mapper<Person, PersonModel>(person)
+        PersonModel()
     }
 
     class Person(var name: String, var age: Int) {
-        var gender: String = ""
     }
 
-    data class PersonModel(val name: String, val age: Int, val gender: String) {
+    data class PersonModel(val name: String = "", val age: Int = 0, val gender: String = "") {
     }
+
 }

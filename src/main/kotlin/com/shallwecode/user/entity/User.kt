@@ -2,7 +2,6 @@ package com.shallwecode.user.entity
 
 import com.shallwecode.common.exception.entity.NoIdEntityException
 import com.shallwecode.user.entity.embeddable.Email
-import com.shallwecode.user.entity.embeddable.LongId
 import com.shallwecode.user.entity.embeddable.Password
 import javax.persistence.*
 
