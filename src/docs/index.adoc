@@ -1,0 +1,26 @@
+
+
+[[user]]
+== User
+
+=== `사용자 생성 API`
+
+==== 사용자 생성 성공
+
+사용자 데이터를 저장합니다.
+
+operation::create-user[snippets="http-request,request-fields,http-response,response-fields"]
+
+==== 사용자 생성 실패 - 이메일 검증 실패
+
+operation::create-user-failure-badReqeust[snippets="http-request,request-fields,http-response,response-fields"]
+
+=== `사용자 단건 조회`
+
+==== 사용자 단건 조회 성공
+
+operation::get-user-success[snippets="path-parameters,http-response,response-fields"]
+
+==== 사용자 단건 조회 실패 - 데이터가 존재하지 않는 경우
+
+operation::get-user-failure-notfound[snippets="path-parameters,http-response,response-fields"]
