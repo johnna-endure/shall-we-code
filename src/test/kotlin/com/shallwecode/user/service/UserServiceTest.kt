@@ -1,5 +1,6 @@
 package com.shallwecode.user.service
 
+import com.shallwecode.common.exception.NotFoundDataException
 import com.shallwecode.user.dto.request.UserCreateRequest
 import com.shallwecode.user.entity.User
 import com.shallwecode.user.entity.embeddable.Email
@@ -107,7 +108,7 @@ class UserServiceTest {
 
         //when,then
         assertThatThrownBy { userService!!.getUser(id) }
-            .isInstanceOf(NoSuchElementException::class.java)
+            .isInstanceOf(NotFoundDataException::class.java)
             .hasMessage("해당 아이디의 사용자 정보를 찾을 수 없습니다. id : $id")
     }
 

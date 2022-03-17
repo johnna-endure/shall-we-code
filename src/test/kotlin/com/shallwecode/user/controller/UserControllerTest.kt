@@ -189,7 +189,7 @@ class UserControllerTest {
         //given
         val id = 1L
 
-        `when`(userService!!.getUser(id)).thenThrow(NotFoundDataException("error"))
+        `when`(userService!!.getUser(id)).thenThrow(NotFoundDataException("해당 사용자를 찾을 수 없습니다."))
 
         mockMvc!!.perform(get("/users/{id}", id))
             .andExpect(status().isNotFound)

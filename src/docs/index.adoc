@@ -22,3 +22,5 @@ operation::create-user-failure-badReqeust[snippets="http-request,request-fields,
 operation::get-user-success[snippets="path-parameters,http-response,response-fields"]
 
 ==== 사용자 단건 조회 실패 - 데이터가 존재하지 않는 경우
+
+operation::get-user-failure-notfound[snippets="path-parameters,http-response,response-fields"]
