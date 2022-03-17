@@ -16,8 +16,7 @@ class GlobalRestControllerAdvice {
     fun badRequestExceptionHandler(exception: BadRequestException): HttpResponse<String> {
         return HttpResponse(
             status = HttpStatus.BAD_REQUEST.value(),
-            message = exception.message ?: "잘못된 요청 정보입니다.",
-            body = null
+            message = exception.message ?: "잘못된 요청 정보입니다."
         )
     }
 
@@ -26,8 +25,7 @@ class GlobalRestControllerAdvice {
     fun notFountExceptionHandler(exception: NotFoundDataException): HttpResponse<String> {
         return HttpResponse(
             status = HttpStatus.NOT_FOUND.value(),
-            message = exception.message ?: "해당 데이터를 찾을 수 없습니다.",
-            body = null
+            message = exception.message ?: "해당 데이터를 찾을 수 없습니다."
         )
     }
 }
