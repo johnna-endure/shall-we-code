@@ -13,7 +13,8 @@ import org.springframework.stereotype.Service
 class UserService(
     private val userRepository: UserRepository
     ) {
-    val modelMapper = ModelMapper()
+
+    private val modelMapper = ModelMapper()
     /**
      * user 데이터 저장
      */
