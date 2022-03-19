@@ -51,7 +51,7 @@ import org.springframework.web.context.WebApplicationContext
 //@Transactional
 @SpringBootTest
 @ExtendWith(MockitoExtension::class)
-class UserControllerTest {
+class UserRestControllerTest {
 
     @MockBean
     var userService: UserService? = null;
