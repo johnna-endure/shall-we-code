@@ -2,6 +2,7 @@ package com.shallwecode.common.advice
 
 import com.shallwecode.common.exception.BadRequestException
 import com.shallwecode.common.exception.NotFoundDataException
+import com.shallwecode.common.exception.entity.NotHasIdEntityException
 import com.shallwecode.common.http.response.HttpResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -26,6 +27,15 @@ class GlobalRestControllerAdvice {
         return HttpResponse(
             status = HttpStatus.NOT_FOUND.value(),
             message = exception.message ?: "해당 데이터를 찾을 수 없습니다."
+        )
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(NotHasIdEntityException::class)
+    fun databaseExceptionHandler(exception: Exception): HttpResponse<String> {
+        return HttpResponse(
+            status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
+            message = exception.message ?: "서버 내부 에러입니다."
         )
     }
 }

@@ -1,13 +1,12 @@
 package com.shallwecode.user.entity
 
-import com.shallwecode.common.exception.entity.NoIdEntityException
+import com.shallwecode.common.exception.entity.NotHasIdEntityException
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import javax.persistence.*
 
 @Entity
 class User(
-
     @Embedded var email: Email,
     var name: String,
     var nickname: String?,
@@ -24,7 +23,8 @@ class User(
     var _id: Long? = null // jpa 용 식별자 할당 필드
 
     val id: Long
-        get() = this._id ?: throw NoIdEntityException()
+        get() = this._id
+            ?: throw NotHasIdEntityException("${this::class.simpleName} 엔티티의 id가 할당되지 않았습니다.")
 
 
 
