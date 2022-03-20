@@ -17,10 +17,13 @@ class User(
     var blogUrl: String?,
     var deleted: Boolean
 ) {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    /**
+     * jpa 용 식별자 필드입니다.
+     * 이 필드로 id에 접근해도 상관없지만 되도록이면 id가 다 안전합니다.
+     */
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    var _id: Long? = null // jpa 용 식별자 할당 필드
+    var _id: Long? = null
 
     val id: Long
         get() = this._id
