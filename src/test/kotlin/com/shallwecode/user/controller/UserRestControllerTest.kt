@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.shallwecode.common.exception.BadRequestException
 import com.shallwecode.common.exception.NotFoundDataException
 import com.shallwecode.common.http.HttpResponseDescriptors
+import com.shallwecode.testconfig.MockControllerTestConfig
+import com.shallwecode.testconfig.RestDocConfig
 import com.shallwecode.user.dto.UserModelDescriptors
 import com.shallwecode.user.dto.UserRequestDescriptors
 import com.shallwecode.user.dto.model.UserModel
@@ -45,14 +47,7 @@ import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
 
-
-@AutoConfigureRestDocs
-@ExtendWith(RestDocumentationExtension::class, SpringExtension::class)
-@AutoConfigureMockMvc
-//@Transactional
-@SpringBootTest
-@ExtendWith(MockitoExtension::class)
-class UserRestControllerTest {
+class UserRestControllerTest: RestDocConfig, MockControllerTestConfig {
 
     @MockBean
     var userService: UserService? = null;
@@ -64,14 +59,7 @@ class UserRestControllerTest {
 
     @BeforeEach
     fun setUp(webApplicationContext: WebApplicationContext?, restDocumentation: RestDocumentationContextProvider?) {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext!!)
-            .apply<DefaultMockMvcBuilder>(
-                documentationConfiguration(restDocumentation)
-                    .operationPreprocessors()
-                    .withResponseDefaults(prettyPrint())
-                    .withRequestDefaults(prettyPrint())
-            )
-            .build()
+        mockMvc = this.restDocConfigInit(webApplicationContext, restDocumentation)
     }
 
 
@@ -103,10 +91,8 @@ class UserRestControllerTest {
                     "create-user-success",
                     requestFields(UserRequestDescriptors.userCreateRequestFields()),
                     responseFields(
-                        fieldWithPath("status").description("http 상태코드"),
-                        fieldWithPath("message").description("응답 메세지"),
-                        fieldWithPath("body").optional().description("응답 내용"),
-                        fieldWithPath("body.id").description("생성된 사용자 아이디"),
+                        HttpResponseDescriptors.httpResponseDescriptors()
+                            .plus(listOf(fieldWithPath("body.id").description("생성된 사용자 아이디")))
                     )
                 )
             )
@@ -143,9 +129,7 @@ class UserRestControllerTest {
                     "create-user-failure-badReqeust",
                     requestFields(UserRequestDescriptors.userCreateRequestFields()),
                     responseFields(
-                        fieldWithPath("status").description("http 상태코드"),
-                        fieldWithPath("message").description("에러 메세지"),
-                        fieldWithPath("body").optional().description("응답 바디. 에러 응답의 경우 null"),
+                        HttpResponseDescriptors.httpErrorResponseDescriptors()
                     )
                 )
             )
