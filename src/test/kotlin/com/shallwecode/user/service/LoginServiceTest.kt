@@ -3,8 +3,12 @@ package com.shallwecode.user.service
 import com.shallwecode.user.dto.request.LoginRequest
 import com.shallwecode.user.entity.User
 import com.shallwecode.user.entity.embeddable.Email
+import com.shallwecode.user.entity.embeddable.Password
+import com.shallwecode.user.entity.embeddable.PhoneNumber
+import com.shallwecode.user.exception.login.LoginFailedException
 import com.shallwecode.user.repository.UserRepository
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -41,18 +45,60 @@ class LoginServiceTest {
         // given
         val email = "test@gmail.com"
         val password = "testpassword"
+        val phoneNumber = "01011112222"
         val loginRequest = LoginRequest(email, password)
 
-//        val existUser = User(
-//            email = Email(email),
-//            name = "cws"
-//
-//        )
-
-//        userRepository.save()
+        userRepository!!.save(
+            User(
+                email = Email(email),
+                name = "cws",
+                password = Password(password),
+                phoneNumber = PhoneNumber(phoneNumber)
+            )
+        );
 
         // when
-//        loginService.login()
+        loginService!!.login(loginRequest)
+
         // then
+        assert(true)
     }
+
+    @Test
+    fun `로그인 실패 - 해당 아이디의 사용자를 찾을 수 없는 경우`() {
+        // given
+        val email = "test@gmail.com"
+        val password = "testpassword"
+        val phoneNumber = "01011112222"
+        val loginRequest = LoginRequest(email, password)
+
+        // when, then
+        assertThatThrownBy{ loginService!!.login(loginRequest) }
+            .isInstanceOf(LoginFailedException::class.java)
+            .hasMessage("이메일이 ${loginRequest.email}인 사용자가 존재하지 않습니다.")
+    }
+
+    @Test
+    fun `로그인 실패 - 비밀번호가 일치하지 않는 경우`() {
+        // given
+        val email = "test@gmail.com"
+        val password = "testpassword"
+        val phoneNumber = "01011112222"
+        val loginRequest = LoginRequest(email, "wrongPassword")
+
+        userRepository!!.save(
+            User(
+                email = Email(email),
+                name = "cws",
+                password = Password(password),
+                phoneNumber = PhoneNumber(phoneNumber)
+            )
+        );
+
+        // when, then
+        assertThatThrownBy{ loginService!!.login(loginRequest) }
+            .isInstanceOf(LoginFailedException::class.java)
+            .hasMessage("비밀번호가 일치하지 않습니다.")
+    }
+
 }

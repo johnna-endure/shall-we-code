@@ -10,14 +10,14 @@ import javax.persistence.*
 class User(
     @Embedded var email: Email,
     var name: String,
-    var nickname: String?,
+    var nickname: String? = null,
     @Embedded var password: Password,
     @Embedded var phoneNumber: PhoneNumber,
 //    var phoneNumber: String,
-    var profileImage: String?,
-    var githubUrl: String?,
-    var blogUrl: String?,
-    var deleted: Boolean
+    var profileImage: String? = null,
+    var githubUrl: String? = null,
+    var blogUrl: String? = null,
+    var deleted: Boolean = false
 ) {
     /**
      * jpa 용 식별자 필드입니다.
