@@ -9,6 +9,7 @@ import com.shallwecode.user.dto.UserRequestDescriptors
 import com.shallwecode.user.dto.model.UserModel
 import com.shallwecode.user.dto.request.UserCreateRequest
 import com.shallwecode.user.entity.embeddable.Email
+import com.shallwecode.user.entity.embeddable.PhoneNumber
 import com.shallwecode.user.service.UserService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -160,7 +161,7 @@ class UserRestControllerTest {
             email = Email("test@gmail.com"),
             name = "cws",
             nickname = "right stone",
-            phoneNumber = "01065688036",
+            phoneNumber = PhoneNumber("01065688036"),
             profileImage = "url",
             githubUrl = "url",
             blogUrl = "url"

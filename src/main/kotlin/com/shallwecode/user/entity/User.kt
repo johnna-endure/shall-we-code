@@ -3,6 +3,7 @@ package com.shallwecode.user.entity
 import com.shallwecode.common.exception.entity.NotHasIdEntityException
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
+import com.shallwecode.user.entity.embeddable.PhoneNumber
 import javax.persistence.*
 
 @Entity
@@ -11,7 +12,8 @@ class User(
     var name: String,
     var nickname: String?,
     @Embedded var password: Password,
-    var phoneNumber: String,
+    @Embedded var phoneNumber: PhoneNumber,
+//    var phoneNumber: String,
     var profileImage: String?,
     var githubUrl: String?,
     var blogUrl: String?,

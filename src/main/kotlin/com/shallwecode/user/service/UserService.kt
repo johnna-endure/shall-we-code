@@ -7,6 +7,7 @@ import com.shallwecode.user.dto.request.UserCreateRequest
 import com.shallwecode.user.entity.User
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
+import com.shallwecode.user.entity.embeddable.PhoneNumber
 import com.shallwecode.user.repository.UserRepository
 import org.springframework.stereotype.Service
 
@@ -27,7 +28,7 @@ class UserService(
             request.name,
             request.nickname,
             Password(request.password),
-            request.phoneNumber,
+            PhoneNumber(request.phoneNumber),
             request.profileImage,
             request.githubUrl,
             request.blogUrl,

@@ -5,6 +5,7 @@ import com.shallwecode.user.dto.request.UserCreateRequest
 import com.shallwecode.user.entity.User
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
+import com.shallwecode.user.entity.embeddable.PhoneNumber
 import com.shallwecode.user.repository.UserRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
@@ -61,7 +62,7 @@ class UserServiceTest {
             assertThat(it.name).isEqualTo(request.name)
             assertThat(it.nickname).isEqualTo(request.nickname)
             assertThat(it.password.matches(request.password)).isTrue
-            assertThat(it.phoneNumber).isEqualTo(request.phoneNumber)
+            assertThat(it.phoneNumber).isEqualTo(PhoneNumber(request.phoneNumber))
             assertThat(it.profileImage).isEqualTo(request.profileImage)
             assertThat(it.githubUrl).isEqualTo(request.githubUrl)
             assertThat(it.blogUrl).isEqualTo(request.blogUrl)
@@ -76,7 +77,7 @@ class UserServiceTest {
             name = "name",
             nickname = "nickname",
             password = Password("password"),
-            phoneNumber = "01012341234",
+            phoneNumber = PhoneNumber("01012341234"),
             profileImage = "imgUrl",
             blogUrl = "blogUrl",
             githubUrl = "gitUrl",
