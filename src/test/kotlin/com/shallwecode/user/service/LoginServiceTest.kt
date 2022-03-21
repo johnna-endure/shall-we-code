@@ -7,6 +7,7 @@ import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
 import com.shallwecode.user.exception.login.LoginFailedException
 import com.shallwecode.user.repository.UserRepository
+import com.shallwecode.user.service.login.LoginService
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach

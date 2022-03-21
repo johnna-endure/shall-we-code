@@ -51,7 +51,7 @@ class UserServiceTest {
         )
 
         //when
-        val id = userService!!.createUser(request)
+        val id = userService!!.createUser(request).id
 
         //then
         val userOptional = userRepository!!.findByIdOrNull(id)
@@ -87,7 +87,7 @@ class UserServiceTest {
 
         //when
         val id = existUser.id
-        val userModel = userService!!.getUser(id)
+        val userModel = userService!!.findUser(id)
 
         //then
         userModel.let {
@@ -108,7 +108,7 @@ class UserServiceTest {
         val id = 100L
 
         //when,then
-        assertThatThrownBy { userService!!.getUser(id) }
+        assertThatThrownBy { userService!!.findUser(id) }
             .isInstanceOf(NotFoundDataException::class.java)
             .hasMessage("해당 아이디의 사용자 정보를 찾을 수 없습니다. id : $id")
     }

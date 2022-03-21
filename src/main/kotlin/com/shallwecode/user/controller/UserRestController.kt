@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
-
+/**
+ * 다른 비지니스 로직없이 단순하게 User 정보에 접근하는 클래스입니다.
+ */
 @RestController
 class UserRestController(private val userService: UserService) {
 
@@ -22,8 +24,7 @@ class UserRestController(private val userService: UserService) {
         return HttpResponse(
             status = HttpStatus.CREATED.value(),
             message = "created",
-            body = mapOf("id" to userService.createUser(request)) )
-
+            body = mapOf("id" to userService.createUser(request).id) )
     }
 
     @GetMapping("/users/{id}")
@@ -31,7 +32,7 @@ class UserRestController(private val userService: UserService) {
         return HttpResponse(
             status = HttpStatus.OK.value(),
             message = "success",
-            body = userService.getUser(id)
+            body = userService.findUser(id)
         )
     }
 

@@ -10,46 +10,33 @@ import com.shallwecode.user.dto.UserModelDescriptors
 import com.shallwecode.user.dto.UserRequestDescriptors
 import com.shallwecode.user.dto.model.UserModel
 import com.shallwecode.user.dto.request.UserCreateRequest
+import com.shallwecode.user.entity.User
 import com.shallwecode.user.entity.embeddable.Email
+import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
 import com.shallwecode.user.service.UserService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.ArgumentMatchers.any
 import org.mockito.BDDMockito.`when`
-import org.mockito.BDDMockito.given
-import org.mockito.InjectMocks
-import org.mockito.Mock
-import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.restdocs.RestDocumentationContextProvider
-import org.springframework.restdocs.RestDocumentationExtension
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post
-import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
-import org.springframework.restdocs.payload.FieldDescriptor
 import org.springframework.restdocs.payload.PayloadDocumentation.*
 import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
 import org.springframework.restdocs.request.RequestDocumentation.pathParameters
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
 
 class UserRestControllerTest: RestDocConfig, MockControllerTestConfig {
 
-    @MockBean
+    @MockBean(name = "userService")
     var userService: UserService? = null;
 
     @Autowired
@@ -77,7 +64,15 @@ class UserRestControllerTest: RestDocConfig, MockControllerTestConfig {
             blogUrl = null // 개인 블로그 url
         )
 
-        `when`(userService!!.createUser(request)).thenReturn(1L)
+        val savedUser = User(
+            email = Email(request.email),
+            name = request.name,
+            password = Password(request.password),
+            phoneNumber = PhoneNumber(request.phoneNumber)
+        )
+        savedUser._id = 1L
+
+        `when`(userService!!.createUser(request)).thenReturn(savedUser)
 
         //when, then
         mockMvc!!.perform(
@@ -151,7 +146,7 @@ class UserRestControllerTest: RestDocConfig, MockControllerTestConfig {
             blogUrl = "url"
         )
 
-        `when`(userService!!.getUser(id)).thenReturn(userModel)
+        `when`(userService!!.findUser(id)).thenReturn(userModel)
 
         mockMvc!!.perform(get("/users/{id}", id))
             .andExpect(status().isOk)
@@ -174,7 +169,7 @@ class UserRestControllerTest: RestDocConfig, MockControllerTestConfig {
         //given
         val id = 1L
 
-        `when`(userService!!.getUser(id)).thenThrow(NotFoundDataException("해당 사용자를 찾을 수 없습니다."))
+        `when`(userService!!.findUser(id)).thenThrow(NotFoundDataException("해당 사용자를 찾을 수 없습니다."))
 
         mockMvc!!.perform(get("/users/{id}", id))
             .andExpect(status().isNotFound)

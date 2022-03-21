@@ -6,7 +6,7 @@ import com.shallwecode.testconfig.MockControllerTestConfig
 import com.shallwecode.testconfig.RestDocConfig
 import com.shallwecode.user.dto.request.LoginRequest
 import com.shallwecode.user.exception.login.LoginFailedException
-import com.shallwecode.user.service.LoginService
+import com.shallwecode.user.service.login.LoginService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
