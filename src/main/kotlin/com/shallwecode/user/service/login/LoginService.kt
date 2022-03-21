@@ -18,7 +18,7 @@ class LoginService(
 
     fun login(loginRequest: LoginRequest) {
         val existUser = findUser(
-            email = loginRequest.email,
+            email = Email(loginRequest.email),
             exception = LoginFailedException("이메일이 ${loginRequest.email}인 사용자가 존재하지 않습니다."))
 
         val isValidPassword = existUser.password.matches(loginRequest.password);

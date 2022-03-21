@@ -68,7 +68,16 @@ class UserService(
             .orElseThrow { exception }
     }
 
-    fun findUser(email: String, exception: Exception): User {
-        return userRepository.findByEmail(Email(email)) ?: throw exception;
+    /**
+     * user 단건 조회
+     *
+     * @param email 회원 이메일
+     * @param exception 던져질 예외
+     * @return user 엔티티 조회용 모델 UserModel 반환
+     * @throws exception 회원 데이터가 없는 경우, 파라미터로 넘겨진 예외가 던져집니다.
+     *
+     */
+    fun findUser(email: Email, exception: Exception): User {
+        return userRepository.findByEmail(email) ?: throw exception;
     }
 }
