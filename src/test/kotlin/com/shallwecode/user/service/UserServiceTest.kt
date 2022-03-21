@@ -33,7 +33,6 @@ class UserServiceTest {
     fun `테스트에 필요한 프로퍼티 바인딩`() {
         assertThat(userRepository).isNotNull
         assertThat(userService).isNotNull
-
     }
 
     @Test

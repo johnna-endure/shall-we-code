@@ -35,7 +35,7 @@ class GlobalRestControllerAdvice {
     fun databaseExceptionHandler(exception: Exception): HttpResponse<String> {
         return HttpResponse(
             status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
-            message = exception.message ?: "서버 내부 에러입니다."
+            message = exception.message ?: "엔티티에 Id가 할당되지 않았습니다."
         )
     }
 }

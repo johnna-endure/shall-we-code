@@ -3,7 +3,7 @@ package com.shallwecode.user.dto
 import org.springframework.restdocs.payload.FieldDescriptor
 import org.springframework.restdocs.payload.PayloadDocumentation
 
-class UserModelDescriptors {
+class UserResponseDescriptors {
 
     companion object {
         fun userModelFields(path: String = ""): List<FieldDescriptor> {

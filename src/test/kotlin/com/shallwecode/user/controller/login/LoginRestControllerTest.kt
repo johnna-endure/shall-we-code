@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.context.WebApplicationContext
 
-class LoginRestControllerTest : RestDocConfig, MockControllerTestConfig {
+class LoginRestControllerTest: RestDocConfig, MockControllerTestConfig {
 
     @Autowired
     var mockMvc: MockMvc? = null

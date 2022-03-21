@@ -16,7 +16,12 @@ import org.springframework.stereotype.Service
 class JoinService(
     private val userRepository: UserRepository): UserService(userRepository){
 
-//    fun join(request: UserCreateRequest): Long {
-//        createUser(request)
-//    }
+    /**
+     * 사용자 회원가입 처리
+     * @param request
+     * @return 저장된 사용자의 id를 반환
+     */
+    fun join(request: UserCreateRequest): Long {
+        return createUser(request).id
+    }
 }
