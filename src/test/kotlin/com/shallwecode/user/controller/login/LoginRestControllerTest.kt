@@ -23,7 +23,6 @@ import org.springframework.web.context.WebApplicationContext
 
 class LoginRestControllerTest: RestDocConfig, MockControllerTestConfig {
 
-    @Autowired
     var mockMvc: MockMvc? = null
 
     @MockBean

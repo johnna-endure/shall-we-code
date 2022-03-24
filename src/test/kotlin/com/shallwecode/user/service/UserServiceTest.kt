@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 @DataJpaTest
 class UserServiceTest {
+
     @Autowired
     var userRepository: UserRepository? = null
     var userService: UserService? = null

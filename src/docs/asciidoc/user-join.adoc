@@ -1,0 +1,55 @@
+:snippets: ./build/generated-snippets
+
+:toc: left
+:toclevels: 3
+
+
+= 회원가입
+
+== `회원가입 성공`
+
+=== Http Request
+include::{snippets}/join-success/http-request.adoc[]
+=== Request Fields
+include::{snippets}/join-success/request-fields.adoc[]
+=== Http Response
+include::{snippets}/join-success/http-response.adoc[]
+=== Response Fields
+include::{snippets}/join-success/response-fields.adoc[]
+
+== `회원가입 실패 - 비밀번호 검증 실패`
+400 상태코드, 에러 메세지를 응답으로 반환합니다.
+
+=== Http Request
+include::{snippets}/join-failure-shortPassword/http-request.adoc[]
+=== Request Fields
+include::{snippets}/join-failure-shortPassword/request-fields.adoc[]
+=== Http Response
+include::{snippets}/join-failure-shortPassword/http-response.adoc[]
+=== Response Fields
+include::{snippets}/join-failure-shortPassword/response-fields.adoc[]
+
+
+== `회원가입 실패 - 이메일 검증 실패`
+400 상태코드, 에러 메세지를 응답으로 반환합니다.
+
+=== Http Request
+include::{snippets}/join-failure-invalidEmail/http-request.adoc[]
+=== Request Fields
+include::{snippets}/join-failure-invalidEmail/request-fields.adoc[]
+=== Http Response
+include::{snippets}/join-failure-invalidEmail/http-response.adoc[]
+=== Response Fields
+include::{snippets}/join-failure-invalidEmail/response-fields.adoc[]
+
+== `회원가입 실패 - 핸드폰 번호 검증 실패`
+400 상태코드, 에러 메세지를 응답으로 반환합니다.
+
+=== Http Request
+include::{snippets}/join-failure-invalidPhoneNumber/http-request.adoc[]
+=== Request Fields
+include::{snippets}/join-failure-invalidPhoneNumber/request-fields.adoc[]
+=== Http Response
+include::{snippets}/join-failure-invalidPhoneNumber/http-response.adoc[]
+=== Response Fields
+include::{snippets}/join-failure-invalidPhoneNumber/response-fields.adoc[]

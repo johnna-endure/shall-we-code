@@ -1,6 +1,7 @@
 package com.shallwecode.user.controller.join
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.shallwecode.common.exception.BadRequestException
 import com.shallwecode.common.http.HttpResponseDescriptors
 import com.shallwecode.testconfig.MockControllerTestConfig
 import com.shallwecode.testconfig.RestDocConfig
@@ -24,7 +25,6 @@ import org.springframework.web.context.WebApplicationContext
 
 class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
 
-    @Autowired
     var mockMvc: MockMvc? = null
 
     @MockBean
@@ -68,7 +68,105 @@ class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
                     )
                 )
             )
-
     }
+
+    @Test
+    fun `회원가입 실패 - 비밀번호가 8자리 이하인 경우`() {
+        //given
+        val request = UserCreateRequest(
+            email = "test@gmail.com",
+            name = "cws",
+            nickname = "nickname",
+            password = "short",
+            profileImage = "url",
+            phoneNumber = "01011112222"
+        )
+
+        `when`(joinService!!.join(request)).thenThrow(BadRequestException("비밀번호는 8자리 이상이어야 합니다."))
+
+        //when, then
+        mockMvc!!.perform(
+            post("/join")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonMapper.writeValueAsString(request))
+        )
+            .andExpect { status().isOk }
+            .andDo(
+                document(
+                    "join-failure-shortPassword",
+                    requestFields(UserRequestDescriptors.userCreateRequestFields()),
+                    responseFields(
+                        HttpResponseDescriptors.httpErrorResponseDescriptors()
+                    )
+                )
+            )
+    }
+
+    @Test
+    fun `회원가입 실패 - 이메일 검증에 실패한 경우`() {
+        //given
+        val request = UserCreateRequest(
+            email = "test",
+            name = "cws",
+            nickname = "nickname",
+            password = "short",
+            profileImage = "url",
+            phoneNumber = "01011112222"
+        )
+        val message = "이메일이 유효하지 않습니다. email : ${request.email}"
+
+        `when`(joinService!!.join(request)).thenThrow(BadRequestException(message))
+
+        //when, then
+        mockMvc!!.perform(
+            post("/join")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonMapper.writeValueAsString(request))
+        )
+            .andExpect { status().isOk }
+            .andDo(
+                document(
+                    "join-failure-invalidEmail",
+                    requestFields(UserRequestDescriptors.userCreateRequestFields()),
+                    responseFields(
+                        HttpResponseDescriptors.httpErrorResponseDescriptors()
+                    )
+                )
+            )
+    }
+
+    @Test
+    fun `회원가입 실패 - 핸드폰 번호 검증에 실패한 경우`() {
+        //given
+        val request = UserCreateRequest(
+            email = "test",
+            name = "cws",
+            nickname = "nickname",
+            password = "short",
+            profileImage = "url",
+            phoneNumber = "010aa123asdf2"
+        )
+        val message = "\"하이픈 이외의 문자는 포함될 수 없습니다. phoneNumber : ${request.phoneNumber}"
+
+        `when`(joinService!!.join(request)).thenThrow(BadRequestException(message))
+
+        //when, then
+        mockMvc!!.perform(
+            post("/join")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonMapper.writeValueAsString(request))
+        )
+            .andExpect { status().isOk }
+            .andDo(
+                document(
+                    "join-failure-invalidPhoneNumber",
+                    requestFields(UserRequestDescriptors.userCreateRequestFields()),
+                    responseFields(
+                        HttpResponseDescriptors.httpErrorResponseDescriptors()
+                    )
+                )
+            )
+    }
+
 
 }

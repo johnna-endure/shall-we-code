@@ -22,17 +22,14 @@ import org.springframework.transaction.annotation.Transactional
  */
 @Transactional
 @DataJpaTest
-class LoginServiceTest {
-
-    @Autowired
-    var userRepository: UserRepository? = null
-
-    @Autowired
+class LoginServiceTest(
+    @Autowired val userRepository: UserRepository
+) {
     var loginService: LoginService? = null
 
     @BeforeEach
     fun beforeEach() {
-        loginService = LoginService(userRepository!!)
+        loginService = LoginService(userRepository)
     }
 
     @Test
@@ -49,7 +46,7 @@ class LoginServiceTest {
         val phoneNumber = "01011112222"
         val loginRequest = LoginRequest(email, password)
 
-        userRepository!!.save(
+        userRepository.save(
             User(
                 email = Email(email),
                 name = "cws",
@@ -87,7 +84,7 @@ class LoginServiceTest {
         val phoneNumber = "01011112222"
         val loginRequest = LoginRequest(email, "wrongPassword")
 
-        userRepository!!.save(
+        userRepository.save(
             User(
                 email = Email(email),
                 name = "cws",
