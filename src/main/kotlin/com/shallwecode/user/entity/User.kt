@@ -8,16 +8,16 @@ import javax.persistence.*
 
 @Entity
 class User(
-    @Embedded var email: Email,
-    var name: String,
-    var nickname: String? = null,
+    @Embedded val email: Email,
+    val name: String,
+    val nickname: String? = null,
     @Embedded var password: Password,
     @Embedded var phoneNumber: PhoneNumber,
 //    var phoneNumber: String,
-    var profileImage: String? = null,
-    var githubUrl: String? = null,
-    var blogUrl: String? = null,
-    var deleted: Boolean = false
+    val profileImage: String? = null,
+    val githubUrl: String? = null,
+    val blogUrl: String? = null,
+    val deleted: Boolean = false
 ) {
     /**
      * jpa 용 식별자 필드입니다.
