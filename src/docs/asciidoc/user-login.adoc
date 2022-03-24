@@ -8,12 +8,31 @@
 
 ==== 로그인 성공
 
-//operation::login-success[snippets="http-request,request-fields,http-response,response-fields"]
+include::{snippets}/login-success/http-request.adoc[]
+=== Request Fields
+include::{snippets}/login-success/request-fields.adoc[]
+=== Http Response
+include::{snippets}/login-success/http-response.adoc[]
+=== Response Fields
+include::{snippets}/login-success/response-fields.adoc[]
 
 ==== 로그인 실패 - 아이디가 존재하지 않는 경우
 
-//operation::login-failure-wrongId[snippets="http-request,request-fields,http-response,response-fields"]
+include::{snippets}/login-failure-wrongId/http-request.adoc[]
+=== Request Fields
+include::{snippets}/login-failure-wrongId/request-fields.adoc[]
+=== Http Response
+include::{snippets}/login-failure-wrongId/http-response.adoc[]
+=== Response Fields
+include::{snippets}/login-failure-wrongId/response-fields.adoc[]
+
 
 ==== 로그인 실패 - 비밀번호가 일치하지 않는 경우
 
-//operation::login-failure-wrongPassword[snippets="http-request,request-fields,http-response,response-fields"]
+include::{snippets}/login-failure-wrongPassword/http-request.adoc[]
+=== Request Fields
+include::{snippets}/login-failure-wrongPassword/request-fields.adoc[]
+=== Http Response
+include::{snippets}/login-failure-wrongPassword/http-response.adoc[]
+=== Response Fields
+include::{snippets}/login-failure-wrongPassword/response-fields.adoc[]
