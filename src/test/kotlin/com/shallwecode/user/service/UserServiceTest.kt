@@ -5,6 +5,7 @@ import com.shallwecode.user.dto.request.UserCreateRequest
 import com.shallwecode.user.entity.User
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
+import com.shallwecode.user.entity.embeddable.PhoneNumber
 import com.shallwecode.user.repository.UserRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 @DataJpaTest
 class UserServiceTest {
+
     @Autowired
     var userRepository: UserRepository? = null
     var userService: UserService? = null
@@ -32,7 +34,6 @@ class UserServiceTest {
     fun `테스트에 필요한 프로퍼티 바인딩`() {
         assertThat(userRepository).isNotNull
         assertThat(userService).isNotNull
-
     }
 
     @Test
@@ -50,7 +51,7 @@ class UserServiceTest {
         )
 
         //when
-        val id = userService!!.createUser(request)
+        val id = userService!!.createUser(request).id
 
         //then
         val userOptional = userRepository!!.findByIdOrNull(id)
@@ -61,7 +62,7 @@ class UserServiceTest {
             assertThat(it.name).isEqualTo(request.name)
             assertThat(it.nickname).isEqualTo(request.nickname)
             assertThat(it.password.matches(request.password)).isTrue
-            assertThat(it.phoneNumber).isEqualTo(request.phoneNumber)
+            assertThat(it.phoneNumber).isEqualTo(PhoneNumber(request.phoneNumber))
             assertThat(it.profileImage).isEqualTo(request.profileImage)
             assertThat(it.githubUrl).isEqualTo(request.githubUrl)
             assertThat(it.blogUrl).isEqualTo(request.blogUrl)
@@ -69,14 +70,14 @@ class UserServiceTest {
     }
 
     @Test
-    fun `사용자 정보 조회 - 해당 아이디의 정보가 존재하는 경우`() {
+    fun `아이디로 사용자 정보 조회 성공`() {
         //given
         val userData = User(
             email = Email("test@gmail.com"),
             name = "name",
             nickname = "nickname",
             password = Password("password"),
-            phoneNumber = "01012341234",
+            phoneNumber = PhoneNumber("01012341234"),
             profileImage = "imgUrl",
             blogUrl = "blogUrl",
             githubUrl = "gitUrl",
@@ -85,8 +86,7 @@ class UserServiceTest {
         val existUser =  userRepository!!.save(userData)
 
         //when
-        val id = existUser.id
-        val userModel = userService!!.getUser(id)
+        val userModel = userService!!.findUser(existUser.id)
 
         //then
         userModel.let {
@@ -102,14 +102,100 @@ class UserServiceTest {
     }
 
     @Test
-    fun `사용자 정보 조회 - 해당 아이디의 정보가 존재하지 않는 경우`() {
+    fun `아이디로 사용자 정보 조회 실패 - 해당 아이디의 정보가 존재하지 않는 경우`() {
         //given
         val id = 100L
 
         //when,then
-        assertThatThrownBy { userService!!.getUser(id) }
+        assertThatThrownBy { userService!!.findUser(id) }
             .isInstanceOf(NotFoundDataException::class.java)
             .hasMessage("해당 아이디의 사용자 정보를 찾을 수 없습니다. id : $id")
+    }
+
+    @Test
+    fun `아이디로 사용자 정보 조회 성공 - 던져질 예외가 주어진 경우`() {
+        //given
+        val userData = User(
+            email = Email("test@gmail.com"),
+            name = "name",
+            nickname = "nickname",
+            password = Password("password"),
+            phoneNumber = PhoneNumber("01012341234"),
+            profileImage = "imgUrl",
+            blogUrl = "blogUrl",
+            githubUrl = "gitUrl",
+            deleted = false
+        )
+        val existUser =  userRepository!!.save(userData)
+
+        //when
+        val userModel = userService!!.findUser(existUser.id, RuntimeException("test"))
+
+        //then
+        userModel.let {
+            assertThat(it.id).isEqualTo(existUser.id)
+            assertThat(it.email).isEqualTo(existUser.email)
+            assertThat(it.name).isEqualTo(existUser.name)
+            assertThat(it.nickname).isEqualTo(existUser.nickname)
+            assertThat(it.phoneNumber).isEqualTo(existUser.phoneNumber)
+            assertThat(it.blogUrl).isEqualTo(existUser.blogUrl)
+            assertThat(it.githubUrl).isEqualTo(existUser.githubUrl)
+            assertThat(it.profileImage).isEqualTo(existUser.profileImage)
+        }
+    }
+
+    @Test
+    fun `아이디로 사용자 정보 조회 실패 - 던져질 예외가 주어진 상태에서 해당 아이디의 정보가 존재하지 않는 경우`() {
+        //given
+        val id = 100L
+        val message = "해당 아이디의 사용자 정보를 찾을 수 없습니다. id : $id"
+        //when,then
+        assertThatThrownBy { userService!!.findUser(id, NotFoundDataException(message)) }
+            .isInstanceOf(NotFoundDataException::class.java)
+            .hasMessage(message)
+    }
+
+    @Test
+    fun `이메일로 사용자 정보 조회 성공 - 던져질 예외가 주어진 경우`() {
+        //given
+        val userData = User(
+            email = Email("test@gmail.com"),
+            name = "name",
+            nickname = "nickname",
+            password = Password("password"),
+            phoneNumber = PhoneNumber("01012341234"),
+            profileImage = "imgUrl",
+            blogUrl = "blogUrl",
+            githubUrl = "gitUrl",
+            deleted = false
+        )
+        val existUser =  userRepository!!.save(userData)
+
+        //when
+        val userModel = userService!!.findUser(existUser.email, RuntimeException("test"))
+
+        //then
+        userModel.let {
+            assertThat(it.id).isEqualTo(existUser.id)
+            assertThat(it.email).isEqualTo(existUser.email)
+            assertThat(it.name).isEqualTo(existUser.name)
+            assertThat(it.nickname).isEqualTo(existUser.nickname)
+            assertThat(it.phoneNumber).isEqualTo(existUser.phoneNumber)
+            assertThat(it.blogUrl).isEqualTo(existUser.blogUrl)
+            assertThat(it.githubUrl).isEqualTo(existUser.githubUrl)
+            assertThat(it.profileImage).isEqualTo(existUser.profileImage)
+        }
+    }
+
+    @Test
+    fun `이메일로 사용자 정보 조회 실패 - 던져질 예외가 주어진 상태에서 해당 아이디의 정보가 존재하지 않는 경우`() {
+        //given
+        val email = Email("test@gmail.com")
+        val message = "test : $email"
+        //when,then
+        assertThatThrownBy { userService!!.findUser(email, RuntimeException(message)) }
+            .isInstanceOf(RuntimeException::class.java)
+            .hasMessage(message)
     }
 
 }
