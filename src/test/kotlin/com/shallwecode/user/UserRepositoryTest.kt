@@ -31,7 +31,7 @@ class UserRepositoryTest(
                 email = Email("test@gmail.com"),
                 name = "cws",
                 password = Password("11112222"),
-                phoneNumber = PhoneNumber("01011112222")
+                phoneNumber = PhoneNumber("01011112222"),
             )
         )
         //when

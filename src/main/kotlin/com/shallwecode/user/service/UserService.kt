@@ -34,8 +34,7 @@ class UserService(
             PhoneNumber(request.phoneNumber),
             request.profileImage,
             request.githubUrl,
-            request.blogUrl,
-            false
+            request.blogUrl
         )
         return userRepository.save(user)
     }
