@@ -19,6 +19,13 @@ configurations {
     }
 }
 
+val cloudVersion = "2021.0.1"
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${cloudVersion}")
+    }
+}
+
 repositories {
     mavenCentral()
     maven { url = uri("https://repo.spring.io/milestone") }
@@ -43,6 +50,11 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 //    testImplementation("org.springframework.restdocs:spring-restdocs-asciidoctor")
+
+//    implementation ("org.springframework.cloud:spring-cloud-starter-openfeign")
+    // https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+
 }
 
 tasks.withType<KotlinCompile> {

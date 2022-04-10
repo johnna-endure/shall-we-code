@@ -18,7 +18,6 @@ class LoginRestControllerAdvice {
     @ExceptionHandler(LoginFailedException::class)
     fun loginFailException(exception: LoginFailedException): HttpResponse<String> {
         return HttpResponse(
-            status = HttpStatus.OK.value(),
             message = exception.message ?: "로그인 실패."
         )
     }

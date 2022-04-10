@@ -22,6 +22,10 @@ class JoinService(
      * @return 저장된 사용자의 id를 반환
      */
     fun join(request: UserCreateRequest): Long {
-        return createUser(request).id
+        val id = createUser(request).id
+
+        // TODO certificate 서비스 몽고디비에 인증 정보 저장
+
+        return id
     }
 }

@@ -16,7 +16,6 @@ class GlobalRestControllerAdvice {
     @ExceptionHandler(BadRequestException::class)
     fun badRequestExceptionHandler(exception: BadRequestException): HttpResponse<String> {
         return HttpResponse(
-            status = HttpStatus.BAD_REQUEST.value(),
             message = exception.message ?: "잘못된 요청 정보입니다."
         )
     }
@@ -25,7 +24,6 @@ class GlobalRestControllerAdvice {
     @ExceptionHandler(NotFoundDataException::class)
     fun notFountExceptionHandler(exception: NotFoundDataException): HttpResponse<String> {
         return HttpResponse(
-            status = HttpStatus.NOT_FOUND.value(),
             message = exception.message ?: "해당 데이터를 찾을 수 없습니다."
         )
     }
@@ -34,7 +32,6 @@ class GlobalRestControllerAdvice {
     @ExceptionHandler(NotHasIdEntityException::class)
     fun databaseExceptionHandler(exception: Exception): HttpResponse<String> {
         return HttpResponse(
-            status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
             message = exception.message ?: "엔티티에 Id가 할당되지 않았습니다."
         )
     }
