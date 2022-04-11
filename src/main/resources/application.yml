@@ -1,2 +1,9 @@
+services:
+  url:
+    certificate-service: http://localhost:50000
+
 server:
   port: 50200
+
+
+

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController
 
 /**
  * 로그인 관련 API 를 다루는 컨트롤러입니다.
+ *
+ * 현재 사용하지 않음
  */
 @RestController
 class LoginRestController(
