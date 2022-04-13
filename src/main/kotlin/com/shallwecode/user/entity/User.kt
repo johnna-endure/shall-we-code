@@ -4,8 +4,6 @@ import com.shallwecode.common.exception.entity.NotHasIdEntityException
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
-import org.hibernate.annotations.CreationTimestamp
-import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -16,7 +14,6 @@ class User(
     val nickname: String? = null,
     @Embedded val password: Password,
     @Embedded val phoneNumber: PhoneNumber,
-//    var phoneNumber: String,
     val profileImage: String? = null,
     val githubUrl: String? = null,
     val blogUrl: String? = null,

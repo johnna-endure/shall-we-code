@@ -2,8 +2,8 @@ package com.shallwecode.user.service
 
 import com.shallwecode.common.exception.NotFoundDataException
 import com.shallwecode.common.util.modelmapper.ModelMapper
-import com.shallwecode.user.dto.model.UserModel
-import com.shallwecode.user.dto.request.UserCreateRequest
+import com.shallwecode.user.entity.model.UserModel
+import com.shallwecode.user.controller.join.request.JoinRequest
 import com.shallwecode.user.entity.User
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
@@ -25,7 +25,7 @@ class UserService(
      * @param request
      * @return 생성한 회원의 아이디 반환
      */
-    fun createUser(request: UserCreateRequest): User {
+    fun createUser(request: JoinRequest): User {
         val user = User(
             Email(request.email),
             request.name,
@@ -38,6 +38,8 @@ class UserService(
         )
         return userRepository.save(user)
     }
+
+
 
     /**
      * user 단건 조회

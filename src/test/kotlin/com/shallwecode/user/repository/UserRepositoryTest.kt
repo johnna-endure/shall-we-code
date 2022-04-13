@@ -1,10 +1,9 @@
-package com.shallwecode.user
+package com.shallwecode.user.repository
 
 import com.shallwecode.user.entity.User
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
-import com.shallwecode.user.repository.UserRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -35,7 +34,7 @@ class UserRepositoryTest(
             )
         )
         //when
-        val found = userRepository.findByEmail(savedUser.email)!!;
+        val found = userRepository.findByEmail(savedUser.email)!!
 
         //then
         assertThat(found.email).isEqualTo(savedUser.email)
@@ -49,7 +48,7 @@ class UserRepositoryTest(
         //given
         val email = Email("test@gmail.com")
         //when
-        val found = userRepository.findByEmail(email);
+        val found = userRepository.findByEmail(email)
 
         //then
         assertThat(found).isNull()

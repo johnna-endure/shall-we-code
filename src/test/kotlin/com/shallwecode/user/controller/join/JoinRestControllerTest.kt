@@ -1,19 +1,17 @@
 package com.shallwecode.user.controller.join
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.ninjasquad.springmockk.MockkBean
 import com.shallwecode.common.exception.BadRequestException
 import com.shallwecode.common.http.HttpResponseDescriptors
 import com.shallwecode.testconfig.MockControllerTestConfig
 import com.shallwecode.testconfig.RestDocConfig
-import com.shallwecode.user.dto.UserResponseDescriptors
+import com.shallwecode.user.controller.join.request.JoinRequest
 import com.shallwecode.user.dto.UserRequestDescriptors
-import com.shallwecode.user.dto.request.UserCreateRequest
 import com.shallwecode.user.service.join.JoinService
+import io.mockk.every
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.`when`
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.restdocs.RestDocumentationContextProvider
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
@@ -27,8 +25,8 @@ class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
 
     var mockMvc: MockMvc? = null
 
-    @MockBean
-    var joinService: JoinService? = null
+    @MockkBean
+    lateinit var joinService: JoinService
 
     var jsonMapper: ObjectMapper = ObjectMapper()
 
@@ -40,7 +38,7 @@ class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
     @Test
     fun `회원가입 성공`() {
         //given
-        val request = UserCreateRequest(
+        val request = JoinRequest(
             email = "test@gmail.com",
             name = "cws",
             nickname = "nickname",
@@ -49,7 +47,7 @@ class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
             phoneNumber = "01011112222"
         )
 
-        `when`(joinService!!.join(request)).thenReturn(1L)
+        every { joinService.join(any()) } returns 1L
 
         //when, then
         mockMvc!!.perform(
@@ -73,7 +71,7 @@ class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
     @Test
     fun `회원가입 실패 - 비밀번호가 8자리 이하인 경우`() {
         //given
-        val request = UserCreateRequest(
+        val request = JoinRequest(
             email = "test@gmail.com",
             name = "cws",
             nickname = "nickname",
@@ -82,7 +80,7 @@ class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
             phoneNumber = "01011112222"
         )
 
-        `when`(joinService!!.join(request)).thenThrow(BadRequestException("비밀번호는 8자리 이상이어야 합니다."))
+        every { joinService.join(request) } throws BadRequestException("비밀번호는 8자리 이상이어야 합니다.")
 
         //when, then
         mockMvc!!.perform(
@@ -105,7 +103,7 @@ class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
     @Test
     fun `회원가입 실패 - 이메일 검증에 실패한 경우`() {
         //given
-        val request = UserCreateRequest(
+        val request = JoinRequest(
             email = "test",
             name = "cws",
             nickname = "nickname",
@@ -113,10 +111,9 @@ class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
             profileImage = "url",
             phoneNumber = "01011112222"
         )
+
         val message = "이메일이 유효하지 않습니다. email : ${request.email}"
-
-        `when`(joinService!!.join(request)).thenThrow(BadRequestException(message))
-
+        every { joinService.join(request) } throws BadRequestException(message)
         //when, then
         mockMvc!!.perform(
             post("/join")
@@ -138,7 +135,7 @@ class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
     @Test
     fun `회원가입 실패 - 핸드폰 번호 검증에 실패한 경우`() {
         //given
-        val request = UserCreateRequest(
+        val request = JoinRequest(
             email = "test",
             name = "cws",
             nickname = "nickname",
@@ -147,8 +144,7 @@ class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
             phoneNumber = "010aa123asdf2"
         )
         val message = "\"하이픈 이외의 문자는 포함될 수 없습니다. phoneNumber : ${request.phoneNumber}"
-
-        `when`(joinService!!.join(request)).thenThrow(BadRequestException(message))
+        every { joinService.join(request) } throws BadRequestException(message)
 
         //when, then
         mockMvc!!.perform(

@@ -1,4 +1,4 @@
-package com.shallwecode.user.dto.model
+package com.shallwecode.user.entity.model
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped
 import com.shallwecode.user.entity.embeddable.Email

@@ -6,6 +6,6 @@ data class UserAuthenticationRequest(
     val userId: Long,
     val email: String,
     val password: String,
-    val roles: List<String>,
+    val roles: List<String> = listOf(),
     val createDateTime: LocalDateTime
 )

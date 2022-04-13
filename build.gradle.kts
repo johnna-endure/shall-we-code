@@ -48,10 +48,13 @@ dependencies {
     runtimeOnly("mysql:mysql-connector-java")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.projectlombok:lombok")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
-//    testImplementation("org.springframework.restdocs:spring-restdocs-asciidoctor")
 
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(module = "mockito-core")
+    }
+    testImplementation("com.ninja-squad:springmockk:3.1.1")
+
+    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
     implementation("io.netty:netty-resolver-dns-native-macos:4.1.75.Final:osx-aarch_64")
 
 }

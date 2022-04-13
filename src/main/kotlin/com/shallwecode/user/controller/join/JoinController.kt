@@ -1,9 +1,8 @@
 package com.shallwecode.user.controller.join
 
 import com.shallwecode.common.http.response.HttpResponse
-import com.shallwecode.user.dto.request.UserCreateRequest
+import com.shallwecode.user.controller.join.request.JoinRequest
 import com.shallwecode.user.service.join.JoinService
-import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.*
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -20,7 +19,7 @@ class JoinController(
 
     @ResponseStatus(CREATED)
     @PostMapping("/join")
-    fun join(@RequestBody request: UserCreateRequest): HttpResponse<Map<String, Long>> {
+    fun join(@RequestBody request: JoinRequest): HttpResponse<Map<String, Long>> {
         return HttpResponse(
             message = "created",
             body = mapOf("id" to joinService.join(request))

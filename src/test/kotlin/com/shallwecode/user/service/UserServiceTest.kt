@@ -1,7 +1,7 @@
 package com.shallwecode.user.service
 
 import com.shallwecode.common.exception.NotFoundDataException
-import com.shallwecode.user.dto.request.UserCreateRequest
+import com.shallwecode.user.controller.join.request.JoinRequest
 import com.shallwecode.user.entity.User
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
@@ -39,7 +39,7 @@ class UserServiceTest {
     @Test
     fun `사용자 생성 성공 - 요청 데이터가 모두 올바른 경우`() {
         //given
-        val request = UserCreateRequest(
+        val request = JoinRequest(
             email = "test@gmail.com",
             name = "name",
             nickname = "nickname",
