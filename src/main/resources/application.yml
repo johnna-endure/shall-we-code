@@ -5,5 +5,18 @@ services:
 server:
   port: 50200
 
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/shall-we-code
+    driver-class-name: org.h2.Driver
+    username: sa
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
 
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 

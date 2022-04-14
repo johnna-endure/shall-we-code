@@ -1,6 +1,8 @@
 package com.shallwecode.user.entity
 
 import com.shallwecode.common.exception.entity.NotHasIdEntityException
+import com.shallwecode.project.entity.JoinProject
+import com.shallwecode.project.entity.Project
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
@@ -18,6 +20,13 @@ class User(
     val githubUrl: String? = null,
     val blogUrl: String? = null,
     val deleted: Boolean = false,
+
+    @OneToMany(fetch = FetchType.LAZY)
+    val createdProjectsByMe: List<Project> = listOf(),
+
+    @OneToMany(fetch = FetchType.LAZY)
+    val joinedProjects: List<JoinProject> = listOf(),
+
     val createDateTime: LocalDateTime = LocalDateTime.now(),
     var updateDatetime: LocalDateTime = LocalDateTime.now()
 ) {
@@ -31,7 +40,7 @@ class User(
 
     val id: Long
         get() = this._id
-            ?: throw NotHasIdEntityException("${this::class.simpleName} 엔티티의 id가 할당되지 않았습니다.")
+            ?: throw NotHasIdEntityException()
 
 
     override fun equals(other: Any?): Boolean {
