@@ -2,12 +2,12 @@ package com.shallwecode.user.service
 
 import com.shallwecode.common.exception.NotFoundDataException
 import com.shallwecode.common.util.modelmapper.ModelMapper
-import com.shallwecode.user.entity.model.UserModel
 import com.shallwecode.user.controller.join.request.JoinRequest
 import com.shallwecode.user.entity.User
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
+import com.shallwecode.user.entity.model.UserModel
 import com.shallwecode.user.repository.UserRepository
 import org.springframework.stereotype.Service
 
@@ -17,12 +17,13 @@ import org.springframework.stereotype.Service
 @Service
 class UserService(
     private val userRepository: UserRepository
-    ) {
+) {
 
     private val modelMapper = ModelMapper()
+
     /**
      * user 데이터 저장
-     * @param request
+     * @param request 요청 데이터
      * @return 생성한 회원의 아이디 반환
      */
     fun createUser(request: JoinRequest): User {
@@ -40,16 +41,15 @@ class UserService(
     }
 
 
-
     /**
      * user 단건 조회
      *
      * @param id 회원 아이디
-     * @return user 엔티티 조회용 모델 UserModel 반환
+     * @return user 데이터 반환
      * @throws NoSuchElementException 회원 데이터가 없는 경우
      *
      */
-    fun findUser(id: Long) : UserModel {
+    fun findUser(id: Long): UserModel {
         return userRepository.findById(id)
             .map { modelMapper.mapper<User, UserModel>(it) }
             .orElseThrow { NotFoundDataException("해당 아이디의 사용자 정보를 찾을 수 없습니다. id : $id") }
@@ -58,27 +58,15 @@ class UserService(
     /**
      * user 단건 조회
      *
-     * @param id 회원 아이디
-     * @param exception 던져질 예외
-     * @return user 엔티티 조회용 모델 UserModel 반환
-     * @throws exception 회원 데이터가 없는 경우, 파라미터로 넘겨진 예외가 던져집니다.
-     *
-     */
-    fun findUser(id: Long, exception: Exception) : User {
-        return userRepository.findById(id)
-            .orElseThrow { exception }
-    }
-
-    /**
-     * user 단건 조회
-     *
      * @param email 회원 이메일
-     * @param exception 던져질 예외
-     * @return user 엔티티 조회용 모델 UserModel 반환
-     * @throws exception 회원 데이터가 없는 경우, 파라미터로 넘겨진 예외가 던져집니다.
+     * @return user 데이터 반환
+     * @throws NotFoundDataException 회원 데이터가 없는 경우, 파라미터로 넘겨진 예외가 던져집니다.
      *
      */
-    fun findUser(email: Email, exception: Exception): User {
-        return userRepository.findByEmail(email) ?: throw exception;
+    fun findUser(email: Email): UserModel {
+        val user =
+            userRepository.findByEmail(email) ?: throw NotFoundDataException("해당 이메일의 사용자를 찾을 수 없습니다. email : $email");
+
+        return user.let { modelMapper.mapper(it) }
     }
 }

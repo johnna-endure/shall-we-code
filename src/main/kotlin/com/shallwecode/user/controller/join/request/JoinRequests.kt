@@ -29,3 +29,5 @@ data class JoinRequest(
     }
 }
 
+data class DuplicateCheckRequest(val email: String)
+

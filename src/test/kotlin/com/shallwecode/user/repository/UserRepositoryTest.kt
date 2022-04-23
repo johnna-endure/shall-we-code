@@ -54,5 +54,4 @@ class UserRepositoryTest(
         assertThat(found).isNull()
     }
 
-
 }

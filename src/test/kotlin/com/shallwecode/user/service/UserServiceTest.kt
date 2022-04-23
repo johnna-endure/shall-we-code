@@ -27,7 +27,8 @@ class UserServiceTest {
     @BeforeEach
     fun beforeEach() {
         userService = UserService(
-            userRepository = this.userRepository ?: throw RuntimeException())
+            userRepository = this.userRepository ?: throw RuntimeException()
+        )
     }
 
     @Test
@@ -83,7 +84,7 @@ class UserServiceTest {
             githubUrl = "gitUrl",
             deleted = false
         )
-        val existUser =  userRepository!!.save(userData)
+        val existUser = userRepository!!.save(userData)
 
         //when
         val userModel = userService!!.findUser(existUser.id)
@@ -110,92 +111,6 @@ class UserServiceTest {
         assertThatThrownBy { userService!!.findUser(id) }
             .isInstanceOf(NotFoundDataException::class.java)
             .hasMessage("해당 아이디의 사용자 정보를 찾을 수 없습니다. id : $id")
-    }
-
-    @Test
-    fun `아이디로 사용자 정보 조회 성공 - 던져질 예외가 주어진 경우`() {
-        //given
-        val userData = User(
-            email = Email("test@gmail.com"),
-            name = "name",
-            nickname = "nickname",
-            password = Password("password"),
-            phoneNumber = PhoneNumber("01012341234"),
-            profileImage = "imgUrl",
-            blogUrl = "blogUrl",
-            githubUrl = "gitUrl",
-            deleted = false
-        )
-        val existUser =  userRepository!!.save(userData)
-
-        //when
-        val userModel = userService!!.findUser(existUser.id, RuntimeException("test"))
-
-        //then
-        userModel.let {
-            assertThat(it.id).isEqualTo(existUser.id)
-            assertThat(it.email).isEqualTo(existUser.email)
-            assertThat(it.name).isEqualTo(existUser.name)
-            assertThat(it.nickname).isEqualTo(existUser.nickname)
-            assertThat(it.phoneNumber).isEqualTo(existUser.phoneNumber)
-            assertThat(it.blogUrl).isEqualTo(existUser.blogUrl)
-            assertThat(it.githubUrl).isEqualTo(existUser.githubUrl)
-            assertThat(it.profileImage).isEqualTo(existUser.profileImage)
-        }
-    }
-
-    @Test
-    fun `아이디로 사용자 정보 조회 실패 - 던져질 예외가 주어진 상태에서 해당 아이디의 정보가 존재하지 않는 경우`() {
-        //given
-        val id = 100L
-        val message = "해당 아이디의 사용자 정보를 찾을 수 없습니다. id : $id"
-        //when,then
-        assertThatThrownBy { userService!!.findUser(id, NotFoundDataException(message)) }
-            .isInstanceOf(NotFoundDataException::class.java)
-            .hasMessage(message)
-    }
-
-    @Test
-    fun `이메일로 사용자 정보 조회 성공 - 던져질 예외가 주어진 경우`() {
-        //given
-        val userData = User(
-            email = Email("test@gmail.com"),
-            name = "name",
-            nickname = "nickname",
-            password = Password("password"),
-            phoneNumber = PhoneNumber("01012341234"),
-            profileImage = "imgUrl",
-            blogUrl = "blogUrl",
-            githubUrl = "gitUrl",
-            deleted = false
-        )
-        val existUser =  userRepository!!.save(userData)
-
-        //when
-        val userModel = userService!!.findUser(existUser.email, RuntimeException("test"))
-
-        //then
-        userModel.let {
-            assertThat(it.id).isEqualTo(existUser.id)
-            assertThat(it.email).isEqualTo(existUser.email)
-            assertThat(it.name).isEqualTo(existUser.name)
-            assertThat(it.nickname).isEqualTo(existUser.nickname)
-            assertThat(it.phoneNumber).isEqualTo(existUser.phoneNumber)
-            assertThat(it.blogUrl).isEqualTo(existUser.blogUrl)
-            assertThat(it.githubUrl).isEqualTo(existUser.githubUrl)
-            assertThat(it.profileImage).isEqualTo(existUser.profileImage)
-        }
-    }
-
-    @Test
-    fun `이메일로 사용자 정보 조회 실패 - 던져질 예외가 주어진 상태에서 해당 아이디의 정보가 존재하지 않는 경우`() {
-        //given
-        val email = Email("test@gmail.com")
-        val message = "test : $email"
-        //when,then
-        assertThatThrownBy { userService!!.findUser(email, RuntimeException(message)) }
-            .isInstanceOf(RuntimeException::class.java)
-            .hasMessage(message)
     }
 
 }

@@ -51,7 +51,7 @@ class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
 
         //when, then
         mockMvc!!.perform(
-            post("/join")
+            post("/user/join")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonMapper.writeValueAsString(request))
         )
@@ -84,7 +84,7 @@ class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
 
         //when, then
         mockMvc!!.perform(
-            post("/join")
+            post("/user/join")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonMapper.writeValueAsString(request))
         )
@@ -116,7 +116,7 @@ class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
         every { joinService.join(request) } throws BadRequestException(message)
         //when, then
         mockMvc!!.perform(
-            post("/join")
+            post("/user/join")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonMapper.writeValueAsString(request))
         )
@@ -148,7 +148,7 @@ class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
 
         //when, then
         mockMvc!!.perform(
-            post("/join")
+            post("/user/join")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonMapper.writeValueAsString(request))
         )

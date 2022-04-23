@@ -21,10 +21,10 @@ class User(
     val blogUrl: String? = null,
     val deleted: Boolean = false,
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "_id")
     val createdProjectsByMe: List<Project> = listOf(),
-
-    @OneToMany(fetch = FetchType.LAZY)
+  
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "_id")
     val joinedProjects: List<JoinProject> = listOf(),
 
     val createDateTime: LocalDateTime = LocalDateTime.now(),
@@ -35,7 +35,7 @@ class User(
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "user_id")
     var _id: Long? = null
 
     val id: Long

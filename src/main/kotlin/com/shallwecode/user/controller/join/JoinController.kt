@@ -1,9 +1,10 @@
 package com.shallwecode.user.controller.join
 
 import com.shallwecode.common.http.response.HttpResponse
+import com.shallwecode.user.controller.join.request.DuplicateCheckRequest
 import com.shallwecode.user.controller.join.request.JoinRequest
 import com.shallwecode.user.service.join.JoinService
-import org.springframework.http.HttpStatus.*
+import org.springframework.http.HttpStatus.CREATED
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -18,12 +19,21 @@ class JoinController(
 ) {
 
     @ResponseStatus(CREATED)
-    @PostMapping("/join")
+    @PostMapping("/user/join")
     fun join(@RequestBody request: JoinRequest): HttpResponse<Map<String, Long>> {
         return HttpResponse(
             message = "created",
             body = mapOf("id" to joinService.join(request))
         )
     }
+
+    @PostMapping("/user/duplicate-check")
+    fun duplicateCheck(@RequestBody request: DuplicateCheckRequest) {
+//        return HttpResponse(
+//            message = "success",
+//            body=
+//            )
+    }
+
 
 }
