@@ -2,14 +2,18 @@ package com.shallwecode.user.entity.embeddable
 
 import com.shallwecode.common.exception.BadRequestException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import javax.persistence.Column
 import javax.persistence.Embeddable
 
 @Embeddable
-class Password(var password: String) {
+class Password(
+    @Column(name = "password")
+    var value: String
+) {
 
     init {
-        validate(password)
-        this.password = encoding(password)
+        validate(value)
+        this.value = encoding(value)
     }
 
     private fun validate(password: String) {
@@ -23,7 +27,7 @@ class Password(var password: String) {
 
     fun matches(rawPassword: String): Boolean {
         val encoder = BCryptPasswordEncoder()
-        return encoder.matches(rawPassword, this.password)
+        return encoder.matches(rawPassword, this.value)
     }
 
 }

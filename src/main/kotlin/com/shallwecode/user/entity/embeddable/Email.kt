@@ -1,18 +1,22 @@
 package com.shallwecode.user.entity.embeddable
 
 import com.shallwecode.common.exception.BadRequestException
+import javax.persistence.Column
 import javax.persistence.Embeddable
 
 @Embeddable
-class Email(var email: String) {
+class Email(
+    @Column(name = "email", unique = true)
+    var value: String
+) {
 
     init {
-        if(!validateEmail(email)) {
-            throw BadRequestException("이메일이 유효하지 않습니다. email : $email")
+        if (!validateEmail(value)) {
+            throw BadRequestException("이메일이 유효하지 않습니다. email : $value")
         }
     }
 
-    private fun validateEmail(email: String) : Boolean {
+    private fun validateEmail(email: String): Boolean {
         val regex = """^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*(\.[a-zA-Z])*${'$'}""".toRegex()
         return regex.matches(email)
     }
@@ -23,12 +27,12 @@ class Email(var email: String) {
 
         other as Email
 
-        if (email != other.email) return false
+        if (value != other.value) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        return email.hashCode()
+        return value.hashCode()
     }
 }

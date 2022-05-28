@@ -6,6 +6,7 @@ import com.shallwecode.common.exception.BadRequestException
 import com.shallwecode.common.http.HttpResponseDescriptors
 import com.shallwecode.testconfig.MockControllerTestConfig
 import com.shallwecode.testconfig.RestDocConfig
+import com.shallwecode.user.controller.join.request.DuplicateCheckRequest
 import com.shallwecode.user.controller.join.request.JoinRequest
 import com.shallwecode.user.dto.UserRequestDescriptors
 import com.shallwecode.user.service.join.JoinService
@@ -18,12 +19,13 @@ import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post
 import org.springframework.restdocs.payload.PayloadDocumentation.*
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.context.WebApplicationContext
 
-class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
+class JoinControllerTest : RestDocConfig, MockControllerTestConfig {
 
-    var mockMvc: MockMvc? = null
+    lateinit var mockMvc: MockMvc
 
     @MockkBean
     lateinit var joinService: JoinService
@@ -50,7 +52,7 @@ class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
         every { joinService.join(any()) } returns 1L
 
         //when, then
-        mockMvc!!.perform(
+        mockMvc.perform(
             post("/user/join")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonMapper.writeValueAsString(request))
@@ -83,7 +85,7 @@ class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
         every { joinService.join(request) } throws BadRequestException("비밀번호는 8자리 이상이어야 합니다.")
 
         //when, then
-        mockMvc!!.perform(
+        mockMvc.perform(
             post("/user/join")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonMapper.writeValueAsString(request))
@@ -115,7 +117,7 @@ class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
         val message = "이메일이 유효하지 않습니다. email : ${request.email}"
         every { joinService.join(request) } throws BadRequestException(message)
         //when, then
-        mockMvc!!.perform(
+        mockMvc.perform(
             post("/user/join")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonMapper.writeValueAsString(request))
@@ -147,7 +149,7 @@ class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
         every { joinService.join(request) } throws BadRequestException(message)
 
         //when, then
-        mockMvc!!.perform(
+        mockMvc.perform(
             post("/user/join")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonMapper.writeValueAsString(request))
@@ -164,5 +166,96 @@ class JoinRestControllerTest : RestDocConfig, MockControllerTestConfig {
             )
     }
 
+    @Test
+    fun `duplicateCheck - 이메일이 중복이 아닌 경우`() {
+        // given
+        val email = "test@gmail.com"
+        val request = DuplicateCheckRequest(email)
+        every { joinService.duplicateEmailCheck(any()) } returns Pair("duplicated", false)
+
+        mockMvc.perform(
+            post("/user/join/duplicate-check")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonMapper.writeValueAsBytes(request))
+        )
+            .andExpectAll(
+                status().isOk,
+                jsonPath("$.body.duplicated").value(false)
+            )
+            .andDo(
+                document(
+                    "join-email-check:중복이 아닌 경우",
+                    requestFields(
+                        fieldWithPath("email").description("사용자가 입력한 이메일")
+                    ),
+                    responseFields(
+                        HttpResponseDescriptors.httpResponseDescriptors(
+                            fieldWithPath("body.duplicated").description("이메일 중복 여부")
+                        )
+                    )
+                )
+            )
+    }
+
+    @Test
+    fun `duplicateCheck - 이메일이 중복인 경우`() {
+        // given
+        val email = "test@gmail.com"
+        val request = DuplicateCheckRequest(email)
+        every { joinService.duplicateEmailCheck(any()) } returns Pair("duplicated", true)
+
+        mockMvc.perform(
+            post("/user/join/duplicate-check")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonMapper.writeValueAsBytes(request))
+        )
+            .andExpectAll(
+                status().isOk,
+                jsonPath("$.body.duplicated").value(true)
+            )
+            .andDo(
+                document(
+                    "join-email-check:중복인 경우",
+                    requestFields(
+                        fieldWithPath("email").description("사용자가 입력한 이메일")
+                    ),
+                    responseFields(
+                        HttpResponseDescriptors.httpResponseDescriptors(
+                            fieldWithPath("body.duplicated").description("이메일 중복 여부")
+                        )
+                    )
+                )
+            )
+    }
+
+    @Test
+    fun `duplicateCheck - 에러로 실패하는 경우`() {
+        // given
+        val email = "test@gmail.com"
+        val request = DuplicateCheckRequest(email)
+        val errorMessage = "test error"
+        every { joinService.duplicateEmailCheck(any()) } throws RuntimeException(errorMessage)
+
+        mockMvc.perform(
+            post("/user/join/duplicate-check")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonMapper.writeValueAsBytes(request))
+        )
+            .andExpectAll(
+                status().is5xxServerError,
+                jsonPath("$.message").value(errorMessage)
+            )
+            .andDo(
+                document(
+                    "join-email-check:에러 발생",
+                    requestFields(
+                        fieldWithPath("email").description("사용자가 입력한 이메일")
+                    ),
+                    responseFields(
+                        HttpResponseDescriptors.httpErrorResponseDescriptors()
+                    )
+                )
+            )
+    }
 
 }

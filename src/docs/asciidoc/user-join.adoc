@@ -9,47 +9,131 @@
 == `회원가입 성공`
 
 === Http Request
+
 include::{snippets}/join-success/http-request.adoc[]
+
 === Request Fields
+
 include::{snippets}/join-success/request-fields.adoc[]
+
 === Http Response
+
 include::{snippets}/join-success/http-response.adoc[]
+
 === Response Fields
+
 include::{snippets}/join-success/response-fields.adoc[]
 
 == `회원가입 실패 - 비밀번호 검증 실패`
+
 400 상태코드, 에러 메세지를 응답으로 반환합니다.
 
 === Http Request
+
 include::{snippets}/join-failure-shortPassword/http-request.adoc[]
+
 === Request Fields
+
 include::{snippets}/join-failure-shortPassword/request-fields.adoc[]
+
 === Http Response
+
 include::{snippets}/join-failure-shortPassword/http-response.adoc[]
+
 === Response Fields
+
 include::{snippets}/join-failure-shortPassword/response-fields.adoc[]
 
-
 == `회원가입 실패 - 이메일 검증 실패`
+
 400 상태코드, 에러 메세지를 응답으로 반환합니다.
 
 === Http Request
+
 include::{snippets}/join-failure-invalidEmail/http-request.adoc[]
+
 === Request Fields
+
 include::{snippets}/join-failure-invalidEmail/request-fields.adoc[]
+
 === Http Response
+
 include::{snippets}/join-failure-invalidEmail/http-response.adoc[]
+
 === Response Fields
+
 include::{snippets}/join-failure-invalidEmail/response-fields.adoc[]
 
 == `회원가입 실패 - 핸드폰 번호 검증 실패`
+
 400 상태코드, 에러 메세지를 응답으로 반환합니다.
 
 === Http Request
+
 include::{snippets}/join-failure-invalidPhoneNumber/http-request.adoc[]
+
 === Request Fields
+
 include::{snippets}/join-failure-invalidPhoneNumber/request-fields.adoc[]
+
 === Http Response
+
 include::{snippets}/join-failure-invalidPhoneNumber/http-response.adoc[]
+
 === Response Fields
+
 include::{snippets}/join-failure-invalidPhoneNumber/response-fields.adoc[]
+
+== `이메일 중복체크 - 중복이 아닌 경우`
+
+=== Http Request
+
+include::{snippets}/join-email-check:중복이 아닌 경우/http-request.adoc[]
+
+=== Request Fields
+
+include::{snippets}/join-email-check:중복이 아닌 경우/request-fields.adoc[]
+
+=== Http Response
+
+include::{snippets}/join-email-check:중복이 아닌 경우/http-response.adoc[]
+
+=== Response Fields
+
+include::{snippets}/join-email-check:중복이 아닌 경우/response-fields.adoc[]
+
+== `이메일 중복체크 - 중복인 경우`
+
+=== Http Request
+
+include::{snippets}/join-email-check:중복인 경우/http-request.adoc[]
+
+=== Request Fields
+
+include::{snippets}/join-email-check:중복인 경우/request-fields.adoc[]
+
+=== Http Response
+
+include::{snippets}/join-email-check:중복인 경우/http-response.adoc[]
+
+=== Response Fields
+
+include::{snippets}/join-email-check:중복인 경우/response-fields.adoc[]
+
+== `이메일 중복체크 - 서버 내에서 에러 발생한 경우`
+
+=== Http Request
+
+include::{snippets}/join-email-check:에러 발생/http-request.adoc[]
+
+=== Request Fields
+
+include::{snippets}/join-email-check:에러 발생/request-fields.adoc[]
+
+=== Http Response
+
+include::{snippets}/join-email-check:에러 발생/http-response.adoc[]
+
+=== Response Fields
+
+include::{snippets}/join-email-check:에러 발생/response-fields.adoc[]

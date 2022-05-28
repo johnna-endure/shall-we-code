@@ -27,13 +27,11 @@ class JoinController(
         )
     }
 
-    @PostMapping("/user/duplicate-check")
-    fun duplicateCheck(@RequestBody request: DuplicateCheckRequest) {
-//        return HttpResponse(
-//            message = "success",
-//            body=
-//            )
+    @PostMapping("/user/join/duplicate-check")
+    fun duplicateCheck(@RequestBody request: DuplicateCheckRequest): HttpResponse<Map<String, Boolean>> {
+        return HttpResponse(
+            message = "success",
+            body = mapOf(joinService.duplicateEmailCheck(request.email))
+        )
     }
-
-
 }

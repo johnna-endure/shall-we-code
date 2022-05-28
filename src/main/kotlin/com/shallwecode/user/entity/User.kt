@@ -1,8 +1,6 @@
 package com.shallwecode.user.entity
 
-import com.shallwecode.common.exception.entity.NotHasIdEntityException
-import com.shallwecode.project.entity.JoinProject
-import com.shallwecode.project.entity.Project
+import com.shallwecode.common.exception.entity.EmptyIdEntityException
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
@@ -16,23 +14,15 @@ class User(
     val nickname: String? = null,
     @Embedded val password: Password,
     @Embedded val phoneNumber: PhoneNumber,
-    val profileImage: String? = null,
+    val profileImageUrl: String? = null,
     val githubUrl: String? = null,
     val blogUrl: String? = null,
     val deleted: Boolean = false,
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "_id")
-    val createdProjectsByMe: List<Project> = listOf(),
-  
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "_id")
-    val joinedProjects: List<JoinProject> = listOf(),
-
     val createDateTime: LocalDateTime = LocalDateTime.now(),
-    var updateDatetime: LocalDateTime = LocalDateTime.now()
+    var updateDateTime: LocalDateTime = LocalDateTime.now()
 ) {
-    /**
-     * jpa 용 식별자 필드입니다.
-     */
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -40,7 +30,7 @@ class User(
 
     val id: Long
         get() = this._id
-            ?: throw NotHasIdEntityException()
+            ?: throw EmptyIdEntityException()
 
 
     override fun equals(other: Any?): Boolean {

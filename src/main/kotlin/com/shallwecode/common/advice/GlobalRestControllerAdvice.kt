@@ -2,7 +2,7 @@ package com.shallwecode.common.advice
 
 import com.shallwecode.common.exception.BadRequestException
 import com.shallwecode.common.exception.NotFoundDataException
-import com.shallwecode.common.exception.entity.NotHasIdEntityException
+import com.shallwecode.common.exception.entity.EmptyIdEntityException
 import com.shallwecode.common.http.response.HttpResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -31,7 +31,7 @@ class GlobalRestControllerAdvice {
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(NotHasIdEntityException::class)
+    @ExceptionHandler(EmptyIdEntityException::class)
     fun databaseExceptionHandler(exception: Exception): HttpResponse<String> {
         exception.printStackTrace()
         return HttpResponse(

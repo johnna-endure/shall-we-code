@@ -5,7 +5,6 @@ import com.shallwecode.client.authentication.request.UserAuthenticationRequest
 import com.shallwecode.client.exception.ClientException
 import com.shallwecode.common.exception.NotFoundDataException
 import com.shallwecode.user.controller.join.request.JoinRequest
-import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.service.UserService
 import org.springframework.stereotype.Service
 
@@ -28,8 +27,8 @@ class JoinService(
 
         val authenticationRequest = UserAuthenticationRequest(
             userId = createdUser.id,
-            email = createdUser.email.email,
-            password = createdUser.password.password,
+            email = createdUser.email.value,
+            password = createdUser.password.value,
             roles = listOf("user"),
             createDateTime = createdUser.createDateTime
         )
@@ -47,7 +46,7 @@ class JoinService(
      */
     fun duplicateEmailCheck(email: String): Pair<String, Boolean> {
         return try {
-            userService.findUser(Email(email)) // 회원이 없는 경우, NotFoundDataException 던짐
+            userService.findUser(email) // 회원이 없는 경우, NotFoundDataException 던짐
             "duplicated" to true
         } catch (ex: NotFoundDataException) {
             "duplicated" to false

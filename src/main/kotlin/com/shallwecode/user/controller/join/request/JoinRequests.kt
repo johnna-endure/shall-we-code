@@ -22,7 +22,7 @@ data class JoinRequest(
             nickname = nickname,
             password = Password(password),
             phoneNumber = PhoneNumber(phoneNumber),
-            profileImage = profileImage,
+            profileImageUrl = profileImage,
             githubUrl = githubUrl,
             blogUrl = blogUrl
         )

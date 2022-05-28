@@ -35,7 +35,6 @@ class UserRepositoryTest(
         )
         //when
         val found = userRepository.findByEmail(savedUser.email)!!
-
         //then
         assertThat(found.email).isEqualTo(savedUser.email)
         assertThat(found.name).isEqualTo(savedUser.name)

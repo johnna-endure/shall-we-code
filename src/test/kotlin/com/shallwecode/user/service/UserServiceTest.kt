@@ -21,13 +21,14 @@ import org.springframework.transaction.annotation.Transactional
 class UserServiceTest {
 
     @Autowired
-    var userRepository: UserRepository? = null
-    var userService: UserService? = null
+    lateinit var userRepository: UserRepository
+
+    lateinit var userService: UserService
 
     @BeforeEach
     fun beforeEach() {
         userService = UserService(
-            userRepository = this.userRepository ?: throw RuntimeException()
+            userRepository = this.userRepository
         )
     }
 
@@ -52,10 +53,10 @@ class UserServiceTest {
         )
 
         //when
-        val id = userService!!.createUser(request).id
+        val id = userService.createUser(request).id
 
         //then
-        val userOptional = userRepository!!.findByIdOrNull(id)
+        val userOptional = userRepository.findByIdOrNull(id)
         assertThat(userOptional).isNotNull
 
         userOptional?.let {
@@ -64,7 +65,7 @@ class UserServiceTest {
             assertThat(it.nickname).isEqualTo(request.nickname)
             assertThat(it.password.matches(request.password)).isTrue
             assertThat(it.phoneNumber).isEqualTo(PhoneNumber(request.phoneNumber))
-            assertThat(it.profileImage).isEqualTo(request.profileImage)
+            assertThat(it.profileImageUrl).isEqualTo(request.profileImage)
             assertThat(it.githubUrl).isEqualTo(request.githubUrl)
             assertThat(it.blogUrl).isEqualTo(request.blogUrl)
         } ?: assert(false) { "user is null" }
@@ -79,15 +80,15 @@ class UserServiceTest {
             nickname = "nickname",
             password = Password("password"),
             phoneNumber = PhoneNumber("01012341234"),
-            profileImage = "imgUrl",
+            profileImageUrl = "imgUrl",
             blogUrl = "blogUrl",
             githubUrl = "gitUrl",
             deleted = false
         )
-        val existUser = userRepository!!.save(userData)
+        val existUser = userRepository.save(userData)
 
         //when
-        val userModel = userService!!.findUser(existUser.id)
+        val userModel = userService.findUser(existUser.id)
 
         //then
         userModel.let {
@@ -98,7 +99,7 @@ class UserServiceTest {
             assertThat(it.phoneNumber).isEqualTo(existUser.phoneNumber)
             assertThat(it.blogUrl).isEqualTo(existUser.blogUrl)
             assertThat(it.githubUrl).isEqualTo(existUser.githubUrl)
-            assertThat(it.profileImage).isEqualTo(existUser.profileImage)
+            assertThat(it.profileImage).isEqualTo(existUser.profileImageUrl)
         }
     }
 
@@ -108,7 +109,7 @@ class UserServiceTest {
         val id = 100L
 
         //when,then
-        assertThatThrownBy { userService!!.findUser(id) }
+        assertThatThrownBy { userService.findUser(id) }
             .isInstanceOf(NotFoundDataException::class.java)
             .hasMessage("해당 아이디의 사용자 정보를 찾을 수 없습니다. id : $id")
     }

@@ -1,13 +1,17 @@
 package com.shallwecode.user.entity.embeddable
 
 import com.shallwecode.common.exception.BadRequestException
+import javax.persistence.Column
 import javax.persistence.Embeddable
 
 @Embeddable
-class PhoneNumber(var phoneNumber: String) {
+class PhoneNumber(
+    @Column(name = "phone_number")
+    var value: String
+) {
 
     init {
-        this.phoneNumber = validateAndReturnPhoneNumber(phoneNumber)
+        this.value = validateAndReturnPhoneNumber(value)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -16,20 +20,20 @@ class PhoneNumber(var phoneNumber: String) {
 
         other as PhoneNumber
 
-        if (phoneNumber != other.phoneNumber) return false
+        if (value != other.value) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        return phoneNumber.hashCode()
+        return value.hashCode()
     }
 
     /**
      * 최대 11자리를 넘어가는지, 하이픈 이외의 문자가 들어갔는지 체크합니다.
      *
      */
-    private fun validateAndReturnPhoneNumber( phoneNumber: String): String {
+    private fun validateAndReturnPhoneNumber(phoneNumber: String): String {
         val phoneNumberRemovedHyphen = removeHyphen(phoneNumber)
 
         if (phoneNumberRemovedHyphen.isBlank()) throw BadRequestException("핸드폰 번호 정보가 입력되지 않았습니다.")
@@ -49,7 +53,6 @@ class PhoneNumber(var phoneNumber: String) {
     private fun removeHyphen(phoneNumber: String): String {
         return phoneNumber.replace("-", "")
     }
-
 
 
 }

@@ -1,5 +1,6 @@
 package com.shallwecode.user.service
 
+import com.shallwecode.common.exception.BadRequestException
 import com.shallwecode.common.exception.NotFoundDataException
 import com.shallwecode.common.util.modelmapper.ModelMapper
 import com.shallwecode.user.controller.join.request.JoinRequest
@@ -28,14 +29,14 @@ class UserService(
      */
     fun createUser(request: JoinRequest): User {
         val user = User(
-            Email(request.email),
-            request.name,
-            request.nickname,
-            Password(request.password),
-            PhoneNumber(request.phoneNumber),
-            request.profileImage,
-            request.githubUrl,
-            request.blogUrl
+            email = Email(request.email),
+            name = request.name,
+            nickname = request.nickname,
+            password = Password(request.password),
+            phoneNumber = PhoneNumber(request.phoneNumber),
+            profileImageUrl = request.profileImage,
+            githubUrl = request.githubUrl,
+            blogUrl = request.blogUrl
         )
         return userRepository.save(user)
     }
@@ -57,15 +58,16 @@ class UserService(
 
     /**
      * user 단건 조회
-     *
      * @param email 회원 이메일
      * @return user 데이터 반환
      * @throws NotFoundDataException 회원 데이터가 없는 경우, 파라미터로 넘겨진 예외가 던져집니다.
+     * @throws BadRequestException 이메일 형식 검증에 실패할 경우.
      *
      */
-    fun findUser(email: Email): UserModel {
+    fun findUser(email: String): UserModel {
         val user =
-            userRepository.findByEmail(email) ?: throw NotFoundDataException("해당 이메일의 사용자를 찾을 수 없습니다. email : $email");
+            userRepository.findByEmail(Email(email))
+                ?: throw NotFoundDataException("해당 이메일의 사용자를 찾을 수 없습니다. email : $email");
 
         return user.let { modelMapper.mapper(it) }
     }

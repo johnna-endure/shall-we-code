@@ -1,6 +1,6 @@
 package com.shallwecode.project.entity
 
-import com.shallwecode.common.exception.entity.NotHasIdEntityException
+import com.shallwecode.common.exception.entity.EmptyIdEntityException
 import com.shallwecode.user.entity.User
 import java.time.LocalDateTime
 import javax.persistence.*
@@ -27,6 +27,6 @@ class JoinProject(
     var _id: Long? = null
 
     val id: Long
-        get() = this._id ?: throw NotHasIdEntityException()
-    
+        get() = this._id ?: throw EmptyIdEntityException()
+
 }

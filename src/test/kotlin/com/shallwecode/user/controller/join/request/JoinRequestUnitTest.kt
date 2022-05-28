@@ -23,12 +23,12 @@ class JoinRequestUnitTest {
         val user = request.toUserEntity()
 
         // then
-        assertThat(user.email.email).isEqualTo(request.email)
+        assertThat(user.email.value).isEqualTo(request.email)
         assertThat(user.name).isEqualTo(request.name)
         assertThat(user.nickname).isEqualTo(request.nickname)
         assertThat(user.password.matches(request.password))
-        assertThat(user.phoneNumber.phoneNumber).isEqualTo(request.phoneNumber)
-        assertThat(user.profileImage).isEqualTo(request.profileImage)
+        assertThat(user.phoneNumber.value).isEqualTo(request.phoneNumber)
+        assertThat(user.profileImageUrl).isEqualTo(request.profileImage)
         assertThat(user.githubUrl).isEqualTo(request.githubUrl)
         assertThat(user.blogUrl).isEqualTo(request.blogUrl)
     }
