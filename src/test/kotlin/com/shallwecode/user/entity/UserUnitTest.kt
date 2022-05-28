@@ -58,6 +58,5 @@ class UserUnitTest {
 
         // when
         assertThrows<EmptyIdEntityException> { user.id }
-
     }
 }
