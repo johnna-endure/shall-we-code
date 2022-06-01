@@ -1,31 +1,46 @@
 package com.shallwecode.project.entity
 
 import com.shallwecode.common.exception.entity.EmptyIdEntityException
-import com.shallwecode.user.entity.User
 import java.time.LocalDateTime
 import javax.persistence.*
-import javax.persistence.FetchType.LAZY
 import javax.persistence.GenerationType.IDENTITY
 
 @Entity
 @Table(name = "project")
 class Project(
-    val status: ProjectStatus,
-    val title: String,
-    val description: String,
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, updatable = true)
+    var status: ProjectStatus,
 
-    @ManyToOne(fetch = LAZY)
-    val createdUser: User,
+    @Column(name = "title", nullable = false, updatable = true)
+    var title: String,
 
-    @OneToMany(fetch = LAZY, mappedBy = "_id")
-    val joinedUsers: List<JoinProject>,
+    @Column(name = "description", nullable = true, updatable = true)
+    var description: String,
 
-    @OneToMany(fetch = LAZY, mappedBy = "_id")
-    val techStackList: List<TechStack>,
+    @Column(name = "create_user_id", nullable = false, updatable = false)
+    val createdUser: Long,
 
-    val gitUrl: String,
-    val createDateTime: LocalDateTime,
-    val updateDateTime: LocalDateTime,
+//    @ElementCollection(fetch = LAZY)
+//    @CollectionTable(
+//        name = "join_project",
+//        joinColumns = [JoinColumn(name = "project_id")]
+//    )
+//    val joinedUsers: List<Long> = listOf(),
+
+//    @ElementCollection(fetch = LAZY)
+//    @CollectionTable(
+//        name = "tech_stack",
+//        joinColumns = [JoinColumn(name = "tech_stack_id")]
+//    )
+//    val techStackList: List<TechStack>,
+
+    var githubUrl: String? = null,
+    @Column(name = "create_datetime", updatable = false)
+    val createDateTime: LocalDateTime = LocalDateTime.now(),
+
+    @Column(name = "update_datetime", updatable = true)
+    var updateDateTime: LocalDateTime = LocalDateTime.now(),
 ) {
 
 

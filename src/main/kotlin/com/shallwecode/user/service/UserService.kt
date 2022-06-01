@@ -4,7 +4,7 @@ import com.shallwecode.common.exception.BadRequestException
 import com.shallwecode.common.exception.NotFoundDataException
 import com.shallwecode.common.util.modelmapper.ModelMapper
 import com.shallwecode.user.controller.join.request.JoinRequest
-import com.shallwecode.user.entity.User
+import com.shallwecode.user.entity.UserTable
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
@@ -27,8 +27,8 @@ class UserService(
      * @param request 요청 데이터
      * @return 생성한 회원의 아이디 반환
      */
-    fun createUser(request: JoinRequest): User {
-        val user = User(
+    fun createUser(request: JoinRequest): UserTable {
+        val userTable = UserTable(
             email = Email(request.email),
             name = request.name,
             nickname = request.nickname,
@@ -38,7 +38,7 @@ class UserService(
             githubUrl = request.githubUrl,
             blogUrl = request.blogUrl
         )
-        return userRepository.save(user)
+        return userRepository.save(userTable)
     }
 
 
@@ -52,7 +52,7 @@ class UserService(
      */
     fun findUser(id: Long): UserModel {
         return userRepository.findById(id)
-            .map { modelMapper.mapper<User, UserModel>(it) }
+            .map { modelMapper.mapper<UserTable, UserModel>(it) }
             .orElseThrow { NotFoundDataException("해당 아이디의 사용자 정보를 찾을 수 없습니다. id : $id") }
     }
 

@@ -1,26 +1,40 @@
 package com.shallwecode.user.entity
 
 import com.shallwecode.common.exception.entity.EmptyIdEntityException
+import com.shallwecode.project.entity.JoinProject
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
 import java.time.LocalDateTime
 import javax.persistence.*
+import javax.persistence.FetchType.LAZY
 
+@Table(name = "user")
 @Entity
-class User(
-    @Embedded val email: Email,
-    val name: String,
-    val nickname: String? = null,
-    @Embedded val password: Password,
-    @Embedded val phoneNumber: PhoneNumber,
-    val profileImageUrl: String? = null,
-    val githubUrl: String? = null,
-    val blogUrl: String? = null,
-    val deleted: Boolean = false,
+class UserTable(
+    @Embedded var email: Email,
+    var name: String,
+    var nickname: String? = null,
+    @Embedded var password: Password,
+    @Embedded var phoneNumber: PhoneNumber,
+    var profileImageUrl: String? = null,
+    var githubUrl: String? = null,
+    var blogUrl: String? = null,
+    var deleted: Boolean = false,
 
+    @OneToMany(
+        fetch = LAZY,
+        cascade = [CascadeType.ALL],
+        orphanRemoval = true
+    )
+    @JoinColumn(name = "user_id")
+    var joinedProjects: MutableList<JoinProject> = mutableListOf(),
+
+    @Column(name = "create_datetime", updatable = false)
     val createDateTime: LocalDateTime = LocalDateTime.now(),
-    var updateDateTime: LocalDateTime = LocalDateTime.now()
+
+    @Column(name = "update_datetime", updatable = true)
+    var updateDateTime: LocalDateTime = LocalDateTime.now(),
 ) {
 
     @Id
@@ -37,7 +51,7 @@ class User(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as User
+        other as UserTable
 
         if (id != other.id) return false
 
@@ -47,6 +61,4 @@ class User(
     override fun hashCode(): Int {
         return id.hashCode()
     }
-
-
 }

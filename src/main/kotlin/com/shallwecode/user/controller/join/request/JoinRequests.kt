@@ -1,6 +1,6 @@
 package com.shallwecode.user.controller.join.request
 
-import com.shallwecode.user.entity.User
+import com.shallwecode.user.entity.UserTable
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
@@ -15,8 +15,8 @@ data class JoinRequest(
     val githubUrl: String? = null, // 깃허브 url
     val blogUrl: String? = null, // 개인 블로그 url
 ) {
-    fun toUserEntity(): User {
-        return User(
+    fun toUserEntity(): UserTable {
+        return UserTable(
             email = Email(email),
             name = name,
             nickname = nickname,

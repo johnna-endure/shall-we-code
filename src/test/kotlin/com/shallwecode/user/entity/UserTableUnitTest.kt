@@ -8,7 +8,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-class UserUnitTest {
+class UserTableUnitTest {
 
     @Test
     fun `user 객체 생성 테스트 - 필수값만 입력`() {
@@ -19,7 +19,7 @@ class UserUnitTest {
         val phoneNumber = "01011112222"
 
         // when
-        val user = User(
+        val userTable = UserTable(
             email = Email(email),
             name = name,
             password = Password(password),
@@ -27,18 +27,18 @@ class UserUnitTest {
         )
 
         // then
-        assertThat(user.email.value).isEqualTo(email)
-        assertThat(user.name).isEqualTo(name)
-        assertThat(user.password.matches(password)).isTrue
-        assertThat(user.phoneNumber.value).isEqualTo(phoneNumber)
+        assertThat(userTable.email.value).isEqualTo(email)
+        assertThat(userTable.name).isEqualTo(name)
+        assertThat(userTable.password.matches(password)).isTrue
+        assertThat(userTable.phoneNumber.value).isEqualTo(phoneNumber)
 
-        assertThat(user.nickname).isNull()
-        assertThat(user.profileImageUrl).isNull()
-        assertThat(user.githubUrl).isNull()
-        assertThat(user.blogUrl).isNull()
-        assertThat(user.deleted).isFalse
-        assertThat(user.createDateTime).isNotNull
-        assertThat(user.updateDateTime).isNotNull
+        assertThat(userTable.nickname).isNull()
+        assertThat(userTable.profileImageUrl).isNull()
+        assertThat(userTable.githubUrl).isNull()
+        assertThat(userTable.blogUrl).isNull()
+        assertThat(userTable.deleted).isFalse
+        assertThat(userTable.createDateTime).isNotNull
+        assertThat(userTable.updateDateTime).isNotNull
     }
 
     @Test
@@ -49,7 +49,7 @@ class UserUnitTest {
         val password = "password"
         val phoneNumber = "01011112222"
 
-        val user = User(
+        val userTable = UserTable(
             email = Email(email),
             name = name,
             password = Password(password),
@@ -57,6 +57,6 @@ class UserUnitTest {
         )
 
         // when
-        assertThrows<EmptyIdEntityException> { user.id }
+        assertThrows<EmptyIdEntityException> { userTable.id }
     }
 }

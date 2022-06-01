@@ -1,18 +1,11 @@
 package com.shallwecode.project.entity
 
-import com.shallwecode.common.exception.entity.EmptyIdEntityException
-import javax.persistence.*
+import javax.persistence.Embeddable
 
-@Entity
-@Table(name = "tech_stack")
-class TechStack {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "techstack_id")
-    var _id: Long? = null
-
-    val id: Long
-        get() = this._id ?: throw EmptyIdEntityException()
-
-}
+//@Entity
+//@Table(name = "tech_stack")
+@Embeddable
+class TechStack(
+    val name: String,
+    val logoImageUrl: String
+)

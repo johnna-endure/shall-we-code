@@ -2,7 +2,7 @@ package com.shallwecode.user.service
 
 import com.shallwecode.common.exception.NotFoundDataException
 import com.shallwecode.user.controller.join.request.JoinRequest
-import com.shallwecode.user.entity.User
+import com.shallwecode.user.entity.UserTable
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Transactional
 @DataJpaTest
-class UserServiceTest {
+class UserTableServiceTest {
 
     @Autowired
     lateinit var userRepository: UserRepository
@@ -74,7 +74,7 @@ class UserServiceTest {
     @Test
     fun `아이디로 사용자 정보 조회 성공`() {
         //given
-        val userData = User(
+        val userTableData = UserTable(
             email = Email("test@gmail.com"),
             name = "name",
             nickname = "nickname",
@@ -85,7 +85,7 @@ class UserServiceTest {
             githubUrl = "gitUrl",
             deleted = false
         )
-        val existUser = userRepository.save(userData)
+        val existUser = userRepository.save(userTableData)
 
         //when
         val userModel = userService.findUser(existUser.id)
@@ -99,7 +99,7 @@ class UserServiceTest {
             assertThat(it.phoneNumber).isEqualTo(existUser.phoneNumber)
             assertThat(it.blogUrl).isEqualTo(existUser.blogUrl)
             assertThat(it.githubUrl).isEqualTo(existUser.githubUrl)
-            assertThat(it.profileImage).isEqualTo(existUser.profileImageUrl)
+            assertThat(it.profileImageUrl).isEqualTo(existUser.profileImageUrl)
         }
     }
 

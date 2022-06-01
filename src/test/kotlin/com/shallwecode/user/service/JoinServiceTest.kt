@@ -80,7 +80,7 @@ class JoinServiceTest {
             name = "name",
             nickname = "nickname",
             phoneNumber = PhoneNumber("01011112222"),
-            profileImage = "imageUrl",
+            profileImageUrl = "imageUrl",
             githubUrl = "gitUrl",
             blogUrl = "blogUrl"
         )

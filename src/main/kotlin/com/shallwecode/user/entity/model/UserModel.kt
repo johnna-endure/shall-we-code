@@ -1,6 +1,5 @@
 package com.shallwecode.user.entity.model
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.PhoneNumber
 
@@ -13,7 +12,7 @@ data class UserModel(
     val name: String, // 사용자 이름
     val nickname: String?, // 닉네임
     val phoneNumber: PhoneNumber, // 핸드폰 번호
-    val profileImage: String?, // 프로필 사진 url
+    val profileImageUrl: String?, // 프로필 사진 url
     val githubUrl: String?, // 깃허브 url
     val blogUrl: String?, // 개인 블로그 url
 )
