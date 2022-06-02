@@ -1,12 +1,14 @@
 package com.shallwecode.user.entity
 
 import com.shallwecode.common.exception.entity.EmptyIdEntityException
-import com.shallwecode.project.entity.JoinProject
+import com.shallwecode.project.entity.JoinProjectTable
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
 import java.time.LocalDateTime
 import javax.persistence.*
+import javax.persistence.CascadeType.MERGE
+import javax.persistence.CascadeType.PERSIST
 import javax.persistence.FetchType.LAZY
 
 @Table(name = "user")
@@ -24,11 +26,12 @@ class UserTable(
 
     @OneToMany(
         fetch = LAZY,
-        cascade = [CascadeType.ALL],
+        cascade = [PERSIST, MERGE],
+        mappedBy = "id.userId",
         orphanRemoval = true
     )
-    @JoinColumn(name = "user_id")
-    var joinedProjects: MutableList<JoinProject> = mutableListOf(),
+//    @JoinColumn(name = "user_id")
+    var joinedProjects: MutableList<JoinProjectTable> = mutableListOf(),
 
     @Column(name = "create_datetime", updatable = false)
     val createDateTime: LocalDateTime = LocalDateTime.now(),

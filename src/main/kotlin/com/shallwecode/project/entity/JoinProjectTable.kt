@@ -1,12 +1,17 @@
 package com.shallwecode.project.entity
 
-import javax.persistence.Column
-import javax.persistence.Embeddable
+import javax.persistence.*
+
+@Table(name = "join_project")
+@Entity
+class JoinProjectTable(
+    @EmbeddedId
+    var id: JoinProjectId
+)
 
 @Embeddable
 class JoinProjectId(
-
-//    @ManyToOne(cascade = [CascadeType.PERSIST])
+    
     @Column(name = "user_id")
     var userId: Long,
 
@@ -32,3 +37,4 @@ class JoinProjectId(
         return result
     }
 }
+

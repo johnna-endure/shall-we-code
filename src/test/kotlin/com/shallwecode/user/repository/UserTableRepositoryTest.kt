@@ -1,26 +1,25 @@
 package com.shallwecode.user.repository
 
-import com.shallwecode.project.entity.JoinProject
 import com.shallwecode.project.entity.JoinProjectId
-import com.shallwecode.project.repository.ProjectRepository
+import com.shallwecode.project.entity.JoinProjectTable
 import com.shallwecode.user.entity.UserTable
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
 import com.shallwecode.user.entity.joinProject
+import com.shallwecode.user.entity.leaveProject
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import org.springframework.transaction.annotation.Transactional
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 
 @DataJpaTest
-@Transactional
 class UserTableRepositoryTest(
     @Autowired
     val userRepository: UserRepository,
     @Autowired
-    val projectRepository: ProjectRepository
+    val entityManager: TestEntityManager
 ) {
 
     @Test
@@ -98,7 +97,7 @@ class UserTableRepositoryTest(
     }
 
     @Test
-    fun `joinProject - 프로젝트 아이디 저장 성공 여부`() {
+    fun `joinProject - joinProject 저장 성공 여부`() {
 
         // given
         val email = "test@gmail.com"
@@ -115,16 +114,49 @@ class UserTableRepositoryTest(
         )
 
         // when
-        val joinProjects = mutableListOf(
-            JoinProject(JoinProjectId(savedUserTable.id, 1L)),
-            JoinProject(JoinProjectId(savedUserTable.id, 2L)),
+        val joinProjectTables = mutableListOf(
+            JoinProjectTable(JoinProjectId(savedUserTable.id, 1L)),
+            JoinProjectTable(JoinProjectId(savedUserTable.id, 2L)),
         )
-        savedUserTable.joinProject(*joinProjects.toTypedArray())
-        savedUserTable = userRepository.save(savedUserTable)
+        savedUserTable.joinProject(*joinProjectTables.toTypedArray())
+        savedUserTable = userRepository.saveAndFlush(savedUserTable)
 
         // then
         assertThat(savedUserTable.joinedProjects).isNotEmpty
         assertThat(savedUserTable.joinedProjects[0].id.projectId).isEqualTo(1L)
         assertThat(savedUserTable.joinedProjects[1].id.projectId).isEqualTo(2L)
+    }
+
+    @Test
+    fun `joinProject - joinProject의 아이템 하나를 제거했을 때, 영속성 전이 테스트`() {
+
+        // given
+        val email = "test@gmail.com"
+        val name = "cws"
+        val password = "11112222"
+        val phoneNumber = "01011112222"
+        var user = userRepository.save(
+            UserTable(
+                email = Email(email),
+                name = name,
+                password = Password(password),
+                phoneNumber = PhoneNumber(phoneNumber),
+            )
+        )
+
+        val joinProjectTables = mutableListOf(
+            JoinProjectTable(JoinProjectId(user.id, 1L)),
+            JoinProjectTable(JoinProjectId(user.id, 2L)),
+        )
+        user.joinProject(*joinProjectTables.toTypedArray())
+        user = userRepository.saveAndFlush(user)
+
+        // when
+        user.leaveProject(JoinProjectId(user.id, 2L))
+        user = userRepository.saveAndFlush(user)
+
+        // then
+        val ret = userRepository.findById(user.id).get()
+        assertThat(ret.joinedProjects.size).isEqualTo(1)
     }
 }

@@ -7,7 +7,7 @@ import javax.persistence.GenerationType.IDENTITY
 
 @Entity
 @Table(name = "project")
-class Project(
+class ProjectTable(
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, updatable = true)
     var status: ProjectStatus,
@@ -21,13 +21,9 @@ class Project(
     @Column(name = "create_user_id", nullable = false, updatable = false)
     val createdUser: Long,
 
-//    @ElementCollection(fetch = LAZY)
-//    @CollectionTable(
-//        name = "join_project",
-//        joinColumns = [JoinColumn(name = "project_id")]
-//    )
+//    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
 //    val joinedUsers: List<Long> = listOf(),
-
+//
 //    @ElementCollection(fetch = LAZY)
 //    @CollectionTable(
 //        name = "tech_stack",

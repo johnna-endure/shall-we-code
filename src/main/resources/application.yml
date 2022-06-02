@@ -21,3 +21,12 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: debug
+#        type:
+#          descriptor:
+#            sql: trace
+
