@@ -97,7 +97,7 @@ class UserTableRepositoryTest(
     }
 
     @Test
-    fun `joinProject - joinProject 저장 성공 여부`() {
+    fun `user 저장시 joinProjects 영속성 전이 테스트`() {
 
         // given
         val email = "test@gmail.com"
@@ -128,7 +128,7 @@ class UserTableRepositoryTest(
     }
 
     @Test
-    fun `joinProject - joinProject의 아이템 하나를 제거했을 때, 영속성 전이 테스트`() {
+    fun `user의 joinProjects 아이템 하나를 제거했을 때, 영속성 전이 테스트`() {
 
         // given
         val email = "test@gmail.com"
