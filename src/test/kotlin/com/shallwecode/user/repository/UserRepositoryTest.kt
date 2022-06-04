@@ -1,7 +1,7 @@
 package com.shallwecode.user.repository
 
-import com.shallwecode.project.entity.JoinProject
-import com.shallwecode.project.entity.JoinProjectId
+import com.shallwecode.project.entity.UserProject
+import com.shallwecode.project.entity.UserProjectId
 import com.shallwecode.user.entity.User
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
@@ -114,11 +114,11 @@ class UserRepositoryTest(
         )
 
         // when
-        val joinProjects = mutableListOf(
-            JoinProject(JoinProjectId(savedUser.id, 1L)),
-            JoinProject(JoinProjectId(savedUser.id, 2L)),
+        val userProjects = mutableListOf(
+            UserProject(UserProjectId(savedUser.id, 1L)),
+            UserProject(UserProjectId(savedUser.id, 2L)),
         )
-        savedUser.joinProject(*joinProjects.toTypedArray())
+        savedUser.joinProject(*userProjects.toTypedArray())
         savedUser = userRepository.saveAndFlush(savedUser)
 
         // then
@@ -144,15 +144,15 @@ class UserRepositoryTest(
             )
         )
 
-        val joinProjects = mutableListOf(
-            JoinProject(JoinProjectId(user.id, 1L)),
-            JoinProject(JoinProjectId(user.id, 2L)),
+        val userProjects = mutableListOf(
+            UserProject(UserProjectId(user.id, 1L)),
+            UserProject(UserProjectId(user.id, 2L)),
         )
-        user.joinProject(*joinProjects.toTypedArray())
+        user.joinProject(*userProjects.toTypedArray())
         user = userRepository.saveAndFlush(user)
 
         // when
-        user.leaveProject(JoinProjectId(user.id, 2L))
+        user.leaveProject(UserProjectId(user.id, 2L))
         user = userRepository.saveAndFlush(user)
 
         // then

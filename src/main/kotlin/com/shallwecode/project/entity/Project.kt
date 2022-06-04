@@ -21,15 +21,12 @@ class Project(
     @Column(name = "create_user_id", nullable = false, updatable = false)
     val createdUser: Long,
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
-    val joinedUsers: List<JoinProject> = listOf(),
-
-//    @ElementCollection(fetch = LAZY)
-//    @CollectionTable(
-//        name = "tech_stack",
-//        joinColumns = [JoinColumn(name = "tech_stack_id")]
-//    )
-//    val techStackList: List<TechStack>,
+    @OneToMany(
+        fetch = FetchType.LAZY,
+        cascade = [CascadeType.PERSIST, CascadeType.MERGE],
+        mappedBy = "id.projectId"
+    )
+    var joinedUsers: MutableList<UserProject> = mutableListOf(),
 
     var githubUrl: String? = null,
     @Column(name = "create_datetime", updatable = false)

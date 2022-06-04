@@ -1,7 +1,7 @@
 package com.shallwecode.user.entity
 
 import com.shallwecode.common.exception.entity.EmptyIdEntityException
-import com.shallwecode.project.entity.JoinProject
+import com.shallwecode.project.entity.UserProject
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
@@ -30,7 +30,7 @@ class User(
         mappedBy = "id.userId",
         orphanRemoval = true
     )
-    var joinedProjects: MutableList<JoinProject> = mutableListOf(),
+    var joinedProjects: MutableList<UserProject> = mutableListOf(),
 
     @Column(name = "create_datetime", updatable = false)
     val createDateTime: LocalDateTime = LocalDateTime.now(),
