@@ -4,14 +4,14 @@ import javax.persistence.*
 
 @Table(name = "join_project")
 @Entity
-class JoinProjectTable(
+class JoinProject(
     @EmbeddedId
     var id: JoinProjectId
 )
 
 @Embeddable
 class JoinProjectId(
-    
+
     @Column(name = "user_id")
     var userId: Long,
 

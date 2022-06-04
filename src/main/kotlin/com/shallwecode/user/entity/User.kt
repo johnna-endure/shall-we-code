@@ -1,7 +1,7 @@
 package com.shallwecode.user.entity
 
 import com.shallwecode.common.exception.entity.EmptyIdEntityException
-import com.shallwecode.project.entity.JoinProjectTable
+import com.shallwecode.project.entity.JoinProject
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
@@ -13,7 +13,7 @@ import javax.persistence.FetchType.LAZY
 
 @Table(name = "user")
 @Entity
-class UserTable(
+class User(
     @Embedded var email: Email,
     var name: String,
     var nickname: String? = null,
@@ -30,8 +30,7 @@ class UserTable(
         mappedBy = "id.userId",
         orphanRemoval = true
     )
-//    @JoinColumn(name = "user_id")
-    var joinedProjects: MutableList<JoinProjectTable> = mutableListOf(),
+    var joinedProjects: MutableList<JoinProject> = mutableListOf(),
 
     @Column(name = "create_datetime", updatable = false)
     val createDateTime: LocalDateTime = LocalDateTime.now(),
@@ -54,7 +53,7 @@ class UserTable(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as UserTable
+        other as User
 
         if (id != other.id) return false
 

@@ -19,7 +19,7 @@ class UserTableUnitTest {
         val phoneNumber = "01011112222"
 
         // when
-        val userTable = UserTable(
+        val user = User(
             email = Email(email),
             name = name,
             password = Password(password),
@@ -27,18 +27,19 @@ class UserTableUnitTest {
         )
 
         // then
-        assertThat(userTable.email.value).isEqualTo(email)
-        assertThat(userTable.name).isEqualTo(name)
-        assertThat(userTable.password.matches(password)).isTrue
-        assertThat(userTable.phoneNumber.value).isEqualTo(phoneNumber)
+        assertThat(user.email.value).isEqualTo(email)
+        assertThat(user.name).isEqualTo(name)
+        assertThat(user.password.matches(password)).isTrue
+        assertThat(user.phoneNumber.value).isEqualTo(phoneNumber)
+        assertThat(user.joinedProjects.isEmpty()).isTrue
 
-        assertThat(userTable.nickname).isNull()
-        assertThat(userTable.profileImageUrl).isNull()
-        assertThat(userTable.githubUrl).isNull()
-        assertThat(userTable.blogUrl).isNull()
-        assertThat(userTable.deleted).isFalse
-        assertThat(userTable.createDateTime).isNotNull
-        assertThat(userTable.updateDateTime).isNotNull
+        assertThat(user.nickname).isNull()
+        assertThat(user.profileImageUrl).isNull()
+        assertThat(user.githubUrl).isNull()
+        assertThat(user.blogUrl).isNull()
+        assertThat(user.deleted).isFalse
+        assertThat(user.createDateTime).isNotNull
+        assertThat(user.updateDateTime).isNotNull
     }
 
     @Test
@@ -49,7 +50,7 @@ class UserTableUnitTest {
         val password = "password"
         val phoneNumber = "01011112222"
 
-        val userTable = UserTable(
+        val user = User(
             email = Email(email),
             name = name,
             password = Password(password),
@@ -57,6 +58,6 @@ class UserTableUnitTest {
         )
 
         // when
-        assertThrows<EmptyIdEntityException> { userTable.id }
+        assertThrows<EmptyIdEntityException> { user.id }
     }
 }

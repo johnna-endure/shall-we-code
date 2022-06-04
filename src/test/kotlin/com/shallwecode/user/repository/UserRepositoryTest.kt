@@ -1,8 +1,8 @@
 package com.shallwecode.user.repository
 
+import com.shallwecode.project.entity.JoinProject
 import com.shallwecode.project.entity.JoinProjectId
-import com.shallwecode.project.entity.JoinProjectTable
-import com.shallwecode.user.entity.UserTable
+import com.shallwecode.user.entity.User
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
@@ -15,7 +15,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 
 @DataJpaTest
-class UserTableRepositoryTest(
+class UserRepositoryTest(
     @Autowired
     val userRepository: UserRepository,
     @Autowired
@@ -30,8 +30,8 @@ class UserTableRepositoryTest(
     @Test
     fun `findByEmail - 이메일로 조회에 성공하는 경우`() {
         //given
-        val savedUserTable = userRepository.save(
-            UserTable(
+        val savedUser = userRepository.save(
+            User(
                 email = Email("test@gmail.com"),
                 name = "cws",
                 password = Password("11112222"),
@@ -39,12 +39,12 @@ class UserTableRepositoryTest(
             )
         )
         //when
-        val found = userRepository.findByEmail(savedUserTable.email)!!
+        val found = userRepository.findByEmail(savedUser.email)!!
         //then
-        assertThat(found.email).isEqualTo(savedUserTable.email)
-        assertThat(found.name).isEqualTo(savedUserTable.name)
-        assertThat(found.password).isEqualTo(savedUserTable.password)
-        assertThat(found.phoneNumber).isEqualTo(savedUserTable.phoneNumber)
+        assertThat(found.email).isEqualTo(savedUser.email)
+        assertThat(found.name).isEqualTo(savedUser.name)
+        assertThat(found.password).isEqualTo(savedUser.password)
+        assertThat(found.phoneNumber).isEqualTo(savedUser.phoneNumber)
     }
 
     @Test
@@ -72,8 +72,8 @@ class UserTableRepositoryTest(
         val blogUrl = "blogUrl"
 
         // when
-        val savedUserTable = userRepository.saveAndFlush(
-            UserTable(
+        val savedUser = userRepository.saveAndFlush(
+            User(
                 email = Email(email),
                 name = name,
                 password = Password(password),
@@ -86,14 +86,14 @@ class UserTableRepositoryTest(
         )
 
         // then
-        assertThat(savedUserTable.id).isNotNull
-        assertThat(savedUserTable.email.value).isEqualTo(email)
-        assertThat(savedUserTable.name).isEqualTo(name)
-        assertThat(savedUserTable.password.matches(password)).isTrue
-        assertThat(savedUserTable.nickname).isEqualTo(nickname)
-        assertThat(savedUserTable.profileImageUrl).isEqualTo(profileImageUrl)
-        assertThat(savedUserTable.githubUrl).isEqualTo(githubUrl)
-        assertThat(savedUserTable.blogUrl).isEqualTo(blogUrl)
+        assertThat(savedUser.id).isNotNull
+        assertThat(savedUser.email.value).isEqualTo(email)
+        assertThat(savedUser.name).isEqualTo(name)
+        assertThat(savedUser.password.matches(password)).isTrue
+        assertThat(savedUser.nickname).isEqualTo(nickname)
+        assertThat(savedUser.profileImageUrl).isEqualTo(profileImageUrl)
+        assertThat(savedUser.githubUrl).isEqualTo(githubUrl)
+        assertThat(savedUser.blogUrl).isEqualTo(blogUrl)
     }
 
     @Test
@@ -104,8 +104,8 @@ class UserTableRepositoryTest(
         val name = "cws"
         val password = "11112222"
         val phoneNumber = "01011112222"
-        var savedUserTable = userRepository.save(
-            UserTable(
+        var savedUser = userRepository.save(
+            User(
                 email = Email(email),
                 name = name,
                 password = Password(password),
@@ -114,17 +114,17 @@ class UserTableRepositoryTest(
         )
 
         // when
-        val joinProjectTables = mutableListOf(
-            JoinProjectTable(JoinProjectId(savedUserTable.id, 1L)),
-            JoinProjectTable(JoinProjectId(savedUserTable.id, 2L)),
+        val joinProjects = mutableListOf(
+            JoinProject(JoinProjectId(savedUser.id, 1L)),
+            JoinProject(JoinProjectId(savedUser.id, 2L)),
         )
-        savedUserTable.joinProject(*joinProjectTables.toTypedArray())
-        savedUserTable = userRepository.saveAndFlush(savedUserTable)
+        savedUser.joinProject(*joinProjects.toTypedArray())
+        savedUser = userRepository.saveAndFlush(savedUser)
 
         // then
-        assertThat(savedUserTable.joinedProjects).isNotEmpty
-        assertThat(savedUserTable.joinedProjects[0].id.projectId).isEqualTo(1L)
-        assertThat(savedUserTable.joinedProjects[1].id.projectId).isEqualTo(2L)
+        assertThat(savedUser.joinedProjects).isNotEmpty
+        assertThat(savedUser.joinedProjects[0].id.projectId).isEqualTo(1L)
+        assertThat(savedUser.joinedProjects[1].id.projectId).isEqualTo(2L)
     }
 
     @Test
@@ -136,7 +136,7 @@ class UserTableRepositoryTest(
         val password = "11112222"
         val phoneNumber = "01011112222"
         var user = userRepository.save(
-            UserTable(
+            User(
                 email = Email(email),
                 name = name,
                 password = Password(password),
@@ -144,11 +144,11 @@ class UserTableRepositoryTest(
             )
         )
 
-        val joinProjectTables = mutableListOf(
-            JoinProjectTable(JoinProjectId(user.id, 1L)),
-            JoinProjectTable(JoinProjectId(user.id, 2L)),
+        val joinProjects = mutableListOf(
+            JoinProject(JoinProjectId(user.id, 1L)),
+            JoinProject(JoinProjectId(user.id, 2L)),
         )
-        user.joinProject(*joinProjectTables.toTypedArray())
+        user.joinProject(*joinProjects.toTypedArray())
         user = userRepository.saveAndFlush(user)
 
         // when
