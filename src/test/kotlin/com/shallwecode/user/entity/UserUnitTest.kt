@@ -8,7 +8,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-class UserTableUnitTest {
+class UserUnitTest {
 
     @Test
     fun `user 객체 생성 테스트 - 필수값만 입력`() {

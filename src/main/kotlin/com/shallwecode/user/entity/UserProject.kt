@@ -1,4 +1,4 @@
-package com.shallwecode.project.entity
+package com.shallwecode.user.entity
 
 import javax.persistence.*
 

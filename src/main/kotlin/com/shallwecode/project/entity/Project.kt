@@ -1,6 +1,7 @@
 package com.shallwecode.project.entity
 
 import com.shallwecode.common.exception.entity.EmptyIdEntityException
+import com.shallwecode.user.entity.UserProject
 import java.time.LocalDateTime
 import javax.persistence.*
 import javax.persistence.GenerationType.IDENTITY

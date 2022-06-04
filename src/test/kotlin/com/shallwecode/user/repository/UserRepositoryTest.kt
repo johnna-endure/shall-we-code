@@ -1,13 +1,9 @@
 package com.shallwecode.user.repository
 
-import com.shallwecode.project.entity.UserProject
-import com.shallwecode.project.entity.UserProjectId
-import com.shallwecode.user.entity.User
+import com.shallwecode.user.entity.*
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
-import com.shallwecode.user.entity.joinProject
-import com.shallwecode.user.entity.leaveProject
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
