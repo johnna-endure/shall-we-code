@@ -38,7 +38,6 @@ class Project(
     var updateDateTime: LocalDateTime = LocalDateTime.now(),
 ) {
 
-
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "project_id")

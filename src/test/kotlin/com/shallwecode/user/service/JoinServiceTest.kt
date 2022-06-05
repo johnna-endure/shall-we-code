@@ -27,7 +27,7 @@ class JoinServiceTest {
     lateinit var userAuthenticationClient: UserAuthenticationClient
 
     @MockkBean
-    lateinit var userService: UserService
+    lateinit var userService: UserCRUDService
 
     @BeforeEach
     fun beforeEach() {

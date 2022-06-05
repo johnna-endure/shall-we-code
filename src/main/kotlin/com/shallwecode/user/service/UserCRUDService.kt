@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service
  * 특별한 비지니스 로직없이 User CRUD 를 다루는 로직을 다루는 서비스입니다.
  */
 @Service
-class UserService(
+class UserCRUDService(
     private val userRepository: UserRepository
 ) {
 
