@@ -1,29 +1,30 @@
-package com.shallwecode.user.entity
+package com.shallwecode.project.entity
 
 import javax.persistence.*
 
-@Table(name = "join_project")
+@Table(name = "joined_user")
 @Entity
-class JoinProject(
+class JoinedUser(
     @EmbeddedId
-    var id: JoinProjectId
+    var id: JoinedUserId,
+    
+    @Enumerated(EnumType.STRING)
+    var status: JoinedUserStatus
 )
 
 @Embeddable
-class JoinProjectId(
-
+class JoinedUserId(
     @Column(name = "user_id")
     var userId: Long,
 
     @Column(name = "project_id")
     var projectId: Long
-
 ) : java.io.Serializable {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as JoinProjectId
+        other as JoinedUserId
 
         if (userId != other.userId) return false
         if (projectId != other.projectId) return false
@@ -38,3 +39,8 @@ class JoinProjectId(
     }
 }
 
+enum class JoinedUserStatus {
+    JOINED,
+    LEAVED,
+    KICKED_OUT
+}

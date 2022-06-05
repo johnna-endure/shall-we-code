@@ -31,7 +31,7 @@ class UserUnitTest {
         assertThat(user.name).isEqualTo(name)
         assertThat(user.password.matches(password)).isTrue
         assertThat(user.phoneNumber.value).isEqualTo(phoneNumber)
-        assertThat(user.joinProjects.isEmpty()).isTrue
+        assertThat(user.joinedProjects.isEmpty()).isTrue
 
         assertThat(user.nickname).isNull()
         assertThat(user.profileImageUrl).isNull()

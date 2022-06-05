@@ -26,7 +26,7 @@ class Project(
         cascade = [CascadeType.PERSIST, CascadeType.MERGE],
         mappedBy = "id.projectId"
     )
-    var joinedUsers: MutableList<JoinUser> = mutableListOf(),
+    var joinedUsers: MutableList<JoinedUser> = mutableListOf(),
 
     @Column(name = "github_url", nullable = true, updatable = true)
     var githubUrl: String? = null,

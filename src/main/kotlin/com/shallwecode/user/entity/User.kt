@@ -29,7 +29,7 @@ class User(
         mappedBy = "id.userId",
         orphanRemoval = true
     )
-    var joinProjects: MutableList<JoinProject> = mutableListOf(),
+    var joinedProjects: MutableList<JoinedProject> = mutableListOf(),
 
     @Column(name = "create_datetime", updatable = false)
     val createDateTime: LocalDateTime = LocalDateTime.now(),

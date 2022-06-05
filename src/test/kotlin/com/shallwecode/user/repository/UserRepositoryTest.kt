@@ -1,6 +1,7 @@
 package com.shallwecode.user.repository
 
 import com.shallwecode.user.entity.*
+import com.shallwecode.user.entity.JoinedProjectStatus.PROGRESS
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
@@ -110,17 +111,19 @@ class UserRepositoryTest(
         )
 
         // when
-        val joinProjects = mutableListOf(
-            JoinProject(JoinProjectId(savedUser.id, 1L)),
-            JoinProject(JoinProjectId(savedUser.id, 2L)),
+        val joinedProjects = mutableListOf(
+            JoinedProject(JoinedProjectId(savedUser.id, 1L), PROGRESS),
+            JoinedProject(JoinedProjectId(savedUser.id, 2L), PROGRESS),
         )
-        savedUser.joinProject(*joinProjects.toTypedArray())
+        savedUser.joinProject(*joinedProjects.toTypedArray())
         savedUser = userRepository.saveAndFlush(savedUser)
 
         // then
-        assertThat(savedUser.joinProjects).isNotEmpty
-        assertThat(savedUser.joinProjects[0].id.projectId).isEqualTo(1L)
-        assertThat(savedUser.joinProjects[1].id.projectId).isEqualTo(2L)
+        assertThat(savedUser.joinedProjects).isNotEmpty
+        assertThat(savedUser.joinedProjects[0].id.projectId).isEqualTo(1L)
+        assertThat(savedUser.joinedProjects[0].status).isEqualTo(PROGRESS)
+        assertThat(savedUser.joinedProjects[1].id.projectId).isEqualTo(2L)
+        assertThat(savedUser.joinedProjects[1].status).isEqualTo(PROGRESS)
     }
 
     @Test
@@ -140,19 +143,21 @@ class UserRepositoryTest(
             )
         )
 
-        val joinProjects = mutableListOf(
-            JoinProject(JoinProjectId(user.id, 1L)),
-            JoinProject(JoinProjectId(user.id, 2L)),
+        val joinedProjects = mutableListOf(
+            JoinedProject(JoinedProjectId(user.id, 1L), PROGRESS),
+            JoinedProject(JoinedProjectId(user.id, 2L), PROGRESS),
         )
-        user.joinProject(*joinProjects.toTypedArray())
+        user.joinProject(*joinedProjects.toTypedArray())
         user = userRepository.saveAndFlush(user)
 
         // when
-        user.leaveProject(JoinProjectId(user.id, 2L))
+        user.leaveProject(JoinedProjectId(user.id, 2L))
         user = userRepository.saveAndFlush(user)
 
         // then
         val ret = userRepository.findById(user.id).get()
-        assertThat(ret.joinProjects.size).isEqualTo(1)
+        assertThat(ret.joinedProjects.size).isEqualTo(1)
+        assertThat(ret.joinedProjects[0].id.projectId).isEqualTo(1L)
+        assertThat(ret.joinedProjects[0].status).isEqualTo(PROGRESS)
     }
 }
