@@ -110,17 +110,17 @@ class UserRepositoryTest(
         )
 
         // when
-        val userProjects = mutableListOf(
-            UserProject(UserProjectId(savedUser.id, 1L)),
-            UserProject(UserProjectId(savedUser.id, 2L)),
+        val joinProjects = mutableListOf(
+            JoinProject(JoinProjectId(savedUser.id, 1L)),
+            JoinProject(JoinProjectId(savedUser.id, 2L)),
         )
-        savedUser.joinProject(*userProjects.toTypedArray())
+        savedUser.joinProject(*joinProjects.toTypedArray())
         savedUser = userRepository.saveAndFlush(savedUser)
 
         // then
-        assertThat(savedUser.joinedProjects).isNotEmpty
-        assertThat(savedUser.joinedProjects[0].id.projectId).isEqualTo(1L)
-        assertThat(savedUser.joinedProjects[1].id.projectId).isEqualTo(2L)
+        assertThat(savedUser.joinProjects).isNotEmpty
+        assertThat(savedUser.joinProjects[0].id.projectId).isEqualTo(1L)
+        assertThat(savedUser.joinProjects[1].id.projectId).isEqualTo(2L)
     }
 
     @Test
@@ -140,19 +140,19 @@ class UserRepositoryTest(
             )
         )
 
-        val userProjects = mutableListOf(
-            UserProject(UserProjectId(user.id, 1L)),
-            UserProject(UserProjectId(user.id, 2L)),
+        val joinProjects = mutableListOf(
+            JoinProject(JoinProjectId(user.id, 1L)),
+            JoinProject(JoinProjectId(user.id, 2L)),
         )
-        user.joinProject(*userProjects.toTypedArray())
+        user.joinProject(*joinProjects.toTypedArray())
         user = userRepository.saveAndFlush(user)
 
         // when
-        user.leaveProject(UserProjectId(user.id, 2L))
+        user.leaveProject(JoinProjectId(user.id, 2L))
         user = userRepository.saveAndFlush(user)
 
         // then
         val ret = userRepository.findById(user.id).get()
-        assertThat(ret.joinedProjects.size).isEqualTo(1)
+        assertThat(ret.joinProjects.size).isEqualTo(1)
     }
 }

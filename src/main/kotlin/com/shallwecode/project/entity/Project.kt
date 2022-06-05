@@ -1,7 +1,6 @@
 package com.shallwecode.project.entity
 
 import com.shallwecode.common.exception.entity.EmptyIdEntityException
-import com.shallwecode.user.entity.UserProject
 import java.time.LocalDateTime
 import javax.persistence.*
 import javax.persistence.GenerationType.IDENTITY
@@ -20,20 +19,22 @@ class Project(
     var description: String,
 
     @Column(name = "create_user_id", nullable = false, updatable = false)
-    val createdUser: Long,
+    val createdUserId: Long,
 
     @OneToMany(
         fetch = FetchType.LAZY,
         cascade = [CascadeType.PERSIST, CascadeType.MERGE],
         mappedBy = "id.projectId"
     )
-    var joinedUsers: MutableList<UserProject> = mutableListOf(),
+    var joinedUsers: MutableList<JoinUser> = mutableListOf(),
 
+    @Column(name = "github_url", nullable = true, updatable = true)
     var githubUrl: String? = null,
-    @Column(name = "create_datetime", updatable = false)
+
+    @Column(name = "create_datetime", nullable = false, updatable = false)
     val createDateTime: LocalDateTime = LocalDateTime.now(),
 
-    @Column(name = "update_datetime", updatable = true)
+    @Column(name = "update_datetime", nullable = false, updatable = true)
     var updateDateTime: LocalDateTime = LocalDateTime.now(),
 ) {
 

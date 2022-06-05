@@ -21,7 +21,7 @@ class ProjectUnitTest {
             status = status,
             title = title,
             description = description,
-            createdUser = createdUser,
+            createdUserId = createdUser,
             githubUrl = githubUrl
         )
 
@@ -29,7 +29,7 @@ class ProjectUnitTest {
         assertThat(project.status).isEqualTo(status)
         assertThat(project.title).isEqualTo(title)
         assertThat(project.description).isEqualTo(description)
-        assertThat(project.createdUser).isEqualTo(createdUser)
+        assertThat(project.createdUserId).isEqualTo(createdUser)
         assertThat(project.joinedUsers).isEmpty()
         assertThat(project.githubUrl).isEqualTo(githubUrl)
         assertThat(project.createDateTime).isNotNull
@@ -50,7 +50,7 @@ class ProjectUnitTest {
             status = status,
             title = title,
             description = description,
-            createdUser = createdUser,
+            createdUserId = createdUser,
             githubUrl = githubUrl
         )
 

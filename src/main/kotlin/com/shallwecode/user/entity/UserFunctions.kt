@@ -1,9 +1,9 @@
 package com.shallwecode.user.entity
 
-fun User.joinProject(vararg project: UserProject) {
-    this.joinedProjects.addAll(project)
+fun User.joinProject(vararg project: JoinProject) {
+    this.joinProjects.addAll(project)
 }
 
-fun User.leaveProject(userProjectId: UserProjectId): Boolean {
-    return this.joinedProjects.removeIf { it.id == userProjectId }
+fun User.leaveProject(joinProjectId: JoinProjectId): Boolean {
+    return this.joinProjects.removeIf { it.id == joinProjectId }
 }

@@ -2,15 +2,15 @@ package com.shallwecode.user.entity
 
 import javax.persistence.*
 
-@Table(name = "user_project")
+@Table(name = "join_project")
 @Entity
-class UserProject(
+class JoinProject(
     @EmbeddedId
-    var id: UserProjectId
+    var id: JoinProjectId
 )
 
 @Embeddable
-class UserProjectId(
+class JoinProjectId(
 
     @Column(name = "user_id")
     var userId: Long,
@@ -23,7 +23,7 @@ class UserProjectId(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as UserProjectId
+        other as JoinProjectId
 
         if (userId != other.userId) return false
         if (projectId != other.projectId) return false
