@@ -46,6 +46,4 @@ class ProjectServiceUnitTest {
         // then
         assertThat(id).isEqualTo(savedProject.id)
     }
-
-    // TODO 예외 케이스 추가하기
 }

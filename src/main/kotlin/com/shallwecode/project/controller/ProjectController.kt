@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController
 class ProjectController(
     val projectService: ProjectService
 ) {
-
     fun createProject() {
 
     }
