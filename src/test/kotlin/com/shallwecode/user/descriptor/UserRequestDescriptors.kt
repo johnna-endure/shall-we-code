@@ -1,4 +1,4 @@
-package com.shallwecode.user.dto
+package com.shallwecode.user.descriptor
 
 import org.springframework.restdocs.payload.FieldDescriptor
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath

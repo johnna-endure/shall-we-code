@@ -1,0 +1,25 @@
+:snippets: ./build/generated-snippets
+
+:toc: left
+:toclevels: 3
+
+
+= 프로젝트
+
+== `프로젝트 생성`
+
+=== Http Request
+
+include::{snippets}/project-create-success/http-request.adoc[]
+
+=== Request Fields
+
+include::{snippets}/project-create-success/request-fields.adoc[]
+
+=== Http Response
+
+include::{snippets}/project-create-success/http-response.adoc[]
+
+=== Response Fields
+
+include::{snippets}/project-create-success/response-fields.adoc[]

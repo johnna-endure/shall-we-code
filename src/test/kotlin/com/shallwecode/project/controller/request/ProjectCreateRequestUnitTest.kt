@@ -1,6 +1,5 @@
-package com.shallwecode.project.controller
+package com.shallwecode.project.controller.request
 
-import com.shallwecode.project.controller.request.ProjectCreateRequest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

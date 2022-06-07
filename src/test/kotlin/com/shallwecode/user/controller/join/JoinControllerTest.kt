@@ -4,11 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import com.shallwecode.common.exception.BadRequestException
 import com.shallwecode.common.http.HttpResponseDescriptors
-import com.shallwecode.testconfig.MockControllerTestConfig
 import com.shallwecode.testconfig.RestDocConfig
 import com.shallwecode.user.controller.join.request.DuplicateCheckRequest
 import com.shallwecode.user.controller.join.request.JoinRequest
-import com.shallwecode.user.dto.UserRequestDescriptors
+import com.shallwecode.user.descriptor.UserRequestDescriptors
 import com.shallwecode.user.service.join.JoinService
 import io.mockk.every
 import org.junit.jupiter.api.BeforeEach
@@ -23,8 +22,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPat
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.context.WebApplicationContext
 
-class JoinControllerTest : RestDocConfig, MockControllerTestConfig {
-
+class JoinControllerTest : RestDocConfig {
     lateinit var mockMvc: MockMvc
 
     @MockkBean
@@ -37,6 +35,7 @@ class JoinControllerTest : RestDocConfig, MockControllerTestConfig {
         mockMvc = this.restDocConfigInit(webApplicationContext, restDocumentation)
     }
 
+    //
     @Test
     fun `회원가입 성공`() {
         //given
