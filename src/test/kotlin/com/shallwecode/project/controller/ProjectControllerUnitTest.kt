@@ -16,8 +16,11 @@ import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post
 import org.springframework.restdocs.payload.PayloadDocumentation.*
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.context.WebApplicationContext
+import java.io.IOException
 
 class ProjectControllerUnitTest : RestDocConfig {
     lateinit var mockMvc: MockMvc
@@ -67,4 +70,41 @@ class ProjectControllerUnitTest : RestDocConfig {
             )
         )
     }
+
+    @Test
+    fun `createProject - 서비스 계층에서 IOException을 던지는 경우`() {
+        // given
+        val title = "title"
+        val description = "desc"
+        val createdUserId = 1L
+        val githubUrl = "url"
+
+        val request = ProjectCreateRequest(
+            title = title,
+            description = description,
+            createdUserId = createdUserId,
+            githubUrl = githubUrl
+        )
+        val errorMessage = "test error"
+        every { projectService.createProject(request) } throws IOException(errorMessage)
+
+        // when, then
+        mockMvc.perform(
+            post("/project")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonMapper.writeValueAsString(request))
+        ).andExpectAll(
+            status().is5xxServerError,
+            jsonPath("$.message").value(errorMessage)
+        ).andDo(
+            document(
+                "project-create-failure",
+                requestFields(ProjectRequestDescriptors.createRequestFields()),
+                responseFields(
+                    HttpResponseDescriptors.httpErrorResponseDescriptors()
+                )
+            )
+        ).andDo(print())
+    }
+
 }

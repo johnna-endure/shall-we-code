@@ -6,7 +6,7 @@
 
 = 프로젝트
 
-== `프로젝트 생성`
+== `프로젝트 생성:성공`
 
 === Http Request
 
@@ -23,3 +23,24 @@ include::{snippets}/project-create-success/http-response.adoc[]
 === Response Fields
 
 include::{snippets}/project-create-success/response-fields.adoc[]
+
+== `프로젝트 생성: 예상치 못한 예외로 실패하는 경우`
+
+500 상태 코드와 관련 메세지를 반환합니다.
+
+=== Http Request
+
+include::{snippets}/project-create-failure/http-request.adoc[]
+
+=== Request Fields
+
+include::{snippets}/project-create-failure/request-fields.adoc[]
+
+=== Http Response
+
+include::{snippets}/project-create-failure/http-response.adoc[]
+
+=== Response Fields
+
+include::{snippets}/project-create-failure/response-fields.adoc[]
+
