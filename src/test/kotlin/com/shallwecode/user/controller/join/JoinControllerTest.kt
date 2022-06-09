@@ -8,7 +8,7 @@ import com.shallwecode.testconfig.RestDocConfig
 import com.shallwecode.user.controller.join.request.DuplicateCheckRequest
 import com.shallwecode.user.controller.join.request.JoinRequest
 import com.shallwecode.user.descriptor.UserRequestDescriptors
-import com.shallwecode.user.service.join.JoinService
+import com.shallwecode.user.service.JoinService
 import io.mockk.every
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

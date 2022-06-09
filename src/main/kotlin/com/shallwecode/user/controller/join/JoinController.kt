@@ -3,7 +3,7 @@ package com.shallwecode.user.controller.join
 import com.shallwecode.common.http.response.HttpResponse
 import com.shallwecode.user.controller.join.request.DuplicateCheckRequest
 import com.shallwecode.user.controller.join.request.JoinRequest
-import com.shallwecode.user.service.join.JoinService
+import com.shallwecode.user.service.JoinService
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

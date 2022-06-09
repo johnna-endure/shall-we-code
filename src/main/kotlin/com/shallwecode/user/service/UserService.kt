@@ -16,11 +16,9 @@ import org.springframework.stereotype.Service
  * 특별한 비지니스 로직없이 User CRUD 를 다루는 로직을 다루는 서비스입니다.
  */
 @Service
-class UserCRUDService(
+class UserService(
     private val userRepository: UserRepository
 ) {
-
-    private val modelMapper = ModelMapper()
 
     /**
      * user 데이터 저장
@@ -52,7 +50,7 @@ class UserCRUDService(
      */
     fun findUser(id: Long): UserModel {
         return userRepository.findById(id)
-            .map { modelMapper.mapper<User, UserModel>(it) }
+            .map { ModelMapper.mapper<User, UserModel>(it) }
             .orElseThrow { NotFoundDataException("해당 아이디의 사용자 정보를 찾을 수 없습니다. id : $id") }
     }
 
@@ -69,6 +67,6 @@ class UserCRUDService(
             userRepository.findByEmail(Email(email))
                 ?: throw NotFoundDataException("해당 이메일의 사용자를 찾을 수 없습니다. email : $email");
 
-        return user.let { modelMapper.mapper(it) }
+        return user.let { ModelMapper.mapper(it) }
     }
 }

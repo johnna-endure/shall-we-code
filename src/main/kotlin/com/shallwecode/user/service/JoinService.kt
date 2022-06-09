@@ -1,11 +1,10 @@
-package com.shallwecode.user.service.join
+package com.shallwecode.user.service
 
 import com.shallwecode.client.authentication.UserAuthenticationClient
 import com.shallwecode.client.authentication.request.UserAuthenticationRequest
 import com.shallwecode.client.exception.ClientException
 import com.shallwecode.common.exception.NotFoundDataException
 import com.shallwecode.user.controller.join.request.JoinRequest
-import com.shallwecode.user.service.UserCRUDService
 import org.springframework.stereotype.Service
 
 /**
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Service
  */
 @Service
 class JoinService(
-    private val userService: UserCRUDService,
+    private val userService: UserService,
     private val userAuthenticationClient: UserAuthenticationClient
 ) {
 

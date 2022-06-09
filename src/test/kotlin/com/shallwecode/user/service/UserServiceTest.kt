@@ -23,11 +23,11 @@ class UserServiceTest {
     @Autowired
     lateinit var userRepository: UserRepository
 
-    lateinit var userService: UserCRUDService
+    lateinit var userService: UserService
 
     @BeforeEach
     fun beforeEach() {
-        userService = UserCRUDService(
+        userService = UserService(
             userRepository = this.userRepository
         )
     }

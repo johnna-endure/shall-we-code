@@ -8,7 +8,6 @@ import com.shallwecode.user.controller.join.request.JoinRequest
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.PhoneNumber
 import com.shallwecode.user.entity.model.UserModel
-import com.shallwecode.user.service.join.JoinService
 import io.mockk.every
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -27,7 +26,7 @@ class JoinServiceTest {
     lateinit var userAuthenticationClient: UserAuthenticationClient
 
     @MockkBean
-    lateinit var userService: UserCRUDService
+    lateinit var userService: UserService
 
     @BeforeEach
     fun beforeEach() {
