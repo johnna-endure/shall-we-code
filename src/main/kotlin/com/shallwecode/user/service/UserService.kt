@@ -12,6 +12,7 @@ import com.shallwecode.user.entity.model.UserModel
 import com.shallwecode.user.repository.UserRepository
 import org.springframework.stereotype.Service
 
+/// TODO 커맨드와 쿼리 분리할 것
 /**
  * 특별한 비지니스 로직없이 User CRUD 를 다루는 로직을 다루는 서비스입니다.
  */

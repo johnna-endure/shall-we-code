@@ -3,7 +3,7 @@ package com.shallwecode.user.controller.join
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import com.shallwecode.common.exception.BadRequestException
-import com.shallwecode.common.http.HttpResponseDescriptors
+import com.shallwecode.descriptor.HttpResponseDescriptors
 import com.shallwecode.testconfig.RestDocConfig
 import com.shallwecode.user.controller.join.request.DuplicateCheckRequest
 import com.shallwecode.user.controller.join.request.JoinRequest
@@ -60,9 +60,9 @@ class JoinControllerTest : RestDocConfig {
             .andDo(
                 document(
                     "join-success",
-                    requestFields(UserRequestDescriptors.userCreateRequestFields()),
+                    requestFields(*UserRequestDescriptors.userCreateRequestFields()),
                     responseFields(
-                        HttpResponseDescriptors.httpResponseDescriptors()
+                        *HttpResponseDescriptors.httpResponseDescriptors()
                             .plus(fieldWithPath("body.id").description("가입된 사용자 아이디"))
                     )
                 )
@@ -93,9 +93,9 @@ class JoinControllerTest : RestDocConfig {
             .andDo(
                 document(
                     "join-failure-shortPassword",
-                    requestFields(UserRequestDescriptors.userCreateRequestFields()),
+                    requestFields(*UserRequestDescriptors.userCreateRequestFields()),
                     responseFields(
-                        HttpResponseDescriptors.httpErrorResponseDescriptors()
+                        *HttpResponseDescriptors.httpErrorResponseDescriptors()
                     )
                 )
             )
@@ -125,9 +125,9 @@ class JoinControllerTest : RestDocConfig {
             .andDo(
                 document(
                     "join-failure-invalidEmail",
-                    requestFields(UserRequestDescriptors.userCreateRequestFields()),
+                    requestFields(*UserRequestDescriptors.userCreateRequestFields()),
                     responseFields(
-                        HttpResponseDescriptors.httpErrorResponseDescriptors()
+                        *HttpResponseDescriptors.httpErrorResponseDescriptors()
                     )
                 )
             )
@@ -157,9 +157,9 @@ class JoinControllerTest : RestDocConfig {
             .andDo(
                 document(
                     "join-failure-invalidPhoneNumber",
-                    requestFields(UserRequestDescriptors.userCreateRequestFields()),
+                    requestFields(*UserRequestDescriptors.userCreateRequestFields()),
                     responseFields(
-                        HttpResponseDescriptors.httpErrorResponseDescriptors()
+                        *HttpResponseDescriptors.httpErrorResponseDescriptors()
                     )
                 )
             )
@@ -188,7 +188,7 @@ class JoinControllerTest : RestDocConfig {
                         fieldWithPath("email").description("사용자가 입력한 이메일")
                     ),
                     responseFields(
-                        HttpResponseDescriptors.httpResponseDescriptors(
+                        *HttpResponseDescriptors.httpResponseDescriptors(
                             fieldWithPath("body.duplicated").description("이메일 중복 여부")
                         )
                     )
@@ -219,7 +219,7 @@ class JoinControllerTest : RestDocConfig {
                         fieldWithPath("email").description("사용자가 입력한 이메일")
                     ),
                     responseFields(
-                        HttpResponseDescriptors.httpResponseDescriptors(
+                        *HttpResponseDescriptors.httpResponseDescriptors(
                             fieldWithPath("body.duplicated").description("이메일 중복 여부")
                         )
                     )
@@ -251,7 +251,7 @@ class JoinControllerTest : RestDocConfig {
                         fieldWithPath("email").description("사용자가 입력한 이메일")
                     ),
                     responseFields(
-                        HttpResponseDescriptors.httpErrorResponseDescriptors()
+                        *HttpResponseDescriptors.httpErrorResponseDescriptors()
                     )
                 )
             )

@@ -2,7 +2,7 @@ package com.shallwecode.project.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
-import com.shallwecode.common.http.HttpResponseDescriptors
+import com.shallwecode.descriptor.HttpResponseDescriptors
 import com.shallwecode.project.controller.request.ProjectCreateRequest
 import com.shallwecode.project.descriptor.ProjectRequestDescriptors
 import com.shallwecode.project.service.ProjectService
@@ -61,9 +61,9 @@ class ProjectControllerUnitTest : RestDocConfig {
         ).andDo(
             document(
                 "project-create-success",
-                requestFields(ProjectRequestDescriptors.createRequestFields()),
+                requestFields(*ProjectRequestDescriptors.createRequestFields()),
                 responseFields(
-                    HttpResponseDescriptors.httpResponseDescriptors(
+                    *HttpResponseDescriptors.httpResponseDescriptors(
                         fieldWithPath("body.id").description("생성된 프로젝트 아이디")
                     )
                 )
@@ -99,9 +99,9 @@ class ProjectControllerUnitTest : RestDocConfig {
         ).andDo(
             document(
                 "project-create-failure",
-                requestFields(ProjectRequestDescriptors.createRequestFields()),
+                requestFields(*ProjectRequestDescriptors.createRequestFields()),
                 responseFields(
-                    HttpResponseDescriptors.httpErrorResponseDescriptors()
+                    *HttpResponseDescriptors.httpErrorResponseDescriptors()
                 )
             )
         ).andDo(print())

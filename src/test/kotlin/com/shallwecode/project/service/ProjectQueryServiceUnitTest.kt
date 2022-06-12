@@ -1,5 +1,7 @@
 package com.shallwecode.project.service
 
+import com.shallwecode.project.controller.request.ProjectPagingParameters
+import com.shallwecode.project.controller.request.ProjectSortField
 import com.shallwecode.project.entity.Project
 import com.shallwecode.project.entity.ProjectStatus
 import com.shallwecode.project.repository.ProjectRepository
@@ -12,7 +14,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Sort
 import java.util.stream.Collectors
 import java.util.stream.IntStream
 
@@ -37,8 +38,12 @@ class ProjectQueryServiceUnitTest {
     @Test
     fun `getProjectList - 조회에 성공하는 경우`() {
         // given
-        val page = 0
-        val size = 5
+        val pageParameters = ProjectPagingParameters(
+            page = 0,
+            size = 5,
+            sortField = ProjectSortField.ID,
+            isAscending = false
+        )
         // 테스트 데이터 초기화
         val projects = IntStream.range(0, 5)
             .mapToObj { n ->
@@ -52,13 +57,12 @@ class ProjectQueryServiceUnitTest {
                 project
             }.collect(Collectors.toList())
 
-        val pageRequest = PageRequest.of(page, size, Sort.by("_id").descending())
-        val pageResult: Page<Project> = PageImpl(projects, pageRequest, 20)
+        val pageResult: Page<Project> = PageImpl(projects, pageParameters.toPageable(), 20)
         every { projectRepository.findAll(any<PageRequest>()) }
             .returns(pageResult)
 
         // when
-        val result = projectQueryService.getProjectList(page, size)
+        val result = projectQueryService.getProjectList(pageParameters)
 
         // then
         assertThat(result.isFirst).isTrue
