@@ -12,7 +12,7 @@ class Project(
     @Column(name = "status", nullable = false, updatable = true)
     var status: ProjectStatus,
 
-    @Column(name = "title", nullable = false, updatable = true)
+    @Column(name = "title", length = 100, nullable = false, updatable = true)
     var title: String,
 
     @Column(name = "description", nullable = true, updatable = true)
@@ -27,6 +27,13 @@ class Project(
         mappedBy = "id.projectId"
     )
     var joinedUsers: MutableList<JoinedUser> = mutableListOf(),
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(
+        name = "tech_stack",
+        joinColumns = [JoinColumn(name = "project_id")]
+    )
+    var techStacks: MutableList<TechStack> = mutableListOf(),
 
     @Column(name = "github_url", nullable = true, updatable = true)
     var githubUrl: String? = null,

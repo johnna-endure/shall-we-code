@@ -9,5 +9,3 @@ fun Project.addUser(user: JoinedUser) {
         this.joinedUsers.add(user)
     }
 }
-
-

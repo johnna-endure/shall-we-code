@@ -1,7 +1,6 @@
 package com.shallwecode.project.repository
 
-import com.shallwecode.project.entity.Project
-import com.shallwecode.project.entity.ProjectStatus
+import com.shallwecode.project.entity.*
 import com.shallwecode.util.isDescending
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -11,6 +10,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import java.util.stream.Collectors
 import java.util.stream.IntStream
+import java.util.stream.LongStream
 
 
 @DataJpaTest
@@ -32,6 +32,7 @@ class ProjectRepositoryUnitTest(
             title = "title",
             description = "description",
             createdUserId = 1L,
+            techStacks = mutableListOf(TechStack("spring"), TechStack("mysql")),
             githubUrl = "githubUrl"
         )
 
@@ -47,6 +48,7 @@ class ProjectRepositoryUnitTest(
         assertThat(saved.createdUserId).isEqualTo(expected.createdUserId)
         assertThat(saved.githubUrl).isEqualTo(expected.githubUrl)
         assertThat(saved.joinedUsers).hasSameElementsAs(expected.joinedUsers)
+        assertThat(saved.techStacks).hasSameElementsAs(expected.techStacks)
         assertThat(saved.createDateTime).isEqualTo(expected.createDateTime.toString())
         assertThat(saved.updateDateTime).isEqualTo(expected.updateDateTime.toString())
     }
@@ -112,5 +114,52 @@ class ProjectRepositoryUnitTest(
         assertThat(isDescending(lastPageIdList)).isTrue
     }
 
+    // TODO 테스트 작성
+    @Test
+    fun `findProjectJoinFetchJoinedUsers - joinedUsers 필드 페치 조인 조회 성공`() {
+        // given
+        var project = Project(
+            status = ProjectStatus.RECRUITING,
+            title = "title",
+            description = "description",
+            createdUserId = 1L,
+            githubUrl = "githubUrl"
+        )
+        project = projectRepository.save(project)
+
+        LongStream.rangeClosed(1, 2)
+            .forEach { n ->
+                project.addUser(
+                    JoinedUser(
+                        id = JoinedUserId(n, project.id),
+                        status = JoinedUserStatus.JOINED
+                    )
+                )
+            }
+        project = projectRepository.save(project)
+
+        // when, then
+        projectRepository.findProjectJoinFetchJoinedUsers(project.id)
+            .also {
+                requireNotNull(it)
+
+                assertThat(it.joinedUsers.size).isEqualTo(2)
+                
+                assertThat(it.joinedUsers[0].id.userId).isEqualTo(1)
+                assertThat(it.joinedUsers[0].id.projectId).isEqualTo(project.id)
+                assertThat(it.joinedUsers[0].status).isEqualTo(JoinedUserStatus.JOINED)
+
+                assertThat(it.joinedUsers[1].id.userId).isEqualTo(2)
+                assertThat(it.joinedUsers[1].id.projectId).isEqualTo(project.id)
+                assertThat(it.joinedUsers[1].status).isEqualTo(JoinedUserStatus.JOINED)
+
+            }
+    }
+
+    // TODO 테스트 작성
+    @Test
+    fun `findProjectJoinFetchTechStacks - joinedUsers 필드 페치 조인 조회 성공`() {
+
+    }
 
 }
