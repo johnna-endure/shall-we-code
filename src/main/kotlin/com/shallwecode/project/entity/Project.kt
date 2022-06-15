@@ -1,6 +1,5 @@
 package com.shallwecode.project.entity
 
-import com.shallwecode.common.exception.entity.EmptyIdEntityException
 import java.time.LocalDateTime
 import javax.persistence.*
 import javax.persistence.GenerationType.IDENTITY
@@ -48,10 +47,10 @@ class Project(
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "project_id")
-    var _id: Long? = null
+    protected var projectId: Long? = null
 
-    val id: Long
-        get() = this._id
-            ?: throw EmptyIdEntityException()
-
+    val id: ProjectId
+        get() = ProjectId(this.projectId ?: -1)
 }
+
+data class ProjectId(var value: Long)

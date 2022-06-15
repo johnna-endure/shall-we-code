@@ -20,7 +20,7 @@ data class ProjectListItemModel(
 
 fun ProjectListItemModel.Companion.from(project: Project): ProjectListItemModel {
     return ProjectListItemModel(
-        id = project.id,
+        id = project.id.value,
         status = project.status,
         title = project.title,
         description = project.description,

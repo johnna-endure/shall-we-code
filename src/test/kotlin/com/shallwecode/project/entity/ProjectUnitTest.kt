@@ -1,8 +1,6 @@
 package com.shallwecode.project.entity
 
-import com.shallwecode.common.exception.entity.EmptyIdEntityException
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 
 class ProjectUnitTest {
@@ -37,7 +35,7 @@ class ProjectUnitTest {
     }
 
     @Test
-    fun `id가 초기화되지 않았을 때, id에 접근할 때 예외 발생 테스트`() {
+    fun `id가 초기화되지 않았을 때, id 값 테스트`() {
         // given
         val status = ProjectStatus.RECRUITING
         val title = "title"
@@ -55,9 +53,7 @@ class ProjectUnitTest {
         )
 
         // when, then
-        assertThatThrownBy { project.id }
-            .isExactlyInstanceOf(EmptyIdEntityException::class.java)
-
+        assertThat(project.id.value).isEqualTo(-1)
     }
 
     @Test
@@ -68,7 +64,7 @@ class ProjectUnitTest {
         val description = "프로젝트 설명"
         val createdUser = 1L
         val githubUrl = "githubUrl"
-        val projectId = 1L
+        val projectId = 10L
 
         val joinedUser = JoinedUser(
             id = JoinedUserId(2L),
@@ -83,7 +79,7 @@ class ProjectUnitTest {
             githubUrl = githubUrl,
             joinedUsers = mutableListOf(),
         )
-        project._id = projectId
+        project.id.value = projectId
 
         // when
         project.addUser(joinedUser)
@@ -102,7 +98,7 @@ class ProjectUnitTest {
         val description = "프로젝트 설명"
         val createdUser = 1L
         val githubUrl = "githubUrl"
-        val projectId = 1L
+        val projectId = 10L
 
         val joinedUser = JoinedUser(
             id = JoinedUserId(2L),
@@ -117,7 +113,7 @@ class ProjectUnitTest {
             githubUrl = githubUrl,
             joinedUsers = mutableListOf(joinedUser),
         )
-        project._id = projectId
+        project.id.value = projectId
 
         // when
         project.addUser(joinedUser)

@@ -11,6 +11,6 @@ class ProjectService(
     val projectRepository: ProjectRepository
 ) {
     fun createProject(request: ProjectCreateRequest): Long {
-        return projectRepository.save(request.toEntity()).id
+        return projectRepository.save(request.toEntity()).id.value
     }
 }

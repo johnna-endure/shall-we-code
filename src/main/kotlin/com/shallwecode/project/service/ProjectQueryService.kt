@@ -13,9 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 class ProjectQueryService(
     val projectRepository: ProjectRepository
 ) {
-    /**
-     * 최신순으로 프로젝트 리스트를 조회합니디.
-     */
+
     fun getProjectList(
         pageParameters: ProjectPagingParameters
     ): Page<ProjectListItemModel> {
@@ -23,4 +21,6 @@ class ProjectQueryService(
             .map { ProjectListItemModel.from(it) }
     }
 
+    fun getProject(projectId: Long) {
+    }
 }

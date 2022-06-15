@@ -28,6 +28,5 @@ class ProjectCreateRequestUnitTest {
         assertThat(expected.githubUrl).isEqualTo(githubUrl)
         assertThat(expected.createDateTime).isNotNull
         assertThat(expected.updateDateTime).isNotNull
-        assertThat(expected._id).isNull()
     }
 }
