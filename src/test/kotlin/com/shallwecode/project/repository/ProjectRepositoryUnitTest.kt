@@ -119,7 +119,7 @@ class ProjectRepositoryUnitTest(
     }
 
 
-    // TODO
+    // TODO findById로 조회후 모델에 매핑할 때, 밸류 객체들이 초기화되는지 확인 필요
     @Test
     fun `findById - `() {
 

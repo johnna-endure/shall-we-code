@@ -109,7 +109,7 @@ class ProjectQueryServiceUnitTest {
         assertThat(result.isEmpty).isTrue
     }
 
-    // TODO
+    // TODO 어떻게 조회할건지 더 생각 필요
     @Test
     fun `getProject - 참여 유저, 기술 스택 정보가 모두 있는 경우 조회`() {
         // given

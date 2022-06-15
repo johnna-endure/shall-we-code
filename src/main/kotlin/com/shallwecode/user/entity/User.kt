@@ -20,7 +20,7 @@ class User(
     var githubUrl: String? = null,
     var blogUrl: String? = null,
     var deleted: Boolean = false,
-    
+
     @ElementCollection(fetch = LAZY)
     @CollectionTable(
         name = "joined_project",
@@ -35,7 +35,7 @@ class User(
     @Column(name = "update_datetime", updatable = true)
     var updateDateTime: LocalDateTime = LocalDateTime.now(),
 ) {
-
+    // TODO 기본키 Project 엔티티처럼 변경 필요
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
