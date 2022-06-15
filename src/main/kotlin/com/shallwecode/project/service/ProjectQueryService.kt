@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-@Transactional
+@Transactional(readOnly = true)
 @Service
 class ProjectQueryService(
     val projectRepository: ProjectRepository
@@ -16,7 +16,6 @@ class ProjectQueryService(
     /**
      * 최신순으로 프로젝트 리스트를 조회합니디.
      */
-    @Transactional(readOnly = true)
     fun getProjectList(
         pageParameters: ProjectPagingParameters
 //        page: Int,

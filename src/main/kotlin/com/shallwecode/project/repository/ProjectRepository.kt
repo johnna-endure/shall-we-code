@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Query
 
-//interface ProjectRepository : JpaRepository<Project, Long> {
 interface ProjectRepository : JpaRepository<Project, Long>, JpaSpecificationExecutor<Project> {
 
     @Query(
@@ -15,11 +14,11 @@ interface ProjectRepository : JpaRepository<Project, Long>, JpaSpecificationExec
     )
     fun findProjectJoinFetchJoinedUsers(id: Long): Project?
 
-
-//    @Query(
-//        "select p from Project p " +
-//                "join fetch p.techStacks " +
-//                "where p._id = :id"
-//    )
-//    fun findProjectJoinFetchTechStacks(id: Long): Project?
+    // TODO 테스트 필요
+    @Query(
+        "select p from Project p " +
+                "join fetch p.techStacks " +
+                "where p._id = :id"
+    )
+    fun findProjectJoinFetchTechStacks(id: Long): Project?
 }

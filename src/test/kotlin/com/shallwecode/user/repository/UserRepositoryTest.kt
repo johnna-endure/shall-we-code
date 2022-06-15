@@ -9,14 +9,11 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 
 @DataJpaTest
 class UserRepositoryTest(
     @Autowired
     val userRepository: UserRepository,
-    @Autowired
-    val entityManager: TestEntityManager
 ) {
 
     @Test
@@ -112,8 +109,8 @@ class UserRepositoryTest(
 
         // when
         val joinedProjects = mutableListOf(
-            JoinedProject(JoinedProjectId(savedUser.id, 1L), PROGRESS),
-            JoinedProject(JoinedProjectId(savedUser.id, 2L), PROGRESS),
+            JoinedProject(JoinedProjectId(1L), PROGRESS),
+            JoinedProject(JoinedProjectId(2L), PROGRESS),
         )
         savedUser.joinProject(*joinedProjects.toTypedArray())
         savedUser = userRepository.saveAndFlush(savedUser)
@@ -144,14 +141,14 @@ class UserRepositoryTest(
         )
 
         val joinedProjects = mutableListOf(
-            JoinedProject(JoinedProjectId(user.id, 1L), PROGRESS),
-            JoinedProject(JoinedProjectId(user.id, 2L), PROGRESS),
+            JoinedProject(JoinedProjectId(1L), PROGRESS),
+            JoinedProject(JoinedProjectId(2L), PROGRESS),
         )
         user.joinProject(*joinedProjects.toTypedArray())
         user = userRepository.saveAndFlush(user)
 
         // when
-        user.leaveProject(JoinedProjectId(user.id, 2L))
+        user.leaveProject(JoinedProjectId(2L))
         user = userRepository.saveAndFlush(user)
 
         // then

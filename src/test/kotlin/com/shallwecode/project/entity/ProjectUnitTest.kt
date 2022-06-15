@@ -71,7 +71,7 @@ class ProjectUnitTest {
         val projectId = 1L
 
         val joinedUser = JoinedUser(
-            id = JoinedUserId(2L, projectId),
+            id = JoinedUserId(2L),
             status = JoinedUserStatus.JOINED
         )
 
@@ -91,7 +91,6 @@ class ProjectUnitTest {
         // then
         assertThat(project.joinedUsers.size).isEqualTo(1)
         assertThat(project.joinedUsers[0].id.userId).isEqualTo(2L)
-        assertThat(project.joinedUsers[0].id.projectId).isEqualTo(projectId)
         assertThat(project.joinedUsers[0].status).isEqualTo(JoinedUserStatus.JOINED)
     }
 
@@ -106,7 +105,7 @@ class ProjectUnitTest {
         val projectId = 1L
 
         val joinedUser = JoinedUser(
-            id = JoinedUserId(2L, projectId),
+            id = JoinedUserId(2L),
             status = JoinedUserStatus.JOINED
         )
 
@@ -126,8 +125,7 @@ class ProjectUnitTest {
         // then
         assertThat(project.joinedUsers.size).isEqualTo(1)
         assertThat(project.joinedUsers[0].id.userId).isEqualTo(2L)
-        assertThat(project.joinedUsers[0].id.projectId).isEqualTo(projectId)
         assertThat(project.joinedUsers[0].status).isEqualTo(JoinedUserStatus.JOINED)
     }
-    
+
 }

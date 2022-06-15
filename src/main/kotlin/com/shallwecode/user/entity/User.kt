@@ -6,8 +6,6 @@ import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
 import java.time.LocalDateTime
 import javax.persistence.*
-import javax.persistence.CascadeType.MERGE
-import javax.persistence.CascadeType.PERSIST
 import javax.persistence.FetchType.LAZY
 
 @Table(name = "user")
@@ -22,14 +20,14 @@ class User(
     var githubUrl: String? = null,
     var blogUrl: String? = null,
     var deleted: Boolean = false,
-
-    @OneToMany(
-        fetch = LAZY,
-        cascade = [PERSIST, MERGE],
-        mappedBy = "id.userId",
-        orphanRemoval = true
+    
+    @ElementCollection(fetch = LAZY)
+    @CollectionTable(
+        name = "joined_project",
+        joinColumns = [JoinColumn(name = "user_id")]
     )
     var joinedProjects: MutableList<JoinedProject> = mutableListOf(),
+
 
     @Column(name = "create_datetime", updatable = false)
     val createDateTime: LocalDateTime = LocalDateTime.now(),

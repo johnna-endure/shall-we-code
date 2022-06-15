@@ -1,20 +1,18 @@
 package com.shallwecode.user.entity
 
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Embeddable
+import javax.persistence.Embedded
 
-@Table(name = "joined_project")
-@Entity
+@Embeddable
 class JoinedProject(
-    @EmbeddedId
+    @Embedded
     var id: JoinedProjectId,
     var status: JoinedProjectStatus
 )
 
 @Embeddable
 data class JoinedProjectId(
-
-    @Column(name = "user_id")
-    var userId: Long,
 
     @Column(name = "project_id")
     var projectId: Long

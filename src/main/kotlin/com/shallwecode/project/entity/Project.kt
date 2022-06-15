@@ -21,10 +21,10 @@ class Project(
     @Column(name = "create_user_id", nullable = false, updatable = false)
     val createdUserId: Long,
 
-    @OneToMany(
-        fetch = FetchType.LAZY,
-        cascade = [CascadeType.PERSIST, CascadeType.MERGE],
-        mappedBy = "id.projectId"
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(
+        name = "joined_user",
+        joinColumns = [JoinColumn(name = "project_id")]
     )
     var joinedUsers: MutableList<JoinedUser> = mutableListOf(),
 

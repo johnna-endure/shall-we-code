@@ -114,7 +114,6 @@ class ProjectRepositoryUnitTest(
         assertThat(isDescending(lastPageIdList)).isTrue
     }
 
-    // TODO 테스트 작성
     @Test
     fun `findProjectJoinFetchJoinedUsers - joinedUsers 필드 페치 조인 조회 성공`() {
         // given
@@ -131,7 +130,7 @@ class ProjectRepositoryUnitTest(
             .forEach { n ->
                 project.addUser(
                     JoinedUser(
-                        id = JoinedUserId(n, project.id),
+                        id = JoinedUserId(n),
                         status = JoinedUserStatus.JOINED
                     )
                 )
@@ -144,13 +143,11 @@ class ProjectRepositoryUnitTest(
                 requireNotNull(it)
 
                 assertThat(it.joinedUsers.size).isEqualTo(2)
-                
+
                 assertThat(it.joinedUsers[0].id.userId).isEqualTo(1)
-                assertThat(it.joinedUsers[0].id.projectId).isEqualTo(project.id)
                 assertThat(it.joinedUsers[0].status).isEqualTo(JoinedUserStatus.JOINED)
 
                 assertThat(it.joinedUsers[1].id.userId).isEqualTo(2)
-                assertThat(it.joinedUsers[1].id.projectId).isEqualTo(project.id)
                 assertThat(it.joinedUsers[1].status).isEqualTo(JoinedUserStatus.JOINED)
 
             }

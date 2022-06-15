@@ -1,11 +1,11 @@
 package com.shallwecode.project.entity
 
+import java.io.Serializable
 import javax.persistence.*
 
-@Table(name = "joined_user")
-@Entity
+@Embeddable
 class JoinedUser(
-    @EmbeddedId
+    @Embedded
     var id: JoinedUserId,
 
     @Enumerated(EnumType.STRING)
@@ -17,9 +17,7 @@ data class JoinedUserId(
     @Column(name = "user_id")
     var userId: Long,
 
-    @Column(name = "project_id")
-    var projectId: Long
-) : java.io.Serializable
+    ) : Serializable
 
 enum class JoinedUserStatus {
     JOINED,
