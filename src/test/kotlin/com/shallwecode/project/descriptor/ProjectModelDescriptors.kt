@@ -5,8 +5,8 @@ import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 
 class ProjectModelDescriptors {
     companion object {
-        fun projectListItemModelFieldDescriptors(prefix: String = "body.content[]"): Array<FieldDescriptor> {
-            return arrayOf(
+        fun projectListItemModelFieldDescriptors(prefix: String = "body.content[]"): List<FieldDescriptor> {
+            return listOf(
                 fieldWithPath("${prefix}.id").description("프로젝트 ID"),
                 fieldWithPath("${prefix}.status").description("프로젝트 상태"),
                 fieldWithPath("${prefix}.title").description("프로젝트 제목"),

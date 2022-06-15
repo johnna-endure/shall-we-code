@@ -9,15 +9,14 @@ interface ProjectRepository : JpaRepository<Project, Long>, JpaSpecificationExec
 
     @Query(
         "select p from Project p " +
-                "join fetch p.joinedUsers " +
+                "left join fetch p.joinedUsers " +
                 "where p._id = :id"
     )
     fun findProjectJoinFetchJoinedUsers(id: Long): Project?
 
-    // TODO 테스트 필요
     @Query(
         "select p from Project p " +
-                "join fetch p.techStacks " +
+                "left join fetch p.techStacks " +
                 "where p._id = :id"
     )
     fun findProjectJoinFetchTechStacks(id: Long): Project?

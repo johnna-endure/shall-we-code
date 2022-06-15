@@ -60,10 +60,10 @@ class JoinControllerTest : RestDocConfig {
             .andDo(
                 document(
                     "join-success",
-                    requestFields(*UserRequestDescriptors.userCreateRequestFields()),
+                    requestFields(*UserRequestDescriptors.userCreateRequestFields().toTypedArray()),
                     responseFields(
                         *HttpResponseDescriptors.httpResponseDescriptors()
-                            .plus(fieldWithPath("body.id").description("가입된 사용자 아이디"))
+                            .plus(fieldWithPath("body.id").description("가입된 사용자 아이디")).toTypedArray()
                     )
                 )
             )
@@ -93,9 +93,9 @@ class JoinControllerTest : RestDocConfig {
             .andDo(
                 document(
                     "join-failure-shortPassword",
-                    requestFields(*UserRequestDescriptors.userCreateRequestFields()),
+                    requestFields(*UserRequestDescriptors.userCreateRequestFields().toTypedArray()),
                     responseFields(
-                        *HttpResponseDescriptors.httpErrorResponseDescriptors()
+                        *HttpResponseDescriptors.httpErrorResponseDescriptors().toTypedArray()
                     )
                 )
             )
@@ -125,9 +125,9 @@ class JoinControllerTest : RestDocConfig {
             .andDo(
                 document(
                     "join-failure-invalidEmail",
-                    requestFields(*UserRequestDescriptors.userCreateRequestFields()),
+                    requestFields(*UserRequestDescriptors.userCreateRequestFields().toTypedArray()),
                     responseFields(
-                        *HttpResponseDescriptors.httpErrorResponseDescriptors()
+                        *HttpResponseDescriptors.httpErrorResponseDescriptors().toTypedArray()
                     )
                 )
             )
@@ -157,9 +157,9 @@ class JoinControllerTest : RestDocConfig {
             .andDo(
                 document(
                     "join-failure-invalidPhoneNumber",
-                    requestFields(*UserRequestDescriptors.userCreateRequestFields()),
+                    requestFields(*UserRequestDescriptors.userCreateRequestFields().toTypedArray()),
                     responseFields(
-                        *HttpResponseDescriptors.httpErrorResponseDescriptors()
+                        *HttpResponseDescriptors.httpErrorResponseDescriptors().toTypedArray()
                     )
                 )
             )
@@ -190,7 +190,7 @@ class JoinControllerTest : RestDocConfig {
                     responseFields(
                         *HttpResponseDescriptors.httpResponseDescriptors(
                             fieldWithPath("body.duplicated").description("이메일 중복 여부")
-                        )
+                        ).toTypedArray()
                     )
                 )
             )
@@ -221,7 +221,7 @@ class JoinControllerTest : RestDocConfig {
                     responseFields(
                         *HttpResponseDescriptors.httpResponseDescriptors(
                             fieldWithPath("body.duplicated").description("이메일 중복 여부")
-                        )
+                        ).toTypedArray()
                     )
                 )
             )
@@ -251,7 +251,7 @@ class JoinControllerTest : RestDocConfig {
                         fieldWithPath("email").description("사용자가 입력한 이메일")
                     ),
                     responseFields(
-                        *HttpResponseDescriptors.httpErrorResponseDescriptors()
+                        *HttpResponseDescriptors.httpErrorResponseDescriptors().toTypedArray()
                     )
                 )
             )

@@ -6,9 +6,9 @@ import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 class UserResponseDescriptors {
 
     companion object {
-        fun userModelFields(path: String = ""): Array<FieldDescriptor> {
+        fun userModelFields(path: String = ""): List<FieldDescriptor> {
             val prefix = if (path == "") "" else "${path}."
-            return arrayOf(
+            return listOf(
                 fieldWithPath("${prefix}id").description("아이디"),
                 fieldWithPath("${prefix}email.email").description("이메일"),
                 fieldWithPath("${prefix}name").description("이름"),

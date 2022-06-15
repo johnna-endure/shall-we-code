@@ -10,7 +10,6 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import java.util.stream.Collectors
 import java.util.stream.IntStream
-import java.util.stream.LongStream
 
 
 @DataJpaTest
@@ -115,7 +114,44 @@ class ProjectRepositoryUnitTest(
     }
 
     @Test
-    fun `findProjectJoinFetchJoinedUsers - joinedUsers 필드 페치 조인 조회 성공`() {
+    fun `findProjectJoinFetchJoinedUsers - 참여한 사람이 여러명인 경우`() {
+        // given
+        var givenProject = Project(
+            status = ProjectStatus.RECRUITING,
+            title = "title",
+            description = "description",
+            createdUserId = 1L,
+            joinedUsers = mutableListOf(
+                JoinedUser(
+                    id = JoinedUserId(10L),
+                    status = JoinedUserStatus.JOINED
+                ),
+                JoinedUser(
+                    id = JoinedUserId(22L),
+                    status = JoinedUserStatus.JOINED
+                )
+            ),
+            githubUrl = "githubUrl"
+        )
+        givenProject = projectRepository.save(givenProject)
+
+        // when, then
+        projectRepository.findProjectJoinFetchJoinedUsers(givenProject.id)
+            .also {
+                requireNotNull(it)
+
+                assertThat(it.joinedUsers.size).isEqualTo(2)
+
+                assertThat(it.joinedUsers[0].id.userId).isEqualTo(givenProject.joinedUsers[0].id.userId)
+                assertThat(it.joinedUsers[0].status).isEqualTo(givenProject.joinedUsers[0].status)
+
+                assertThat(it.joinedUsers[1].id.userId).isEqualTo(givenProject.joinedUsers[1].id.userId)
+                assertThat(it.joinedUsers[1].status).isEqualTo(givenProject.joinedUsers[1].status)
+            }
+    }
+
+    @Test
+    fun `findProjectJoinFetchJoinedUsers - 참여한 사람이 없는 경우`() {
         // given
         var project = Project(
             status = ProjectStatus.RECRUITING,
@@ -126,37 +162,82 @@ class ProjectRepositoryUnitTest(
         )
         project = projectRepository.save(project)
 
-        LongStream.rangeClosed(1, 2)
-            .forEach { n ->
-                project.addUser(
-                    JoinedUser(
-                        id = JoinedUserId(n),
-                        status = JoinedUserStatus.JOINED
-                    )
-                )
-            }
-        project = projectRepository.save(project)
-
         // when, then
         projectRepository.findProjectJoinFetchJoinedUsers(project.id)
             .also {
                 requireNotNull(it)
-
-                assertThat(it.joinedUsers.size).isEqualTo(2)
-
-                assertThat(it.joinedUsers[0].id.userId).isEqualTo(1)
-                assertThat(it.joinedUsers[0].status).isEqualTo(JoinedUserStatus.JOINED)
-
-                assertThat(it.joinedUsers[1].id.userId).isEqualTo(2)
-                assertThat(it.joinedUsers[1].status).isEqualTo(JoinedUserStatus.JOINED)
-
+                assertThat(it.joinedUsers.size).isEqualTo(0)
             }
     }
 
-    // TODO 테스트 작성
     @Test
-    fun `findProjectJoinFetchTechStacks - joinedUsers 필드 페치 조인 조회 성공`() {
+    fun `findProjectJoinFetchJoinedUsers - 프로젝트가 존재하지 않는 경우`() {
+        // given
+        val dummyId = 10L
+        // when, then
+        projectRepository.findProjectJoinFetchJoinedUsers(dummyId)
+            .also {
+                assertThat(it).isNull()
+            }
+    }
 
+    @Test
+    fun `findProjectJoinFetchTechStacks - 기술 스택이 여러개 등록된 경우`() {
+        // given
+        var givenProject = Project(
+            status = ProjectStatus.RECRUITING,
+            title = "title",
+            description = "description",
+            createdUserId = 1L,
+            techStacks = mutableListOf(
+                TechStack("spring boot"),
+                TechStack("kotlin")
+            ),
+            githubUrl = "githubUrl"
+        )
+        givenProject = projectRepository.save(givenProject)
+
+        // when, then
+        projectRepository.findProjectJoinFetchTechStacks(givenProject.id)
+            .also {
+                requireNotNull(it)
+
+                assertThat(it.techStacks.size).isEqualTo(givenProject.techStacks.size)
+
+                assertThat(it.techStacks[0].name).isEqualTo(givenProject.techStacks[0].name)
+                assertThat(it.techStacks[1].name).isEqualTo(givenProject.techStacks[1].name)
+            }
+    }
+
+    @Test
+    fun `findProjectJoinFetchTechStacks - 기술 스택이 등록되지 않은 경우`() {
+        // given
+        var givenProject = Project(
+            status = ProjectStatus.RECRUITING,
+            title = "title",
+            description = "description",
+            createdUserId = 1L,
+            githubUrl = "githubUrl"
+        )
+        givenProject = projectRepository.save(givenProject)
+
+        // when, then
+        projectRepository.findProjectJoinFetchTechStacks(givenProject.id)
+            .also {
+                requireNotNull(it)
+                assertThat(it.techStacks.size).isEqualTo(0)
+            }
+    }
+
+    @Test
+    fun `findProjectJoinFetchTechStacks - 프로젝트가 존재하지 않는 경우`() {
+        // given
+        val dummyId = 109L
+        // when, then
+        projectRepository.findProjectJoinFetchTechStacks(dummyId)
+            .also {
+                assertThat(it).isNull()
+            }
     }
 
 }

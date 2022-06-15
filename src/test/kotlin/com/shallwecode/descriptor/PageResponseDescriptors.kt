@@ -10,7 +10,7 @@ class PageResponseDescriptors {
          */
         fun pagingResponseDescriptors(
             pagingFieldPrefix: String = "body",
-            modelDescriptors: Array<FieldDescriptor>
+            modelDescriptors: List<FieldDescriptor>
         ): List<FieldDescriptor> {
             return listOf(
                 fieldWithPath("message").description("응답 메세지"),
@@ -26,7 +26,7 @@ class PageResponseDescriptors {
                 fieldWithPath("${pagingFieldPrefix}.pageable.*").ignored(),
                 fieldWithPath("${pagingFieldPrefix}.pageable.sort.*").ignored(),
                 fieldWithPath("${pagingFieldPrefix}.sort.*").ignored(),
-                *modelDescriptors
+                *modelDescriptors.toTypedArray()
             )
         }
 

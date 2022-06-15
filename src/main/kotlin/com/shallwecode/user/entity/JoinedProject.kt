@@ -1,5 +1,6 @@
 package com.shallwecode.user.entity
 
+import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Embeddable
 import javax.persistence.Embedded
@@ -17,7 +18,7 @@ data class JoinedProjectId(
     @Column(name = "project_id")
     var projectId: Long
 
-) : java.io.Serializable
+) : Serializable
 
 enum class JoinedProjectStatus {
     PROGRESS,

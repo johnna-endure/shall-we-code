@@ -9,8 +9,8 @@ class UserRequestDescriptors {
         /**
          * user 생성시 요청 객체 필드 정보들
          */
-        fun userCreateRequestFields(): Array<FieldDescriptor> {
-            return arrayOf(
+        fun userCreateRequestFields(): List<FieldDescriptor> {
+            return listOf(
                 fieldWithPath("email").description("이메일"),
                 fieldWithPath("name").description("이름"),
                 fieldWithPath("nickname").optional().description("닉네임"),

@@ -18,13 +18,9 @@ class ProjectQueryService(
      */
     fun getProjectList(
         pageParameters: ProjectPagingParameters
-//        page: Int,
-//        size: Int,
-//        sort: Sort? = null
     ): Page<ProjectListItemModel> {
-//        val sortOrDefault = sort ?: Sort.by("_id").descending()
-//        val pageRequest = PageRequest.of(pageParameters.page, pageParameters.size)
         return projectRepository.findAll(pageParameters.toPageable())
             .map { ProjectListItemModel.from(it) }
     }
+
 }

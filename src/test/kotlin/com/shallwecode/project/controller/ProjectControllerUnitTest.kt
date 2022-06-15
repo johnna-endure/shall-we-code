@@ -61,11 +61,11 @@ class ProjectControllerUnitTest : RestDocConfig {
         ).andDo(
             document(
                 "project-create-success",
-                requestFields(*ProjectRequestDescriptors.createRequestFields()),
+                requestFields(*ProjectRequestDescriptors.createRequestFields().toTypedArray()),
                 responseFields(
                     *HttpResponseDescriptors.httpResponseDescriptors(
                         fieldWithPath("body.id").description("생성된 프로젝트 아이디")
-                    )
+                    ).toTypedArray()
                 )
             )
         )
@@ -99,9 +99,9 @@ class ProjectControllerUnitTest : RestDocConfig {
         ).andDo(
             document(
                 "project-create-failure",
-                requestFields(*ProjectRequestDescriptors.createRequestFields()),
+                requestFields(*ProjectRequestDescriptors.createRequestFields().toTypedArray()),
                 responseFields(
-                    *HttpResponseDescriptors.httpErrorResponseDescriptors()
+                    *HttpResponseDescriptors.httpErrorResponseDescriptors().toTypedArray()
                 )
             )
         ).andDo(print())
