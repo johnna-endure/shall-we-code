@@ -1,5 +1,6 @@
 package com.shallwecode.project.controller.request
 
+import com.shallwecode.project.entity.ProjectSortField
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort

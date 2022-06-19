@@ -152,7 +152,7 @@ class UserRepositoryTest(
         user = userRepository.saveAndFlush(user)
 
         // then
-        val ret = userRepository.findById(user.id).get()
+        val ret = userRepository.findById(user.id!!).get()
         assertThat(ret.joinedProjects.size).isEqualTo(1)
         assertThat(ret.joinedProjects[0].id.projectId).isEqualTo(1L)
         assertThat(ret.joinedProjects[0].status).isEqualTo(PROGRESS)

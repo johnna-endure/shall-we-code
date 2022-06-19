@@ -57,7 +57,7 @@ class JoinServiceTest {
         )
 
         val createdUser = request.toUserEntity()
-        createdUser._id = 1L
+        createdUser.id = 1L
 
         every { userAuthenticationClient.saveUserAuthentication(any()) } returns UserAuthenticationSaveResponseBody(1L)
         every { userService.createUser(any()) } returns createdUser

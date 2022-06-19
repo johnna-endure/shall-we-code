@@ -7,6 +7,11 @@ import javax.persistence.GenerationType.IDENTITY
 @Entity
 @Table(name = "project")
 class Project(
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "project_id")
+    var id: Long? = null,
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, updatable = true)
     var status: ProjectStatus,
@@ -43,14 +48,18 @@ class Project(
     @Column(name = "update_datetime", nullable = false, updatable = true)
     var updateDateTime: LocalDateTime = LocalDateTime.now(),
 ) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "project_id")
-    protected var projectId: Long? = null
+        other as Project
 
-    val id: ProjectId
-        get() = ProjectId(this.projectId ?: -1)
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return id?.hashCode() ?: 0
+    }
 }
-
-data class ProjectId(var value: Long)

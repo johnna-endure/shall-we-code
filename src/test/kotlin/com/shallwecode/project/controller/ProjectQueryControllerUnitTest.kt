@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import com.shallwecode.descriptor.PageResponseDescriptors
 import com.shallwecode.project.controller.request.ProjectPagingParameters
-import com.shallwecode.project.controller.request.ProjectSortField
 import com.shallwecode.project.descriptor.ProjectModelDescriptors
+import com.shallwecode.project.entity.ProjectSortField
 import com.shallwecode.project.entity.ProjectStatus
 import com.shallwecode.project.entity.model.ProjectListItemModel
 import com.shallwecode.project.service.ProjectQueryService

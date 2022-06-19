@@ -1,6 +1,7 @@
 package com.shallwecode.project.repository
 
 import com.shallwecode.project.entity.Project
+import com.shallwecode.project.entity.ProjectSortField
 import com.shallwecode.project.entity.ProjectStatus
 import com.shallwecode.project.entity.TechStack
 import com.shallwecode.util.isDescending
@@ -44,7 +45,7 @@ class ProjectRepositoryUnitTest(
         var saved = projectRepository.saveAndFlush(givenProject)
 
         // then
-        saved = projectRepository.findById(saved.id.value).get()
+        saved = projectRepository.findById(saved.id!!).get()
         assertThat(saved.id).isNotNull
         assertThat(saved.id).isEqualTo(givenProject.id)
         assertThat(saved.title).isEqualTo(givenProject.title)
@@ -75,7 +76,7 @@ class ProjectRepositoryUnitTest(
         // 첫번째 페이지 테스트
         // 1.when
         val firstPage = projectRepository.findAll(
-            PageRequest.of(0, 3, Sort.by("projectId").descending())
+            PageRequest.of(0, 3, Sort.by(ProjectSortField.ID.fieldName).descending())
         )
 
         // 1.then
@@ -83,21 +84,21 @@ class ProjectRepositoryUnitTest(
         assertThat(firstPage.numberOfElements).isEqualTo(3)
 
         val firstPageIdList = firstPage.stream()
-            .map { project -> project.id.value }
+            .map { project -> project.id!! }
             .collect(Collectors.toList())
         assertThat(isDescending(firstPageIdList)).isTrue
 
         // 두번째 페이지 테스트
         // 2.when
         val secondPage = projectRepository.findAll(
-            PageRequest.of(1, 3, Sort.by("projectId").descending())
+            PageRequest.of(1, 3, Sort.by(ProjectSortField.ID.fieldName).descending())
         )
 
         // 2.then
         assertThat(secondPage.numberOfElements).isEqualTo(3)
 
         val secondPageIdList = secondPage.stream()
-            .map { project -> project.id.value }
+            .map { project -> project.id!! }
             .collect(Collectors.toList())
         assertThat(isDescending(secondPageIdList)).isTrue
 
@@ -105,7 +106,7 @@ class ProjectRepositoryUnitTest(
         // 마지막 페이지 테스트
         // 3.when
         val lastPage = projectRepository.findAll(
-            PageRequest.of(2, 3, Sort.by("projectId").descending())
+            PageRequest.of(2, 3, Sort.by(ProjectSortField.ID.fieldName).descending())
         )
 
         // 3.then
@@ -113,7 +114,7 @@ class ProjectRepositoryUnitTest(
         assertThat(lastPage.numberOfElements).isEqualTo(2)
 
         val lastPageIdList = lastPage.stream()
-            .map { project -> project.id.value }
+            .map { project -> project.id!! }
             .collect(Collectors.toList())
         assertThat(isDescending(lastPageIdList)).isTrue
     }

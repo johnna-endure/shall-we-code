@@ -35,7 +35,7 @@ class ProjectServiceUnitTest {
         )
 
         val savedProject = request.toEntity()
-        savedProject.id.value = 10L
+        savedProject.id = 10L
 
         every { projectRepository.save(any()) }
             .returns(savedProject)
@@ -44,7 +44,7 @@ class ProjectServiceUnitTest {
         val id = projectService.createProject(request)
 
         // then
-        assertThat(id).isEqualTo(savedProject.id.value)
+        assertThat(id).isEqualTo(savedProject.id)
     }
 
 }

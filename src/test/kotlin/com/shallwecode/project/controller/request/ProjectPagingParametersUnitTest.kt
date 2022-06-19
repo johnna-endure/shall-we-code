@@ -1,5 +1,6 @@
 package com.shallwecode.project.controller.request
 
+import com.shallwecode.project.entity.ProjectSortField
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.data.domain.Sort
@@ -22,6 +23,6 @@ class ProjectPagingParametersUnitTest {
         // then
         assertThat(pageable.pageNumber).isEqualTo(pageParameters.page)
         assertThat(pageable.pageSize).isEqualTo(pageParameters.size)
-        assertThat(pageable.sort.getOrderFor("_id")).isEqualTo(Sort.Order.desc(ProjectSortField.ID.fieldName))
+        assertThat(pageable.sort.getOrderFor("projectId")).isEqualTo(Sort.Order.desc(ProjectSortField.ID.fieldName))
     }
 }

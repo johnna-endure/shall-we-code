@@ -1,5 +1,6 @@
 package com.shallwecode.project.entity.model
 
+import com.shallwecode.common.exception.entity.EmptyIdEntityException
 import com.shallwecode.project.entity.Project
 import com.shallwecode.project.entity.ProjectStatus
 import java.time.LocalDateTime
@@ -20,7 +21,7 @@ data class ProjectListItemModel(
 
 fun ProjectListItemModel.Companion.from(project: Project): ProjectListItemModel {
     return ProjectListItemModel(
-        id = project.id.value,
+        id = project.id ?: throw EmptyIdEntityException(),
         status = project.status,
         title = project.title,
         description = project.description,

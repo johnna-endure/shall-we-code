@@ -2,6 +2,7 @@ package com.shallwecode.project.entity.model
 
 import com.shallwecode.project.entity.Project
 import com.shallwecode.project.entity.ProjectStatus
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class ProjectListItemModelUnitTest {
@@ -16,19 +17,18 @@ class ProjectListItemModelUnitTest {
             createdUserId = 10L,
             githubUrl = "githubUrl"
         )
-        // TODO 알수 없는 실ㅊ패
-//        project.id = ProjectId(100L)
-//
-//        // when
-//        val model = ProjectListItemModel.from(project)
-//;
-//        // then
-//        assertThat(model.id).isEqualTo(project.id.value)
-//        assertThat(model.title).isEqualTo(project.title)
-//        assertThat(model.description).isEqualTo(project.description)
-//        assertThat(model.createdUserId).isEqualTo(project.createdUserId)
-//        assertThat(model.githubUrl).isEqualTo(project.githubUrl)
-//        assertThat(model.createDateTime).isEqualTo(project.createDateTime.toString())
-//        assertThat(model.updateDateTime).isEqualTo(project.updateDateTime.toString())
+        project.id = 100L
+
+        // when
+        val model = ProjectListItemModel.from(project)
+
+        // then
+        assertThat(model.id).isEqualTo(project.id)
+        assertThat(model.title).isEqualTo(project.title)
+        assertThat(model.description).isEqualTo(project.description)
+        assertThat(model.createdUserId).isEqualTo(project.createdUserId)
+        assertThat(model.githubUrl).isEqualTo(project.githubUrl)
+        assertThat(model.createDateTime).isEqualTo(project.createDateTime.toString())
+        assertThat(model.updateDateTime).isEqualTo(project.updateDateTime.toString())
     }
 }

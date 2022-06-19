@@ -1,7 +1,6 @@
 package com.shallwecode.project.service
 
 import com.shallwecode.project.controller.request.ProjectPagingParameters
-import com.shallwecode.project.controller.request.ProjectSortField
 import com.shallwecode.project.entity.*
 import com.shallwecode.project.repository.ProjectRepository
 import io.mockk.every
@@ -52,7 +51,7 @@ class ProjectQueryServiceUnitTest {
                     description = "desc${n}",
                     createdUserId = n.toLong(),
                 )
-                project.id.value = n.toLong()
+                project.id = n.toLong()
                 project
             }.collect(Collectors.toList())
 
@@ -72,7 +71,7 @@ class ProjectQueryServiceUnitTest {
 
         result.forEachIndexed() { index, model ->
             val entity = projects[index]
-            assertThat(model.id).isEqualTo(entity.id.value)
+            assertThat(model.id).isEqualTo(entity.id)
             assertThat(model.title).isEqualTo(entity.title)
             assertThat(model.description).isEqualTo(entity.description)
             assertThat(model.createdUserId).isEqualTo(entity.createdUserId)

@@ -1,12 +1,10 @@
 package com.shallwecode.user.entity
 
-import com.shallwecode.common.exception.entity.EmptyIdEntityException
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class UserUnitTest {
 
@@ -58,6 +56,6 @@ class UserUnitTest {
         )
 
         // when
-        assertThrows<EmptyIdEntityException> { user.id }
+        assertThat(user.id).isNull()
     }
 }

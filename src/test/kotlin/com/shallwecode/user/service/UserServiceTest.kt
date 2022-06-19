@@ -88,7 +88,7 @@ class UserServiceTest {
         val existUser = userRepository.save(userData)
 
         //when
-        val userModel = userService.findUser(existUser.id)
+        val userModel = userService.findUser(existUser.id!!)
 
         //then
         userModel.let {

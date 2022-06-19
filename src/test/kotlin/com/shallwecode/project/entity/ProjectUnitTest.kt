@@ -53,7 +53,7 @@ class ProjectUnitTest {
         )
 
         // when, then
-        assertThat(project.id.value).isEqualTo(-1)
+        assertThat(project.id).isNull()
     }
 
     @Test
@@ -64,7 +64,6 @@ class ProjectUnitTest {
         val description = "프로젝트 설명"
         val createdUser = 1L
         val githubUrl = "githubUrl"
-        val projectId = 10L
 
         val joinedUser = JoinedUser(
             id = JoinedUserId(2L),
@@ -79,7 +78,6 @@ class ProjectUnitTest {
             githubUrl = githubUrl,
             joinedUsers = mutableListOf(),
         )
-        project.id.value = projectId
 
         // when
         project.addUser(joinedUser)
@@ -98,7 +96,6 @@ class ProjectUnitTest {
         val description = "프로젝트 설명"
         val createdUser = 1L
         val githubUrl = "githubUrl"
-        val projectId = 10L
 
         val joinedUser = JoinedUser(
             id = JoinedUserId(2L),
@@ -113,7 +110,6 @@ class ProjectUnitTest {
             githubUrl = githubUrl,
             joinedUsers = mutableListOf(joinedUser),
         )
-        project.id.value = projectId
 
         // when
         project.addUser(joinedUser)

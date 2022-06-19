@@ -4,6 +4,7 @@ import com.shallwecode.client.authentication.UserAuthenticationClient
 import com.shallwecode.client.authentication.request.UserAuthenticationRequest
 import com.shallwecode.client.exception.ClientException
 import com.shallwecode.common.exception.NotFoundDataException
+import com.shallwecode.common.exception.entity.EmptyIdEntityException
 import com.shallwecode.user.controller.join.request.JoinRequest
 import org.springframework.stereotype.Service
 
@@ -25,7 +26,7 @@ class JoinService(
         val createdUser = userService.createUser(request)
 
         val authenticationRequest = UserAuthenticationRequest(
-            userId = createdUser.id,
+            userId = createdUser.id ?: throw EmptyIdEntityException(),
             email = createdUser.email.value,
             password = createdUser.password.value,
             roles = listOf("user"),
