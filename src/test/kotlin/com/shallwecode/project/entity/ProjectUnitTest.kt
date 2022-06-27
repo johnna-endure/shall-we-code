@@ -120,4 +120,43 @@ class ProjectUnitTest {
         assertThat(project.joinedUsers[0].status).isEqualTo(JoinedUserStatus.JOINED)
     }
 
+    @Test
+    fun `copy - 깊은 복사 테스트`() {
+        // given
+        val givenProject = Project(
+            status = ProjectStatus.RECRUITING,
+            title = "title",
+            description = "프로젝트 설명",
+            createdUserId = 1L,
+            githubUrl = "githubUrl",
+            joinedUsers = mutableListOf(
+                JoinedUser(
+                    id = JoinedUserId(2L),
+                    status = JoinedUserStatus.JOINED
+                )
+            ),
+            techStacks = mutableListOf(
+                TechStack("spring boot"),
+                TechStack("kotlin")
+            )
+        )
+
+        val copied = givenProject.copy()
+
+        assertThat(copied.status).isEqualTo(givenProject.status)
+        assertThat(copied.title).isEqualTo(givenProject.title)
+        assertThat(copied.description).isEqualTo(givenProject.description)
+        assertThat(copied.createdUserId).isEqualTo(givenProject.createdUserId)
+        assertThat(copied.githubUrl).isEqualTo(givenProject.githubUrl)
+
+        copied.joinedUsers.forEachIndexed { index, joinedUser ->
+            assertThat(givenProject.joinedUsers[index].id).isEqualTo(joinedUser.id)
+            assertThat(givenProject.joinedUsers[index].status).isEqualTo(joinedUser.status)
+        }
+
+        copied.techStacks.forEachIndexed { index, techStack ->
+            assertThat(givenProject.techStacks[index].name).isEqualTo(techStack.name)
+        }
+    }
+
 }
