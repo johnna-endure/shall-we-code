@@ -23,6 +23,6 @@ class ProjectPagingParametersUnitTest {
         // then
         assertThat(pageable.pageNumber).isEqualTo(pageParameters.page)
         assertThat(pageable.pageSize).isEqualTo(pageParameters.size)
-        assertThat(pageable.sort.getOrderFor("projectId")).isEqualTo(Sort.Order.desc(ProjectSortField.ID.fieldName))
+        assertThat(pageable.sort.getOrderFor("id")).isEqualTo(Sort.Order.desc(ProjectSortField.ID.fieldName))
     }
 }
