@@ -1,9 +1,6 @@
 package com.shallwecode.project.repository
 
-import com.shallwecode.project.entity.Project
-import com.shallwecode.project.entity.ProjectSortField
-import com.shallwecode.project.entity.ProjectStatus
-import com.shallwecode.project.entity.TechStack
+import com.shallwecode.project.entity.*
 import com.shallwecode.util.isDescending
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -119,10 +116,77 @@ class ProjectRepositoryUnitTest(
         assertThat(isDescending(lastPageIdList)).isTrue
     }
 
-
-    // TODO findById로 조회후 모델에 매핑할 때, 밸류 객체들이 초기화되는지 확인 필요
     @Test
-    fun `findById - `() {
+    fun `findProjectWithJoinedUsers - 프로젝트 조회시 joinedUser 리스트를 가져오는지 테스트`() {
+        // given
+        val joinedUserList = mutableListOf(
+            JoinedUser(
+                JoinedUserId(1L),
+                status = JoinedUserStatus.JOINED
+            ),
+            JoinedUser(
+                JoinedUserId(2L),
+                status = JoinedUserStatus.JOINED
+            )
+        )
+        val givenProject = Project(
+            status = ProjectStatus.RECRUITING,
+            title = "title",
+            description = "description",
+            createdUserId = 10L,
+            joinedUsers = joinedUserList
+        )
+        val projectId = projectRepository.saveAndFlush(givenProject).id!!
+        entityManager.clear()
 
+        // when, then
+        projectRepository.findProjectWithJoinedUsers(projectId)
+            .also {
+                requireNotNull(it)
+
+                assertThat(it.id).isEqualTo(projectId)
+                assertThat(it.title).isEqualTo(givenProject.title)
+                assertThat(it.description).isEqualTo(givenProject.description)
+                assertThat(it.createdUserId).isEqualTo(givenProject.createdUserId)
+
+                it.joinedUsers.forEachIndexed { index, joinedUser ->
+                    assertThat(givenProject.joinedUsers[index].id).isEqualTo(joinedUser.id)
+                    assertThat(givenProject.joinedUsers[index].status).isEqualTo(joinedUser.status)
+                }
+            }
+    }
+
+    @Test
+    fun `findProjectWithTechStacks - 프로젝트 조회시 techStack 리스트를 가져오는지 테스트`() {
+        // given
+        val techStackList = mutableListOf(
+            TechStack("spring boot"),
+            TechStack("java"),
+        )
+        val givenProject = Project(
+            status = ProjectStatus.RECRUITING,
+            title = "title",
+            description = "description",
+            createdUserId = 10L,
+            techStacks = techStackList
+        )
+
+        val projectId = projectRepository.saveAndFlush(givenProject).id!!
+        entityManager.clear()
+
+        // when, then
+        projectRepository.findProjectWithTechStacks(projectId)
+            .also {
+                requireNotNull(it)
+
+                assertThat(it.id).isEqualTo(projectId)
+                assertThat(it.title).isEqualTo(givenProject.title)
+                assertThat(it.description).isEqualTo(givenProject.description)
+                assertThat(it.createdUserId).isEqualTo(givenProject.createdUserId)
+
+                it.techStacks.forEachIndexed { index, techStack ->
+                    assertThat(givenProject.techStacks[index].name).isEqualTo(techStack.name)
+                }
+            }
     }
 }
