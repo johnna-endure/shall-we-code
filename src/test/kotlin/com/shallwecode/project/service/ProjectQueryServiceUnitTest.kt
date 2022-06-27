@@ -108,34 +108,57 @@ class ProjectQueryServiceUnitTest {
         assertThat(result.isEmpty).isTrue
     }
 
-    // TODO 어떻게 조회할건지 더 생각 필요
     @Test
     fun `getProject - 참여 유저, 기술 스택 정보가 모두 있는 경우 조회`() {
         // given
         val givenProject = Project(
+            id = 1L,
             status = ProjectStatus.RECRUITING,
             title = "title",
             description = "description",
             createdUserId = 11L,
-            joinedUsers = mutableListOf(
-                JoinedUser(
-                    id = JoinedUserId(100L),
-                    status = JoinedUserStatus.JOINED
-                ),
-                JoinedUser(
-                    id = JoinedUserId(105L),
-                    status = JoinedUserStatus.JOINED
-                )
+        )
+        val joinedUserList = mutableListOf(
+            JoinedUser(
+                id = JoinedUserId(100L),
+                status = JoinedUserStatus.JOINED
             ),
-            techStacks = mutableListOf(
-                TechStack("spring boot"),
-                TechStack("kotlin"),
+            JoinedUser(
+                id = JoinedUserId(105L),
+                status = JoinedUserStatus.JOINED
             )
         )
 
+        val techStackList = mutableListOf(
+            TechStack("spring boot"),
+            TechStack("kotlin"),
+        )
+
+        val projectWithJoinedUser = givenProject.copy()
+        projectWithJoinedUser.joinedUsers = joinedUserList
+        every { projectRepository.findProjectWithJoinedUsers(any()) } returns projectWithJoinedUser
+
+        val projectWithTechStack = givenProject.copy()
+        projectWithJoinedUser.techStacks = techStackList
+        every { projectRepository.findProjectWithTechStacks(any()) } returns projectWithTechStack
+
         // when
-//        projectQueryService.getProject()
+        val actual = projectQueryService.getProject(givenProject.id!!)
 
         // then
+        assertThat(actual.id).isEqualTo(givenProject.id)
+        assertThat(actual.title).isEqualTo(givenProject.title)
+        assertThat(actual.description).isEqualTo(givenProject.description)
+        assertThat(actual.status).isEqualTo(givenProject.status)
+        assertThat(actual.createdUserId).isEqualTo(givenProject.createdUserId)
+
+        actual.joinedUsers.forEachIndexed { index, joinedUser ->
+            assertThat(joinedUserList[index].id).isEqualTo(joinedUser.id)
+            assertThat(joinedUserList[index].status).isEqualTo(joinedUser.status)
+        }
+
+        actual.techStacks.forEachIndexed { index, techStack ->
+            assertThat(techStackList[index].name).isEqualTo(techStack.name)
+        }
     }
 }
