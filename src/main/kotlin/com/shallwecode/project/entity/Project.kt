@@ -6,7 +6,7 @@ import javax.persistence.GenerationType.IDENTITY
 
 @Entity
 @Table(name = "project")
-class Project(
+data class Project(
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "project_id")
@@ -62,4 +62,5 @@ class Project(
     override fun hashCode(): Int {
         return id?.hashCode() ?: 0
     }
+    
 }
