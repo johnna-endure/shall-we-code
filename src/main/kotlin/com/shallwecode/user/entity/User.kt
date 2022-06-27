@@ -9,7 +9,7 @@ import javax.persistence.FetchType.LAZY
 
 @Table(name = "user")
 @Entity
-class User(
+data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
