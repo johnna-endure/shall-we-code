@@ -7,7 +7,8 @@ import com.shallwecode.project.entity.TechStack
 import java.time.LocalDateTime
 
 data class ProjectDetailModel(
-    var status: ProjectStatus,
+    val id: Long?,
+    val status: ProjectStatus,
     val title: String,
     val description: String,
     val createdUserId: Long,
@@ -20,6 +21,7 @@ data class ProjectDetailModel(
     companion object {
         fun from(project: Project): ProjectDetailModel {
             return ProjectDetailModel(
+                id = project.id,
                 status = project.status,
                 title = project.title,
                 description = project.description,
