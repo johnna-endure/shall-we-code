@@ -15,19 +15,19 @@ data class ProjectListItemModel(
     val createDateTime: LocalDateTime,
     val updateDateTime: LocalDateTime,
 ) {
-    companion object {}
-
+    companion object {
+        fun from(project: Project): ProjectListItemModel {
+            return ProjectListItemModel(
+                id = project.id ?: throw EmptyIdEntityException(),
+                status = project.status,
+                title = project.title,
+                description = project.description,
+                createdUserId = project.createdUserId,
+                githubUrl = project.githubUrl,
+                createDateTime = project.createDateTime,
+                updateDateTime = project.updateDateTime
+            )
+        }
+    }
 }
 
-fun ProjectListItemModel.Companion.from(project: Project): ProjectListItemModel {
-    return ProjectListItemModel(
-        id = project.id ?: throw EmptyIdEntityException(),
-        status = project.status,
-        title = project.title,
-        description = project.description,
-        createdUserId = project.createdUserId,
-        githubUrl = project.githubUrl,
-        createDateTime = project.createDateTime,
-        updateDateTime = project.updateDateTime
-    )
-}

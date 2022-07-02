@@ -10,16 +10,30 @@
 
 === Http Request
 
-include::{snippets}/project-list-order-by-id-desc/http-request.adoc[]
+include::{snippets}/get-project-list-order-by-id-desc/http-request.adoc[]
 
 === Request Parameters
 
-include::{snippets}/project-list-order-by-id-desc/request-parameters.adoc[]
+include::{snippets}/get-project-list-order-by-id-desc/request-parameters.adoc[]
 
 === Http Response
 
-include::{snippets}/project-list-order-by-id-desc/http-response.adoc[]
+include::{snippets}/get-project-list-order-by-id-desc/http-response.adoc[]
 
 === Response Fields
 
-include::{snippets}/project-list-order-by-id-desc/response-fields.adoc[]
+include::{snippets}/get-project-list-order-by-id-desc/response-fields.adoc[]
+
+== `프로젝트 상세 조회`
+
+=== Http Request
+
+include::{snippets}/get-project-detail/http-request.adoc[]
+
+=== Http Response
+
+include::{snippets}/get-project-detail/http-response.adoc[]
+
+=== Response Fields
+
+include::{snippets}/get-project-detail/response-fields.adoc[]

@@ -1,12 +1,12 @@
 package com.shallwecode.project.controller
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
+import com.shallwecode.descriptor.HttpResponseDescriptors
 import com.shallwecode.descriptor.PageResponseDescriptors
 import com.shallwecode.project.controller.request.ProjectPagingParameters
 import com.shallwecode.project.descriptor.ProjectModelDescriptors
-import com.shallwecode.project.entity.ProjectSortField
-import com.shallwecode.project.entity.ProjectStatus
+import com.shallwecode.project.entity.*
+import com.shallwecode.project.entity.model.ProjectDetailModel
 import com.shallwecode.project.entity.model.ProjectListItemModel
 import com.shallwecode.project.service.ProjectQueryService
 import com.shallwecode.testconfig.RestDocConfig
@@ -19,8 +19,7 @@ import org.springframework.restdocs.RestDocumentationContextProvider
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
-import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
-import org.springframework.restdocs.request.RequestDocumentation.requestParameters
+import org.springframework.restdocs.request.RequestDocumentation.*
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -34,8 +33,6 @@ class ProjectQueryControllerUnitTest : RestDocConfig {
 
     @MockkBean
     lateinit var projectQueryService: ProjectQueryService
-
-    var jsonMapper: ObjectMapper = ObjectMapper()
 
     @BeforeEach
     fun setUp(webApplicationContext: WebApplicationContext?, restDocumentation: RestDocumentationContextProvider?) {
@@ -83,7 +80,7 @@ class ProjectQueryControllerUnitTest : RestDocConfig {
             MockMvcResultHandlers.print()
         ).andDo(
             document(
-                "project-list-order-by-id-desc",
+                "get-project-list-order-by-id-desc",
                 requestParameters(
                     parameterWithName("page").description("페이지 번호"),
                     parameterWithName("size").description("페이지 사이즈"),
@@ -93,6 +90,62 @@ class ProjectQueryControllerUnitTest : RestDocConfig {
                 responseFields(
                     PageResponseDescriptors.pagingResponseDescriptors(
                         modelDescriptors = ProjectModelDescriptors.projectListItemModelFieldDescriptors()
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `getProjectDetail - 프로젝트 상세 조회`() {
+        // given
+        val projectId = 10L
+
+        val joinedUserList = mutableListOf(
+            JoinedUser(
+                id = JoinedUserId(10L),
+                status = JoinedUserStatus.JOINED,
+            ),
+            JoinedUser(
+                id = JoinedUserId(11L),
+                status = JoinedUserStatus.JOINED,
+            )
+        )
+        val techStackList = mutableListOf(
+            TechStack("spring boot"),
+            TechStack("kotlin")
+        )
+
+        val projectDetailModel = ProjectDetailModel(
+            id = projectId,
+            status = ProjectStatus.RECRUITING,
+            title = "프로젝트 제목",
+            description = "프로젝트 설명",
+            createdUserId = 100L,
+            joinedUsers = joinedUserList,
+            techStacks = techStackList,
+            createDateTime = LocalDateTime.now(),
+            updateDateTime = LocalDateTime.now()
+        )
+
+        every { projectQueryService.getProject(projectId) } returns projectDetailModel
+
+        // when, then
+        mockMvc.perform(
+            get("/projects/{projectId}", projectId)
+        ).andExpectAll(
+            status().isOk
+        ).andDo(
+            MockMvcResultHandlers.print()
+        ).andDo(
+            document(
+                "get-project-detail",
+                pathParameters(
+                    parameterWithName("projectId").description("프로젝트 아이디")
+                ),
+                responseFields(
+                    HttpResponseDescriptors.httpResponseDescriptors(
+                        *ProjectModelDescriptors.projectDetailModelFieldDescriptors().toTypedArray()
                     )
                 )
             )

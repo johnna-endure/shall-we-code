@@ -4,7 +4,6 @@ import com.shallwecode.common.exception.NotFoundDataException
 import com.shallwecode.project.controller.request.ProjectPagingParameters
 import com.shallwecode.project.entity.model.ProjectDetailModel
 import com.shallwecode.project.entity.model.ProjectListItemModel
-import com.shallwecode.project.entity.model.from
 import com.shallwecode.project.repository.ProjectRepository
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service

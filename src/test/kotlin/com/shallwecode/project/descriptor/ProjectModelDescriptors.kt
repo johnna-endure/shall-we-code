@@ -17,5 +17,23 @@ class ProjectModelDescriptors {
                 fieldWithPath("${prefix}.updateDateTime").description("프로젝트 수정 날짜"),
             )
         }
+
+        fun projectDetailModelFieldDescriptors(prefix: String = "body"): List<FieldDescriptor> {
+            return listOf(
+                fieldWithPath("${prefix}.id").description("프로젝트 ID"),
+                fieldWithPath("${prefix}.status").description("프로젝트 상태"),
+                fieldWithPath("${prefix}.title").description("프로젝트 제목"),
+                fieldWithPath("${prefix}.description").description("프로젝트 설명"),
+                fieldWithPath("${prefix}.createdUserId").description("프로젝트를 생성한 사용자 아이디"),
+                fieldWithPath("${prefix}.githubUrl").description("프로젝트 깃허브 url"),
+                fieldWithPath("${prefix}.createDateTime").description("프로젝트 생성 날짜"),
+                fieldWithPath("${prefix}.updateDateTime").description("프로젝트 수정 날짜"),
+
+                fieldWithPath("${prefix}.joinedUsers[].id.userId").description("사용자 ID"),
+                fieldWithPath("${prefix}.joinedUsers[].status").description("사용자 상태"),
+
+                fieldWithPath("${prefix}.techStacks[].name").description("기술 스택 이름")
+            )
+        }
     }
 }
