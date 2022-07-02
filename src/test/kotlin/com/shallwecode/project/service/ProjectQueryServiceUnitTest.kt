@@ -118,14 +118,14 @@ class ProjectQueryServiceUnitTest {
             description = "description",
             createdUserId = 11L,
         )
-        val joinedUserList = mutableListOf(
+        val participatedUserList = mutableListOf(
             JoinedUser(
                 id = JoinedUserId(100L),
-                status = JoinedUserStatus.JOINED
+                status = JoinedUserStatus.PARTICIPATED
             ),
             JoinedUser(
                 id = JoinedUserId(105L),
-                status = JoinedUserStatus.JOINED
+                status = JoinedUserStatus.PARTICIPATED
             )
         )
 
@@ -135,7 +135,7 @@ class ProjectQueryServiceUnitTest {
         )
 
         val projectWithJoinedUser = givenProject.copy()
-        projectWithJoinedUser.joinedUsers = joinedUserList
+        projectWithJoinedUser.joinedUsers = participatedUserList
         every { projectRepository.findProjectWithJoinedUsers(any()) } returns projectWithJoinedUser
 
         val projectWithTechStack = givenProject.copy()
@@ -153,8 +153,8 @@ class ProjectQueryServiceUnitTest {
         assertThat(actual.createdUserId).isEqualTo(givenProject.createdUserId)
 
         actual.joinedUsers.forEachIndexed { index, joinedUser ->
-            assertThat(joinedUserList[index].id).isEqualTo(joinedUser.id)
-            assertThat(joinedUserList[index].status).isEqualTo(joinedUser.status)
+            assertThat(participatedUserList[index].id).isEqualTo(joinedUser.id)
+            assertThat(participatedUserList[index].status).isEqualTo(joinedUser.status)
         }
 
         actual.techStacks.forEachIndexed { index, techStack ->

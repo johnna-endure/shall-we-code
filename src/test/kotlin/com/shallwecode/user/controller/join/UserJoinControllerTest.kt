@@ -6,9 +6,9 @@ import com.shallwecode.common.exception.BadRequestException
 import com.shallwecode.descriptor.HttpResponseDescriptors
 import com.shallwecode.testconfig.RestDocConfig
 import com.shallwecode.user.controller.join.request.DuplicateCheckRequest
-import com.shallwecode.user.controller.join.request.JoinRequest
+import com.shallwecode.user.controller.join.request.UserJoinRequest
 import com.shallwecode.user.descriptor.UserRequestDescriptors
-import com.shallwecode.user.service.JoinService
+import com.shallwecode.user.service.UserJoinService
 import io.mockk.every
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -22,11 +22,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPat
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.context.WebApplicationContext
 
-class JoinControllerTest : RestDocConfig {
+class UserJoinControllerTest : RestDocConfig {
     lateinit var mockMvc: MockMvc
 
     @MockkBean
-    lateinit var joinService: JoinService
+    lateinit var userJoinService: UserJoinService
 
     var jsonMapper: ObjectMapper = ObjectMapper()
 
@@ -39,7 +39,7 @@ class JoinControllerTest : RestDocConfig {
     @Test
     fun `회원가입 성공`() {
         //given
-        val request = JoinRequest(
+        val request = UserJoinRequest(
             email = "test@gmail.com",
             name = "cws",
             nickname = "nickname",
@@ -48,7 +48,7 @@ class JoinControllerTest : RestDocConfig {
             phoneNumber = "01011112222"
         )
 
-        every { joinService.join(any()) } returns 1L
+        every { userJoinService.join(any()) } returns 1L
 
         //when, then
         mockMvc.perform(
@@ -72,7 +72,7 @@ class JoinControllerTest : RestDocConfig {
     @Test
     fun `회원가입 실패 - 비밀번호가 8자리 이하인 경우`() {
         //given
-        val request = JoinRequest(
+        val request = UserJoinRequest(
             email = "test@gmail.com",
             name = "cws",
             nickname = "nickname",
@@ -81,7 +81,7 @@ class JoinControllerTest : RestDocConfig {
             phoneNumber = "01011112222"
         )
 
-        every { joinService.join(request) } throws BadRequestException("비밀번호는 8자리 이상이어야 합니다.")
+        every { userJoinService.join(request) } throws BadRequestException("비밀번호는 8자리 이상이어야 합니다.")
 
         //when, then
         mockMvc.perform(
@@ -104,7 +104,7 @@ class JoinControllerTest : RestDocConfig {
     @Test
     fun `회원가입 실패 - 이메일 검증에 실패한 경우`() {
         //given
-        val request = JoinRequest(
+        val request = UserJoinRequest(
             email = "test",
             name = "cws",
             nickname = "nickname",
@@ -114,7 +114,7 @@ class JoinControllerTest : RestDocConfig {
         )
 
         val message = "이메일이 유효하지 않습니다. email : ${request.email}"
-        every { joinService.join(request) } throws BadRequestException(message)
+        every { userJoinService.join(request) } throws BadRequestException(message)
         //when, then
         mockMvc.perform(
             post("/user/join")
@@ -136,7 +136,7 @@ class JoinControllerTest : RestDocConfig {
     @Test
     fun `회원가입 실패 - 핸드폰 번호 검증에 실패한 경우`() {
         //given
-        val request = JoinRequest(
+        val request = UserJoinRequest(
             email = "test",
             name = "cws",
             nickname = "nickname",
@@ -145,7 +145,7 @@ class JoinControllerTest : RestDocConfig {
             phoneNumber = "010aa123asdf2"
         )
         val message = "\"하이픈 이외의 문자는 포함될 수 없습니다. phoneNumber : ${request.phoneNumber}"
-        every { joinService.join(request) } throws BadRequestException(message)
+        every { userJoinService.join(request) } throws BadRequestException(message)
 
         //when, then
         mockMvc.perform(
@@ -170,7 +170,7 @@ class JoinControllerTest : RestDocConfig {
         // given
         val email = "test@gmail.com"
         val request = DuplicateCheckRequest(email)
-        every { joinService.duplicateEmailCheck(any()) } returns Pair("duplicated", false)
+        every { userJoinService.duplicateEmailCheck(any()) } returns Pair("duplicated", false)
 
         mockMvc.perform(
             post("/user/join/duplicate-check")
@@ -201,7 +201,7 @@ class JoinControllerTest : RestDocConfig {
         // given
         val email = "test@gmail.com"
         val request = DuplicateCheckRequest(email)
-        every { joinService.duplicateEmailCheck(any()) } returns Pair("duplicated", true)
+        every { userJoinService.duplicateEmailCheck(any()) } returns Pair("duplicated", true)
 
         mockMvc.perform(
             post("/user/join/duplicate-check")
@@ -233,7 +233,7 @@ class JoinControllerTest : RestDocConfig {
         val email = "test@gmail.com"
         val request = DuplicateCheckRequest(email)
         val errorMessage = "test error"
-        every { joinService.duplicateEmailCheck(any()) } throws RuntimeException(errorMessage)
+        every { userJoinService.duplicateEmailCheck(any()) } throws RuntimeException(errorMessage)
 
         mockMvc.perform(
             post("/user/join/duplicate-check")

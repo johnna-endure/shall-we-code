@@ -119,14 +119,14 @@ class ProjectRepositoryUnitTest(
     @Test
     fun `findProjectWithJoinedUsers - 프로젝트 조회시 joinedUser 리스트를 가져오는지 테스트`() {
         // given
-        val joinedUserList = mutableListOf(
+        val participatedUserList = mutableListOf(
             JoinedUser(
                 JoinedUserId(1L),
-                status = JoinedUserStatus.JOINED
+                status = JoinedUserStatus.PARTICIPATED
             ),
             JoinedUser(
                 JoinedUserId(2L),
-                status = JoinedUserStatus.JOINED
+                status = JoinedUserStatus.PARTICIPATED
             )
         )
         val givenProject = Project(
@@ -134,7 +134,7 @@ class ProjectRepositoryUnitTest(
             title = "title",
             description = "description",
             createdUserId = 10L,
-            joinedUsers = joinedUserList
+            joinedUsers = participatedUserList
         )
         val projectId = projectRepository.saveAndFlush(givenProject).id!!
         entityManager.clear()

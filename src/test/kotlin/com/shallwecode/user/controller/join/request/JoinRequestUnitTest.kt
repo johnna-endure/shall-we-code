@@ -8,7 +8,7 @@ class JoinRequestUnitTest {
     @Test
     fun `요청 정보로 User 엔티티 생성 테스트`() {
         // given
-        val request = JoinRequest(
+        val request = UserJoinRequest(
             email = "test@gmail.com",
             name = "cws",
             nickname = "nickname",

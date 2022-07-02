@@ -103,14 +103,14 @@ class ProjectQueryControllerUnitTest : RestDocConfig {
         // given
         val projectId = 10L
 
-        val joinedUserList = mutableListOf(
+        val participatedUserList = mutableListOf(
             JoinedUser(
                 id = JoinedUserId(10L),
-                status = JoinedUserStatus.JOINED,
+                status = JoinedUserStatus.PARTICIPATED,
             ),
             JoinedUser(
                 id = JoinedUserId(11L),
-                status = JoinedUserStatus.JOINED,
+                status = JoinedUserStatus.PARTICIPATED,
             )
         )
         val techStackList = mutableListOf(
@@ -124,7 +124,7 @@ class ProjectQueryControllerUnitTest : RestDocConfig {
             title = "프로젝트 제목",
             description = "프로젝트 설명",
             createdUserId = 100L,
-            joinedUsers = joinedUserList,
+            joinedUsers = participatedUserList,
             techStacks = techStackList,
             createDateTime = LocalDateTime.now(),
             updateDateTime = LocalDateTime.now()

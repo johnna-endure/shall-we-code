@@ -5,14 +5,14 @@ import com.shallwecode.client.authentication.request.UserAuthenticationRequest
 import com.shallwecode.client.exception.ClientException
 import com.shallwecode.common.exception.NotFoundDataException
 import com.shallwecode.common.exception.entity.EmptyIdEntityException
-import com.shallwecode.user.controller.join.request.JoinRequest
+import com.shallwecode.user.controller.join.request.UserJoinRequest
 import org.springframework.stereotype.Service
 
 /**
  * 사용자 회원가입 관련 로직을 다루는 서비스입니다.
  */
 @Service
-class JoinService(
+class UserJoinService(
     private val userService: UserService,
     private val userAuthenticationClient: UserAuthenticationClient
 ) {
@@ -22,7 +22,7 @@ class JoinService(
      * @param request
      * @return 저장된 사용자의 id를 반환
      */
-    fun join(request: JoinRequest): Long {
+    fun join(request: UserJoinRequest): Long {
         val createdUser = userService.createUser(request)
 
         val authenticationRequest = UserAuthenticationRequest(

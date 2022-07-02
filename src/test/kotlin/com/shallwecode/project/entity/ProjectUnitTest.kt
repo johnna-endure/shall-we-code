@@ -57,7 +57,7 @@ class ProjectUnitTest {
     }
 
     @Test
-    fun `addUser - 첫번째 사용자가 프로젝트에 참여`() {
+    fun `join - 사용자가 프로젝트에 처음 참여신청을 보내는 경우`() {
         // given
         val status = ProjectStatus.RECRUITING
         val title = "title"
@@ -65,10 +65,7 @@ class ProjectUnitTest {
         val createdUser = 1L
         val githubUrl = "githubUrl"
 
-        val joinedUser = JoinedUser(
-            id = JoinedUserId(2L),
-            status = JoinedUserStatus.JOINED
-        )
+        val userId = 10L
 
         val project = Project(
             status = status,
@@ -76,20 +73,19 @@ class ProjectUnitTest {
             description = description,
             createdUserId = createdUser,
             githubUrl = githubUrl,
-            joinedUsers = mutableListOf(),
         )
 
         // when
-        project.addUser(joinedUser)
+        project.join(userId)
 
         // then
         assertThat(project.joinedUsers.size).isEqualTo(1)
-        assertThat(project.joinedUsers[0].id.userId).isEqualTo(2L)
-        assertThat(project.joinedUsers[0].status).isEqualTo(JoinedUserStatus.JOINED)
+        assertThat(project.joinedUsers[0].id.userId).isEqualTo(userId)
+        assertThat(project.joinedUsers[0].status).isEqualTo(JoinedUserStatus.PENDING)
     }
 
     @Test
-    fun `addUser - 이미 참여한 사용자를 다시 추가하는 경우`() {
+    fun `join - 이미 참여 승인된 사용자를 다시 추가하는 경우`() {
         // given
         val status = ProjectStatus.RECRUITING
         val title = "title"
@@ -97,9 +93,11 @@ class ProjectUnitTest {
         val createdUser = 1L
         val githubUrl = "githubUrl"
 
-        val joinedUser = JoinedUser(
-            id = JoinedUserId(2L),
-            status = JoinedUserStatus.JOINED
+        val userId = 2L
+
+        val participatedUser = JoinedUser(
+            id = JoinedUserId(userId),
+            status = JoinedUserStatus.PARTICIPATED
         )
 
         val project = Project(
@@ -108,16 +106,50 @@ class ProjectUnitTest {
             description = description,
             createdUserId = createdUser,
             githubUrl = githubUrl,
-            joinedUsers = mutableListOf(joinedUser),
+            joinedUsers = mutableListOf(participatedUser),
         )
 
         // when
-        project.addUser(joinedUser)
+        project.join(userId)
 
         // then
         assertThat(project.joinedUsers.size).isEqualTo(1)
-        assertThat(project.joinedUsers[0].id.userId).isEqualTo(2L)
-        assertThat(project.joinedUsers[0].status).isEqualTo(JoinedUserStatus.JOINED)
+        assertThat(project.joinedUsers[0].id.userId).isEqualTo(userId)
+        assertThat(project.joinedUsers[0].status).isEqualTo(JoinedUserStatus.PARTICIPATED)
+    }
+
+    @Test
+    fun `join - 이미 참여 승인대기 중인 사용자를 다시 추가하는 경우`() {
+        // given
+        val status = ProjectStatus.RECRUITING
+        val title = "title"
+        val description = "프로젝트 설명"
+        val createdUser = 1L
+        val githubUrl = "githubUrl"
+
+        val userId = 2L
+
+        val participatedUser = JoinedUser(
+            id = JoinedUserId(userId),
+            status = JoinedUserStatus.PENDING
+        )
+
+        val project = Project(
+            status = status,
+            title = title,
+            description = description,
+            createdUserId = createdUser,
+            githubUrl = githubUrl,
+            joinedUsers = mutableListOf(participatedUser),
+        )
+
+        // when
+        project.join(userId)
+
+        // then
+        assertThat(project.joinedUsers.size).isEqualTo(1)
+        assertThat(project.joinedUsers[0].id.userId).isEqualTo(userId)
+        assertThat(project.joinedUsers[0].status).isEqualTo(JoinedUserStatus.PENDING)
     }
 
     @Test
@@ -132,7 +164,7 @@ class ProjectUnitTest {
             joinedUsers = mutableListOf(
                 JoinedUser(
                     id = JoinedUserId(2L),
-                    status = JoinedUserStatus.JOINED
+                    status = JoinedUserStatus.PARTICIPATED
                 )
             ),
             techStacks = mutableListOf(

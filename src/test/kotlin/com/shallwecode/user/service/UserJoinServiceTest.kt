@@ -4,7 +4,7 @@ import com.ninjasquad.springmockk.MockkBean
 import com.shallwecode.client.authentication.UserAuthenticationClient
 import com.shallwecode.client.authentication.UserAuthenticationSaveResponseBody
 import com.shallwecode.common.exception.NotFoundDataException
-import com.shallwecode.user.controller.join.request.JoinRequest
+import com.shallwecode.user.controller.join.request.UserJoinRequest
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.PhoneNumber
 import com.shallwecode.user.entity.model.UserModel
@@ -19,8 +19,8 @@ import java.io.IOException
 
 @Transactional
 @DataJpaTest
-class JoinServiceTest {
-    lateinit var joinService: JoinService
+class UserJoinServiceTest {
+    lateinit var userJoinService: UserJoinService
 
     @MockkBean
     lateinit var userAuthenticationClient: UserAuthenticationClient
@@ -30,7 +30,7 @@ class JoinServiceTest {
 
     @BeforeEach
     fun beforeEach() {
-        joinService = JoinService(
+        userJoinService = UserJoinService(
             userService,
             userAuthenticationClient
         )
@@ -39,13 +39,13 @@ class JoinServiceTest {
     @Test
     fun `테스트에 필요한 프로퍼티 바인딩`() {
         assertThat(userService).isNotNull
-        assertThat(joinService).isNotNull
+        assertThat(userJoinService).isNotNull
     }
 
     @Test
     fun `회원 가입 성공 - 요청 데이터가 모두 올바른 경우`() {
         //given
-        val request = JoinRequest(
+        val request = UserJoinRequest(
             email = "test@gmail.com",
             name = "name",
             nickname = "nickname",
@@ -63,7 +63,7 @@ class JoinServiceTest {
         every { userService.createUser(any()) } returns createdUser
 
         //when
-        val id = joinService.join(request)
+        val id = userJoinService.join(request)
 
         //then
         assertThat(id).isEqualTo(createdUser.id)
@@ -85,7 +85,7 @@ class JoinServiceTest {
         )
 
         // when
-        val result = joinService.duplicateEmailCheck(email)
+        val result = userJoinService.duplicateEmailCheck(email)
 
         // then
         assertThat(result.first).isEqualTo("duplicated")
@@ -99,7 +99,7 @@ class JoinServiceTest {
         every { userService.findUser(email) } throws NotFoundDataException()
 
         // when
-        val result = joinService.duplicateEmailCheck(email)
+        val result = userJoinService.duplicateEmailCheck(email)
 
         // then
         assertThat(result.first).isEqualTo("duplicated")
@@ -114,7 +114,7 @@ class JoinServiceTest {
 
         // NotFoundDataException 이외의 예외를 던질 경우, 던져지는 예외를 그대로 반환하는지 확인
         // when, then
-        assertThrows<IOException> { joinService.duplicateEmailCheck(email) }
+        assertThrows<IOException> { userJoinService.duplicateEmailCheck(email) }
     }
 
 

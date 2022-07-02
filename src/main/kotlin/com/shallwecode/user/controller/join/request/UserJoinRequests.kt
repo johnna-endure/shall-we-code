@@ -5,7 +5,7 @@ import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber
 
-data class JoinRequest(
+data class UserJoinRequest(
     val email: String, //이메일
     val name: String, // 사용자 이름
     val nickname: String? = null, // 닉네임
