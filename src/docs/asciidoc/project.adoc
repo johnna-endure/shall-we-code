@@ -16,6 +16,10 @@ include::{snippets}/project-create-success/http-request.adoc[]
 
 include::{snippets}/project-create-success/request-fields.adoc[]
 
+=== Request Headers
+
+include::{snippets}/project-create-success/request-headers.adoc[]
+
 === Http Response
 
 include::{snippets}/project-create-success/http-response.adoc[]
@@ -35,6 +39,10 @@ include::{snippets}/project-create-failure/http-request.adoc[]
 === Request Fields
 
 include::{snippets}/project-create-failure/request-fields.adoc[]
+
+=== Request Headers
+
+include::{snippets}/project-create-failure/request-headers.adoc[]
 
 === Http Response
 

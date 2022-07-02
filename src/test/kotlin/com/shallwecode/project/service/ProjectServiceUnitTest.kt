@@ -28,22 +28,22 @@ class ProjectServiceUnitTest {
     fun `createProject - 프로젝트 생성 성공하는 경우`() {
         // given
         val techStacks = listOf("spring boot", "kotlin")
+        val creatorId = 1L
         val request = ProjectCreateRequest(
             title = "title",
             description = "description",
-            createdUserId = 1L,
             githubUrl = "url",
             techStacks = techStacks
         )
 
-        val savedProject = request.toEntity()
+        val savedProject = request.toEntity(creatorId)
         savedProject.id = 10L
 
         every { projectRepository.save(any()) }
             .returns(savedProject)
 
         // when
-        val id = projectService.createProject(request)
+        val id = projectService.createProject(request, creatorId)
 
         // then
         assertThat(id).isEqualTo(savedProject.id)

@@ -1,7 +1,7 @@
 package com.shallwecode.user.repository
 
 import com.shallwecode.user.entity.*
-import com.shallwecode.user.entity.JoinedProjectStatus.PROGRESS
+import com.shallwecode.user.entity.JoinedUserStatus.PROGRESS
 import com.shallwecode.user.entity.embeddable.Email
 import com.shallwecode.user.entity.embeddable.Password
 import com.shallwecode.user.entity.embeddable.PhoneNumber

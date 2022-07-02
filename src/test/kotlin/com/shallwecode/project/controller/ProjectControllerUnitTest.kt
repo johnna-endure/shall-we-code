@@ -2,6 +2,7 @@ package com.shallwecode.project.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
+import com.shallwecode.common.constants.CustomHttpHeaders
 import com.shallwecode.descriptor.HttpResponseDescriptors
 import com.shallwecode.project.controller.request.ProjectCreateRequest
 import com.shallwecode.project.descriptor.ProjectRequestDescriptors
@@ -12,6 +13,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.http.MediaType
 import org.springframework.restdocs.RestDocumentationContextProvider
+import org.springframework.restdocs.headers.HeaderDocumentation.headerWithName
+import org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post
 import org.springframework.restdocs.payload.PayloadDocumentation.*
@@ -46,15 +49,15 @@ class ProjectControllerUnitTest : RestDocConfig {
         val request = ProjectCreateRequest(
             title = title,
             description = description,
-            createdUserId = createdUserId,
             githubUrl = githubUrl,
             techStacks = listOf("spring boot", "kotlin")
         )
-        every { projectService.createProject(request) } returns 10L
+        every { projectService.createProject(request, createdUserId) } returns 10L
 
         // when, then
         mockMvc.perform(
             post("/project")
+                .header(CustomHttpHeaders.USER_ID, createdUserId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonMapper.writeValueAsString(request))
         ).andExpect(
@@ -63,6 +66,9 @@ class ProjectControllerUnitTest : RestDocConfig {
             document(
                 "project-create-success",
                 requestFields(*ProjectRequestDescriptors.createRequestFields().toTypedArray()),
+                requestHeaders(
+                    headerWithName("UserId").description("프로젝트 생성자 ID")
+                ),
                 responseFields(
                     *HttpResponseDescriptors.httpResponseDescriptors(
                         fieldWithPath("body.id").description("생성된 프로젝트 아이디")
@@ -83,16 +89,16 @@ class ProjectControllerUnitTest : RestDocConfig {
         val request = ProjectCreateRequest(
             title = title,
             description = description,
-            createdUserId = createdUserId,
             githubUrl = githubUrl,
             techStacks = listOf("spring boot", "kotlin")
         )
         val errorMessage = "test error"
-        every { projectService.createProject(request) } throws IOException(errorMessage)
+        every { projectService.createProject(request, createdUserId) } throws IOException(errorMessage)
 
         // when, then
         mockMvc.perform(
             post("/project")
+                .header(CustomHttpHeaders.USER_ID, createdUserId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonMapper.writeValueAsString(request))
         ).andExpectAll(
@@ -102,6 +108,9 @@ class ProjectControllerUnitTest : RestDocConfig {
             document(
                 "project-create-failure",
                 requestFields(*ProjectRequestDescriptors.createRequestFields().toTypedArray()),
+                requestHeaders(
+                    headerWithName("UserId").description("프로젝트 생성자 ID")
+                ),
                 responseFields(
                     *HttpResponseDescriptors.httpErrorResponseDescriptors().toTypedArray()
                 )

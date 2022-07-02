@@ -16,12 +16,11 @@ class ProjectCreateRequestUnitTest {
         val request = ProjectCreateRequest(
             title = title,
             description = description,
-            createdUserId = createdUserId,
             githubUrl = githubUrl,
             techStacks = techStacks
         )
         // when
-        val expected = request.toEntity()
+        val expected = request.toEntity(createdUserId)
 
         // then
         assertThat(expected.title).isEqualTo(title)

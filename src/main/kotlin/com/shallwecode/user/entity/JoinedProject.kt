@@ -9,7 +9,7 @@ import javax.persistence.Embedded
 class JoinedProject(
     @Embedded
     var id: JoinedProjectId,
-    var status: JoinedProjectStatus
+    var status: JoinedUserStatus
 )
 
 @Embeddable
@@ -20,8 +20,6 @@ data class JoinedProjectId(
 
 ) : Serializable
 
-enum class JoinedProjectStatus {
-    PROGRESS,
-    COMPLETED,
-    DROP
+enum class JoinedUserStatus {
+    PROGRESS
 }

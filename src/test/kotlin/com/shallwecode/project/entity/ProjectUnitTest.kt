@@ -1,6 +1,8 @@
 package com.shallwecode.project.entity
 
+import com.shallwecode.project.exception.ProjectJoinException
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 
 class ProjectUnitTest {
@@ -150,6 +152,32 @@ class ProjectUnitTest {
         assertThat(project.joinedUsers.size).isEqualTo(1)
         assertThat(project.joinedUsers[0].id.userId).isEqualTo(userId)
         assertThat(project.joinedUsers[0].status).isEqualTo(JoinedUserStatus.PENDING)
+    }
+
+    @Test
+    fun `join - 프로젝트가 모집상태가 아닐 때, join을 호출하는 경우`() {
+        // given
+        val status = ProjectStatus.COMPLETED
+        val title = "title"
+        val description = "프로젝트 설명"
+        val createdUser = 1L
+        val githubUrl = "githubUrl"
+
+        val userId = 10L
+
+        val project = Project(
+            status = status,
+            title = title,
+            description = description,
+            createdUserId = createdUser,
+            githubUrl = githubUrl,
+        )
+
+        // when, then
+        val expectedMessage = "status : ${status}, 프로젝트가 지원 가능한 상태가 아닙니다."
+        assertThatThrownBy { project.join(userId) }
+            .isInstanceOf(ProjectJoinException::class.java)
+            .hasMessage(expectedMessage)
     }
 
     @Test

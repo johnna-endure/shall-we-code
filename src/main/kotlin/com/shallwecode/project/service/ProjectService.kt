@@ -11,7 +11,10 @@ import org.springframework.transaction.annotation.Transactional
 class ProjectService(
     val projectRepository: ProjectRepository
 ) {
-    fun createProject(request: ProjectCreateRequest): Long {
-        return projectRepository.save(request.toEntity()).id ?: throw EmptyIdEntityException()
+    fun createProject(
+        request: ProjectCreateRequest,
+        creatorId: Long
+    ): Long {
+        return projectRepository.save(request.toEntity(creatorId)).id ?: throw EmptyIdEntityException()
     }
 }
