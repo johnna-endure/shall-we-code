@@ -1,6 +1,7 @@
 package com.shallwecode.project.controller
 
 import com.ninjasquad.springmockk.MockkBean
+import com.shallwecode.common.exception.NotFoundDataException
 import com.shallwecode.descriptor.HttpResponseDescriptors
 import com.shallwecode.descriptor.PageResponseDescriptors
 import com.shallwecode.project.controller.request.ProjectPagingParameters
@@ -22,6 +23,7 @@ import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.restdocs.request.RequestDocumentation.*
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.context.WebApplicationContext
 import java.time.LocalDateTime
@@ -150,7 +152,35 @@ class ProjectQueryControllerUnitTest : RestDocConfig {
                 )
             )
         )
+    }
 
+    @Test
+    fun `getProjectDetail - 프로젝트를 찾을 수 없는 경우`() {
+        // given
+        val projectId = 77L
+        val errorMessage = "not found project"
+        every { projectQueryService.getProject(any()) }
+            .throws(NotFoundDataException(errorMessage))
+
+        // when, then
+        mockMvc.perform(
+            get("/projects/{projectId}", projectId)
+        ).andExpectAll(
+            status().isNotFound,
+            jsonPath("$.message").value(errorMessage)
+        ).andDo(
+            MockMvcResultHandlers.print()
+        ).andDo(
+            document(
+                "get-project-detail-not-exists",
+                pathParameters(
+                    parameterWithName("projectId").description("프로젝트 아이디")
+                ),
+                responseFields(
+                    HttpResponseDescriptors.httpErrorResponseDescriptors()
+                )
+            )
+        )
     }
 
 }
