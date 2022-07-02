@@ -11,12 +11,14 @@ class ProjectCreateRequestUnitTest {
         val description = "description"
         val createdUserId = 1L
         val githubUrl = "url"
+        val techStacks = listOf("spring boot", "kotlin")
 
         val request = ProjectCreateRequest(
             title = title,
             description = description,
             createdUserId = createdUserId,
-            githubUrl = githubUrl
+            githubUrl = githubUrl,
+            techStacks = techStacks
         )
         // when
         val expected = request.toEntity()
@@ -28,5 +30,9 @@ class ProjectCreateRequestUnitTest {
         assertThat(expected.githubUrl).isEqualTo(githubUrl)
         assertThat(expected.createDateTime).isNotNull
         assertThat(expected.updateDateTime).isNotNull
+
+        expected.techStacks.forEachIndexed { index, techStack ->
+            assertThat(techStack.name).isEqualTo(techStacks[index])
+        }
     }
 }

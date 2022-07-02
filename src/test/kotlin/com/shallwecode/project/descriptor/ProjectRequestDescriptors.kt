@@ -11,6 +11,7 @@ class ProjectRequestDescriptors {
                 fieldWithPath("description").description("프로젝트 설명"),
                 fieldWithPath("createdUserId").optional().description("프로젝트 생성자 아이디"),
                 fieldWithPath("githubUrl").optional().description("githubUrl"),
+                fieldWithPath("techStacks[]").optional().description("기술 스택 리스트")
             )
         }
     }

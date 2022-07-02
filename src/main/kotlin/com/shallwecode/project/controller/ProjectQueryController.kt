@@ -8,7 +8,6 @@ import com.shallwecode.project.service.ProjectQueryService
 import org.springframework.data.domain.Page
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -22,7 +21,7 @@ class ProjectQueryController(
      */
     @GetMapping("/projects")
     fun getProjects(
-        @RequestParam pageParameters: ProjectPagingParameters
+        pageParameters: ProjectPagingParameters
     ): HttpResponse<Page<ProjectListItemModel>> {
         return HttpResponse(
             message = "success",

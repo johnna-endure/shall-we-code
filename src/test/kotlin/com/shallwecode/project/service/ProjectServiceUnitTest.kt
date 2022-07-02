@@ -27,11 +27,13 @@ class ProjectServiceUnitTest {
     @Test
     fun `createProject - 프로젝트 생성 성공하는 경우`() {
         // given
+        val techStacks = listOf("spring boot", "kotlin")
         val request = ProjectCreateRequest(
             title = "title",
             description = "description",
             createdUserId = 1L,
-            githubUrl = "url"
+            githubUrl = "url",
+            techStacks = techStacks
         )
 
         val savedProject = request.toEntity()

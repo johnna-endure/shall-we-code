@@ -47,7 +47,8 @@ class ProjectControllerUnitTest : RestDocConfig {
             title = title,
             description = description,
             createdUserId = createdUserId,
-            githubUrl = githubUrl
+            githubUrl = githubUrl,
+            techStacks = listOf("spring boot", "kotlin")
         )
         every { projectService.createProject(request) } returns 10L
 
@@ -83,7 +84,8 @@ class ProjectControllerUnitTest : RestDocConfig {
             title = title,
             description = description,
             createdUserId = createdUserId,
-            githubUrl = githubUrl
+            githubUrl = githubUrl,
+            techStacks = listOf("spring boot", "kotlin")
         )
         val errorMessage = "test error"
         every { projectService.createProject(request) } throws IOException(errorMessage)
