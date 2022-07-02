@@ -24,7 +24,7 @@ include::{snippets}/get-project-list-order-by-id-desc/http-response.adoc[]
 
 include::{snippets}/get-project-list-order-by-id-desc/response-fields.adoc[]
 
-== `프로젝트 상세 조회`
+== `프로젝트 상세 조회 - 조회 성공`
 
 === Http Request
 
@@ -37,3 +37,18 @@ include::{snippets}/get-project-detail/http-response.adoc[]
 === Response Fields
 
 include::{snippets}/get-project-detail/response-fields.adoc[]
+
+== `프로젝트 상세 조회 - 프로젝트가 존재하지 않는 경우`
+
+=== Http Request
+
+include::{snippets}/get-project-detail-not-exists/http-request.adoc[]
+
+=== Http Response
+
+include::{snippets}/get-project-detail-not-exists/http-response.adoc[]
+
+=== Response Fields
+
+include::{snippets}/get-project-detail-not-exists/response-fields.adoc[]
+
